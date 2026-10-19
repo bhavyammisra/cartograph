@@ -2,7 +2,7 @@
 
 Ask questions about a JavaScript codebase in plain English and get the exact files and lines that answer them, while watching an AI agent search an interactive map of the code.
 
-**Status: early development.** Nothing works end to end yet. Results will be added here only once they are measured.
+**Status: early development.** Nothing works end to end yet. Results will be added here only once they are measured. See [progress](docs/PROGRESS.md).
 
 ## Planned
 

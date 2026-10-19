@@ -2,6 +2,8 @@
 
 Ask questions about a JavaScript/TypeScript codebase in plain English and get exact file + line answers, while watching an AI agent search an interactive map of the code. Python engine (tree-sitter, Postgres + pgvector, LLM agent, FastAPI), TypeScript + React map (Sigma.js). Full plan: `docs/PROJECT_GUIDE.md`. Research: `reports/`.
 
+**Start every session by reading `docs/PROGRESS.md`.** Update it (status, next step, decisions) after every completed step, and push.
+
 ## Commit rules
 - Commit as Bhavyam Misra <misrabhavyam@gmail.com> with short, normal messages.
 - Never add `Co-Authored-By: Claude ...` or `Claude-Session: ...` lines.
