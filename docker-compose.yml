@@ -1,0 +1,20 @@
+# Starts Postgres with the pgvector add-on for local development.
+# Run: docker compose up -d   Stop: docker compose down
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: cartograph
+      POSTGRES_PASSWORD: cartograph # local-only dev password, never used for a hosted database
+      POSTGRES_DB: cartograph
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cartograph"]
+      interval: 5s
+      retries: 10
+
+volumes:
+  pgdata:
