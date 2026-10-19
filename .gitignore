@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+dist/
+*.egg-info/
+
+# Node
+node_modules/
+web/dist/
+
+# Secrets and local settings
+.env
+.env.local
+
+# Codebases we analyze (cloned locally, not ours to commit)
+targets/
+
+# Cached data, model files, eval caches
+.cache/
+*.onnx
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
