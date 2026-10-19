@@ -51,4 +51,4 @@ Read this first when starting a new session. It says where the project stands ri
 
 ## Known issues
 - uv prints "Missing expected target directory for Python minor version link" on Windows. Harmless (optional symlink).
-- Shells opened before Docker was installed can't find `docker`; restart the terminal or add `C:\Program Files\Docker\Dockeresourcesin` to PATH.
+- Shells opened before Docker was installed can't find `docker`; restart the terminal or add `C:Program FilesDockerDockeresourcesbin` to PATH.
