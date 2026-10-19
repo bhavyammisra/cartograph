@@ -48,8 +48,11 @@ cartograph/
 - `uv run pytest`: 1 passed. `ruff check`: clean. `cartograph --version` works.
 - Website builds, and shows correctly in the browser at desktop and phone width with no console errors.
 
-### Not done yet
-- Docker Desktop isn't installed, so the database hasn't been started.
+### Database step (finished after installing Docker)
+- Installed WSL 2 (Windows' built-in Linux layer) and Docker Desktop.
+- `docker compose up -d --wait` downloaded the `pgvector/pgvector:pg17` image and started Postgres; `--wait` holds until the healthcheck (`pg_isready`) says the database accepts connections.
+- Ran `CREATE EXTENSION vector` (pgvector 0.8.7), stored three 3-number vectors and sorted by cosine distance (`<=>`) to `[1,0,0]`: payments 0.000, charge 0.006, auth 1.000. Closest meaning first, which is exactly what meaning search does later with 768-number vectors.
+- The data lives in a Docker **volume** (`pgdata`), so it survives restarting the container.
 
 ### Interview lines
 - "The repo is a monorepo: a Python engine and a TypeScript frontend, each with its own linter and tests, both run by GitHub Actions on every push."

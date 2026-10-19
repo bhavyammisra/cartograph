@@ -5,15 +5,15 @@ Read this first when starting a new session. It says where the project stands ri
 **Last updated:** 20 October 2026
 
 ## Current state
-- **Phase:** 0 (setup), finishing the database step.
-- **Next step:** start Postgres + pgvector with `docker compose up -d` and confirm the `vector` extension loads. Then Phase 1 (indexer).
+- **Phase:** 0 done. Phase 1 (indexer) not started.
+- **Next step:** Phase 1: parse `targets/express` with tree-sitter, extract functions, calls (in order) and imports, store in Postgres.
 - **Blocked on:** nothing.
 
 ## Phases
 
 | # | Phase | Status |
 |---|---|---|
-| 0 | Setup: repo, engine, web, CI, database | In progress (database left) |
+| 0 | Setup: repo, engine, web, CI, database | Done |
 | 1 | Indexer: tree-sitter functions, calls, imports into Postgres | Not started |
 | 2 | Eval harness: auto-mined + hand-labelled questions, grep and BM25 baselines | Not started |
 | 3 | Embeddings (CodeRankEmbed) + BM25 + RRF hybrid search | Not started |
@@ -46,7 +46,9 @@ Read this first when starting a new session. It says where the project stands ri
 ## Environment
 - Windows 11. Python 3.12.15 (uv-managed), uv 0.13.2, Node 24, npm 11, Git 2.53, gh signed in as `bhavyammisra`.
 - `targets/express` cloned locally (141 .js files, 50 outside tests, 6,182 commits); `targets/` is gitignored.
+- Docker 29.8.2 (Desktop, WSL 2). Postgres 17 + pgvector 0.8.7 via `docker compose up -d --wait`; `vector` extension created in DB `cartograph`.
 - Website dev server config: `.claude/launch.json` (port 5173).
 
 ## Known issues
 - uv prints "Missing expected target directory for Python minor version link" on Windows. Harmless (optional symlink).
+- Shells opened before Docker was installed can't find `docker`; restart the terminal or add `C:\Program Files\Docker\Dockeresourcesin` to PATH.
