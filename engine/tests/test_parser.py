@@ -64,6 +64,12 @@ def test_imports():
     }
 
 
+def test_chained_assignment_keeps_every_name():
+    src = b"res.set = res.header = function header(f, v) {};"
+    functions, _ = parse(src, "javascript", "r.js")
+    assert [(f.qualname, f.aliases) for f in functions[1:]] == [("res.header", ["res.set"])]
+
+
 def test_typescript_parses():
     src = b"export function total(xs: number[]): number { return sum(xs); }"
     functions, _ = parse(src, "typescript", "t.ts")

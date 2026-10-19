@@ -58,3 +58,70 @@ cartograph/
 - "The repo is a monorepo: a Python engine and a TypeScript frontend, each with its own linter and tests, both run by GitHub Actions on every push."
 - "I pinned Python 3.12 with uv and committed the lock file, so the environment is reproducible."
 - "Secrets live in an ignored `.env` file; the repo only has `.env.example`."
+
+---
+
+## Phase 1: Indexer (20 October 2026)
+
+### What we built
+`cartograph index <folder>` reads every JS/TS file in a repo and saves, in Postgres, every function, every call inside each function **in the order it runs**, and every import. It then decides which real function each call points to, and labels how sure it is. Re-running it only re-reads files that changed.
+
+Code: `engine/src/cartograph/parser.py` (reading code), `resolve.py` (linking calls), `store.py` (database), `__init__.py` (the `cartograph` command).
+
+### How it works, step by step
+1. **Walk the folder**, skipping `node_modules`, `.git`, build output, `.d.ts` and `.min.js`. Files under `test/` or named `.test.`/`.spec.` are kept but marked `is_test`.
+2. **Fingerprint each file** (SHA-256 hash). If the fingerprint matches the database, skip the file.
+3. **Parse with tree-sitter** into a syntax tree, then walk it:
+   - Every function becomes a row, named smartly: `function foo()`, `const foo = () => {}`, `res.send = function send()`, `class Cart { add() }` (named `Cart.add`), `{ pick: () => {} }`. Chained names like `res.set = res.header = function header()` keep every name (**aliases**).
+   - Code at the top of a file (outside any function) belongs to a **module** pseudo-function, so its calls aren't lost.
+   - Calls are recorded **after their arguments** (post-order): in `foo(bar())`, `bar` runs first, so it gets the lower order number. This is what Phase 10's "X before Y" needs.
+   - `require('x')` and `import ... from 'x'` become import rows, including renamed ones (`{ merge: mergeAll }`).
+4. **Bulk-save** with Postgres `COPY`.
+5. **Resolve every call** (re-run for the whole repo each time, because one changed file can change what other files' calls point to). Labels, most to least sure:
+
+| Label | Meaning | Example |
+|---|---|---|
+| same-file | function with that name defined in the same file | `this.enabled()` -> `app.enabled` |
+| import | name imported from another repo file | `Router.route()` with `Router = require('./router')` |
+| qualname | exactly one function has that full name | `res.send()` -> `res.send = function...` |
+| name-match | plain `foo()` and only one function named `foo` exists | |
+| builtin | a JavaScript built-in | `JSON.parse`, `Object.create`, `Error` |
+| external | from an npm package | `debug()`, `finalhandler()` |
+| unresolved | can't tell from text alone | `next()`, `this.get()` |
+| dynamic | the call has no name | `handlers[name]()` |
+
+### Results on Express (141 files, 50 source + 91 test)
+- 3,113 functions. Full index **4.1 s**; re-index with no changes **0.3 s**.
+- In Express's own code (`lib/`): same-file 27.2%, builtin 20.8%, external 7.4%, name-match 2.0%, qualname 1.5%, dynamic 1.0%, import 0.2%, **unresolved 40.0%**.
+- Hand-checked 10 random `lib/` functions: names and line ranges all correct, calls in the right order.
+
+### Problems we hit (good interview material)
+| Problem | Cause | Fix |
+|---|---|---|
+| The keyword `function` counted as a function | tree-sitter gives the keyword token the same type name | Only real function node types count |
+| `Object.create` linked to Express's own `create` | name matching ignored JS built-ins | `builtin` label for built-in objects and functions |
+| `users.map` linked to an example's `app.map` | short-name matching on any receiver is guesswork | Short-name match only for plain `foo()`; `x.foo()` needs a full-name match |
+| `this.router.handle` linked to `app.handle` | same: `router` is an external package | same fix |
+| `this.set` unresolved | `res.set = res.header = function header` kept only one name | Store aliases; every full name also counts by its last part |
+| `require('../../')` not followed | folder imports mean `index.js` | Try `<folder>/index.js` too |
+| First full index took **162 s** | profiling showed 18.5 s of 20 s waiting on the DB receiving rows one statement at a time | Batched, then Postgres `COPY` bulk load: **4.1 s** |
+
+### Design choice to be able to explain
+We chose **precision over recall** for links: a wrong link sends the agent and the impact analysis down the wrong path, while a missing link only means "we don't know". Phase 5 measures both against Jelly.
+
+### Limits (honest)
+- tree-sitter sees text structure, not values: `const fn = pick(); fn()` and methods created in loops (`app[method] = ...`, which is how Express defines `app.get`) stay unresolved.
+- `var extname = path.extname` style aliases of imported functions aren't traced yet.
+- Changing the table layout currently needs a manual reset (`DROP TABLE ...`) and full re-index.
+
+### New tools
+- **tree-sitter** (+ JS/TS grammars): parser, turns code into a syntax tree.
+- **psycopg 3**: Python's standard Postgres driver; we use its `COPY` support for bulk loading.
+- **cProfile**: Python's built-in profiler; it showed where the 162 seconds went instead of guessing.
+- **SHA-256 (hashlib)**: file fingerprints for incremental re-indexing.
+- **GitHub Actions service container**: CI now starts its own Postgres so the database test runs on every push.
+
+### Interview lines
+- "I record calls in post-order so the sequence matches execution order, which my ordering queries depend on."
+- "Each call edge carries a confidence label; I deliberately chose precision over recall and measured the unresolved rate: 40% in Express's core."
+- "Profiling showed the indexer was waiting on the database, so I switched to COPY bulk loading: 162 s down to 4 s."

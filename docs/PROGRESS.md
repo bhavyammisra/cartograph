@@ -5,8 +5,8 @@ Read this first when starting a new session. It says where the project stands ri
 **Last updated:** 20 October 2026
 
 ## Current state
-- **Phase:** 0 done. Phase 1 (indexer) not started.
-- **Next step:** Phase 1: parse `targets/express` with tree-sitter, extract functions, calls (in order) and imports, store in Postgres.
+- **Phase:** 1 done. Phase 2 (eval harness) not started.
+- **Next step:** Phase 2: mine questions from Express's git history (bug-fix commits -> functions changed), hand-write 40-60 questions, metrics script (Acc@k, MRR, recall, latency), BM25 and grep-agent baselines.
 - **Blocked on:** nothing.
 
 ## Phases
@@ -14,7 +14,7 @@ Read this first when starting a new session. It says where the project stands ri
 | # | Phase | Status |
 |---|---|---|
 | 0 | Setup: repo, engine, web, CI, database | Done |
-| 1 | Indexer: tree-sitter functions, calls, imports into Postgres | Not started |
+| 1 | Indexer: tree-sitter functions, calls, imports into Postgres | Done (Express: 3,113 functions, 4.1 s full / 0.3 s incremental; lib/ calls 40% unresolved) |
 | 2 | Eval harness: auto-mined + hand-labelled questions, grep and BM25 baselines | Not started |
 | 3 | Embeddings (CodeRankEmbed) + BM25 + RRF hybrid search | Not started |
 | 4 | Agent loop with event logging | Not started |
@@ -41,6 +41,8 @@ Read this first when starting a new session. It says where the project stands ri
 | 2026-10-20 | Eval harness before the agent (Phase 2) | Every later feature gets measured the day it lands. |
 | 2026-10-20 | Baseline is a grep-only agent, not just BM25 | Fair comparison for the 2026 "grep vs index" debate. |
 | 2026-10-20 | Embedding model: CodeRankEmbed (137M) default, jina-code-embeddings-0.5b as comparison | Small enough for CPU; strong published code-retrieval results. |
+| 2026-10-20 | Call links favor precision over recall: short-name match only for plain `foo()` calls | Wrong links mislead the agent and impact analysis; Phase 5 measures recall vs Jelly. |
+| 2026-10-20 | Bulk load with Postgres COPY | Row INSERTs took 162 s on Express, COPY 4.1 s. |
 | 2026-10-20 | MIT license, public repo | Standard for portfolio tools. |
 
 ## Environment
@@ -50,5 +52,6 @@ Read this first when starting a new session. It says where the project stands ri
 - Website dev server config: `.claude/launch.json` (port 5173).
 
 ## Known issues
+- Schema changes need a manual reset (`DROP TABLE imports, calls, functions, files, repos CASCADE`) then re-index; no migrations yet.
 - uv prints "Missing expected target directory for Python minor version link" on Windows. Harmless (optional symlink).
 - Shells opened before Docker was installed can't find `docker`; restart the terminal or add `C:\Program Files\Docker\Docker\resources\bin` to PATH.

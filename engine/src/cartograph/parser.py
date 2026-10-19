@@ -38,6 +38,7 @@ class Function:
     end_line: int
     code: str
     calls: list[Call] = field(default_factory=list)
+    aliases: list[str] = field(default_factory=list)  # extra names: a.x = a.y = function...
 
 
 @dataclass
@@ -49,6 +50,15 @@ class Import:
 
 def text(node: Node | None) -> str:
     return node.text.decode("utf-8", "replace") if node else ""
+
+
+def chained_names(node: Node) -> list[str]:
+    """Outer targets of a chained assignment: ['res.set'] for res.set = res.header = function..."""
+    out, p = [], node.parent.parent if node.parent else None
+    while p is not None and p.type == "assignment_expression":
+        out.append(text(p.child_by_field_name("left")))
+        p = p.parent
+    return out
 
 
 def function_names(node: Node) -> tuple[str, str]:
@@ -145,7 +155,7 @@ def parse(source: bytes, lang: str, module_name: str) -> tuple[list[Function], l
         if node.type in FUNCTION_TYPES:
             name, qualname = function_names(node)
             owner = Function(name, qualname, node.type, node.start_point[0] + 1,
-                             node.end_point[0] + 1, text(node))
+                             node.end_point[0] + 1, text(node), aliases=chained_names(node))
             functions.append(owner)
         elif node.type in ("call_expression", "new_expression") and require_source(node) is None:
             stack.append((node, owner, True))
