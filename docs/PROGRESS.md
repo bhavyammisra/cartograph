@@ -5,8 +5,8 @@ Read this first when starting a new session. It says where the project stands ri
 **Last updated:** 20 October 2026
 
 ## Current state
-- **Phase:** 6 done (API server). Deferred from Phase 5: switching the headline eval to Prettier.
-- **Next step:** Phase 7 (the map website: Sigma.js, communities, semantic zoom), using `cartograph serve`. Before publishing numbers: index Prettier and mine its questions for the headline eval. Optional any time: strong-model comparison on the Groq free tier (needs Bhavyam's `GROQ_API_KEY` in `.env`).
+- **Phase:** 7 done (the map website). Deferred from Phase 5: switching the headline eval to Prettier.
+- **Next step:** Phase 8: replay the agent's search on the map (route with stops, from `/api/ask` events) + "why this result". Before publishing numbers: index Prettier and mine its questions for the headline eval. Optional any time: strong-model comparison on the Groq free tier (needs Bhavyam's `GROQ_API_KEY` in `.env`).
 - **Blocked on:** Bhavyam: review `eval/express/handwritten.jsonl` and set `"reviewed": true`.
 
 ## Phases
@@ -20,7 +20,7 @@ Read this first when starting a new session. It says where the project stands ri
 | 4 | Agent loop with event logging | Done (issues: index agent Acc@1 0.527 / Acc@5 0.757 vs grep agent 0.284 / 0.378, local Qwen3 4B) |
 | 5 | Precise call graph with Jelly, accuracy report; switch eval to Prettier | Done except Prettier (our links ~97% correct on a hand sample; recall vs Jelly 79%; see eval/express/CALLGRAPH.md) |
 | 6 | FastAPI server + SSE stream | Done (search, graph, function, impact, live agent stream; 32 tests) |
-| 7 | Map: Sigma.js, communities, semantic zoom | Not started |
+| 7 | Map: Sigma.js, communities, semantic zoom | Done (transit-map design; search, station-sign panel, lines key, deep links, desktop + phone, light + dark) |
 | 8 | Trace replay + "why this result" | Not started |
 | 9 | Impact analysis validated against git co-change | Not started |
 | 10 | "X before Y" ordering queries + mini benchmark | Not started |
@@ -56,6 +56,9 @@ Read this first when starting a new session. It says where the project stands ri
 | 2026-10-20 | Parser version is part of each file's fingerprint | Parser changes re-parse every file automatically. |
 | 2026-10-20 | API binds to 127.0.0.1 only | It serves the indexed source code. |
 | 2026-10-20 | Agent stream = SSE from a worker thread through a queue | Browsers support SSE natively (`EventSource`); one-way push is all the map needs. |
+| 2026-10-20 | Map design: Transit Diagram (chosen by Bhavyam); rules in DESIGN.md | Functions as stations, calls as track; line colours never used for controls. |
+| 2026-10-20 | Sigma.js 3.0.3 (not 4) | Sigma 4's new styling API was too new to verify. |
+| 2026-10-20 | Screenshots via scripts/capture.py (DevTools protocol) | Headless Edge can't emulate phones (min 496 px) and doesn't wait for data. |
 | 2026-10-20 | MIT license, public repo | Standard for portfolio tools. |
 
 ## Environment
@@ -67,6 +70,8 @@ Read this first when starting a new session. It says where the project stands ri
 - Agent: the Ollama app (auto-starts) serves localhost:11434; Cartograph creates `cartograph-qwen3-4b` from `qwen3:4b-instruct` itself. `cartograph ask ../targets/express "<question>"`; `cartograph eval ... --retriever agent|grep-agent` (about 1 to 1.5 h per 127 questions, resumes after a crash). Live status: `& .\scripts\watch-eval.ps1`.
 - Jelly: `cartograph jelly ../targets/express --entries lib examples index.js --out ../eval/express/callgraph-vs-jelly.json`. Needs the target's dependencies installed (`npm install --ignore-scripts --omit=dev` inside `targets/express`). Re-run after every `index` (Jelly edges are tied to function ids). After a re-index, jina embeddings are gone too (`cartograph embed ... --model jina` to restore, ~15 min).
 - API: `uv run --project engine cartograph serve targets/express` (from the repo root) on http://127.0.0.1:8000, docs at /docs. Needs Postgres (Docker) and, for `/api/ask`, Ollama.
+- Web: start the API (above), then `npm run dev` in `web/` (http://localhost:5173, proxies /api). Screenshots: `uv run --with websocket-client --no-project python scripts/capture.py --url http://localhost:5173/ --out <file> [--width 375 --height 812 --scale 2 --mobile] [--scheme light] --wait-for .stats`.
+- Design context: PRODUCT.md, DESIGN.md, `.impeccable/surfaces/` (direction contract). The impeccable skill reads these.
 - Laptop: i5-12450HX, 12 GB RAM, RTX 2050 (4 GB), ~45 GB free disk.
 - Website dev server config: `.claude/launch.json` (port 5173).
 

@@ -426,3 +426,58 @@ Head to head on those 74 questions (right function in the top 5): only the index
 - "The agent is slow and the UI must show it working, so I stream each step with Server-Sent Events: the agent runs in a worker thread and hands steps to the response through a queue."
 - "I load the embedding model once per server and warm it up in the background, which took the first search from 72 seconds to 0.2."
 - "Impact analysis is a BFS on the reversed call graph with a depth cap; it's O(V+E) over what's reachable and safe on cycles."
+
+---
+
+## Phase 7: The map website (20 October 2026)
+
+### What we built
+The codebase drawn as a **transit map** (`web/src/`), the direction you chose from the design round:
+- **Stations** are functions (white centre, coloured ring; a file's top-level code is a solid stop; bigger stops have more calls). **Lines** are neighbourhoods of code that call each other, each in its own enamel colour and named after its busiest station (`res.send`, `createApplication`...). **Track** is calls; track between neighbourhoods is faded.
+- **Semantic zoom:** zoomed out, the 12 biggest files are labelled as landmarks (5 on a phone); zoomed in, function names appear.
+- **Search** (top bar, `/` to focus): type a name or a question, arrow through results, Enter flies the map to that station.
+- **Station sign panel:** the function's name, file and lines, its code with syntax colours, and **Called by** / **Calls** lists you can click to "change trains".
+- **Lines key:** what the colours mean; clicking a line highlights it.
+- **Links:** selecting a function puts `#f=<id>` in the address, so a link opens straight to it.
+- **Phones:** search on its own row, the key collapsed, the panel as a bottom sheet with the map above it.
+- Light and dark themes follow the system.
+- Design records: `PRODUCT.md` (who it's for, rules), `DESIGN.md` (colours, type, components, named rules), `.impeccable/surfaces/` (the direction contract).
+
+### How it works
+1. **Layout (ForceAtlas2):** a physics simulation in the browser. Calls pull functions together, everything pushes apart, and an extra light pull keeps each file's functions together. A fixed random seed means the same codebase always draws the same map.
+2. **Neighbourhoods (Louvain):** community detection finds groups of functions that call each other more than they call the rest. Largest groups get the eight line colours; small ones share grey.
+3. **Rendering (Sigma.js 3, WebGL):** draws on the graphics card. A custom "station" node program draws the ring + centre; a custom label renderer adds a halo in the map colour so labels stay readable over track.
+4. **Reducers:** on every frame Sigma asks "how should this node/edge look now?". The answer depends on zoom, hover, the selected station and the focused line. That's how fading, highlighting and semantic zoom work without rebuilding the graph.
+
+### Design process (your rules: impeccable, taste, Emil Kowalski)
+- Interview (2 questions): designed for developers and demo viewers equally; WCAG 2.1 AA.
+- A seeded "roll" assigned a direction from my own list; you chose **Transit Diagram** from the shortlist.
+- Mechanical design detector: 0 findings. Finish review (run inline: no reviewer agent exists in this setup) found 2 material issues, both fixed and re-checked: line names that contradicted the map, and labels colliding around a selection. Verdict: ship (for those fixes).
+
+### Checked in the browser
+Desktop (1440x900) and phone (375x812), dark and light: map, search dropdown, Enter to fly, panel open, following a connection (`res.clearCookie` → `res.cookie`, address updates), Escape closes and clears the address, line focus toggles (`aria-pressed`). Build and lint clean.
+
+### Problems we hit
+| Problem | Fix |
+|---|---|
+| Sigma 4 just shipped a new styling API I couldn't verify | pinned Sigma 3.0.3, mature and documented |
+| Blank page: Sigma calls the colouring function while it is still being constructed | keep zoom level in shared state instead of asking the renderer |
+| 50 file labels piled into an unreadable heap | label only the biggest files (12 desktop, 5 phone) |
+| The header said 308 calls in the API but 302 on screen (recursion was skipped when drawing) | count every link from the API, recursion included |
+| File labels at the average position floated between neighbourhoods | label each file at its busiest real station |
+| Headless Edge screenshots of "phones" were wrong: Edge never goes below 496 px wide, and its screenshot doesn't wait for data | wrote `scripts/capture.py`, which drives Edge through its DevTools protocol: exact device size, light/dark, waits for the map |
+| A fix I made for the "cropped" phone map shrank it: the crop was the capture bug, not the page | removed it after checking in a real browser at 375 px |
+| Opening the panel by clicking would stretch the map (Sigma only watches window resizes) | ResizeObserver on the map container |
+| Five lines all named "lib/response.js" | lines named after their busiest *function*, file shown beneath |
+| Focus ring colour was the same blue as a line | focus rings in ink: line colours never mean "interactive" |
+
+### New tools
+- **Sigma.js** (WebGL graph renderer) and **@sigma/node-border** (ring-shaped nodes).
+- **graphology** (graph data structure) with **ForceAtlas2** (layout) and **Louvain** (community detection).
+- **prism-react-renderer** (syntax highlighting, coloured by our CSS), **lucide-react** (icons), **Archivo** and **JetBrains Mono** (self-hosted fonts via Fontsource).
+- **Chrome DevTools Protocol:** the browser's remote-control interface, used by `scripts/capture.py`.
+
+### Interview lines
+- "I render the call graph with Sigma.js on WebGL, lay it out with ForceAtlas2 and colour neighbourhoods with Louvain community detection; it reads like a metro map where calls are track and functions are stations."
+- "Semantic zoom keeps it readable: file landmarks when zoomed out, function names when zoomed in, and a selection fades everything except its direct connections."
+- "I verified the UI with real screenshots at desktop and phone sizes; when headless screenshots lied about phone layouts, I drove the browser through the DevTools protocol instead."

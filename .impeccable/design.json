@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-20T22:45:00+05:30",
+  "title": "Design System: Cartograph",
+  "extensions": {
+    "colorMeta": {
+      "paper": { "role": "neutral", "displayName": "Survey Paper" },
+      "panel": { "role": "neutral", "displayName": "Sign Board" },
+      "ink": { "role": "neutral", "displayName": "Print Ink" },
+      "ink-muted": { "role": "neutral", "displayName": "Pencil" },
+      "rule": { "role": "neutral", "displayName": "Hairline" },
+      "track-faint": { "role": "neutral", "displayName": "Faded Track" },
+      "focus": { "role": "neutral", "displayName": "Ink Ring" },
+      "line-red": { "role": "primary", "displayName": "Signal Red" },
+      "line-green": { "role": "primary", "displayName": "Signal Green" },
+      "line-blue": { "role": "primary", "displayName": "Signal Blue" },
+      "line-amber": { "role": "primary", "displayName": "Signal Amber" },
+      "line-orange": { "role": "primary", "displayName": "Signal Orange" },
+      "line-plum": { "role": "primary", "displayName": "Signal Plum" },
+      "line-brown": { "role": "primary", "displayName": "Signal Brown" },
+      "line-teal": { "role": "primary", "displayName": "Signal Teal" },
+      "line-other": { "role": "neutral", "displayName": "Siding Grey" }
+    },
+    "typographyMeta": {
+      "title": { "displayName": "Title", "purpose": "Function name on the station sign." },
+      "sign": { "displayName": "Sign", "purpose": "Product name in the top bar." },
+      "body": { "displayName": "Body", "purpose": "Results, connections, key entries." },
+      "label": { "displayName": "Label", "purpose": "Uppercase section names and the repository name." },
+      "code": { "displayName": "Code", "purpose": "Source in the panel." }
+    },
+    "shadows": [
+      { "name": "floating", "value": "0 8px 24px rgb(0 0 0 / 0.12)", "purpose": "Results list and phone bottom sheet only." }
+    ],
+    "motion": [
+      { "name": "camera-fly", "value": "600ms quadratic ease-out", "purpose": "Flying the map to a picked station; 0ms under reduced motion." },
+      { "name": "chevron", "value": "160ms ease-out", "purpose": "Key toggle chevron rotation." }
+    ],
+    "breakpoints": [ { "name": "phone", "value": "760px" } ]
+  },
+  "components": [
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "search-input",
+      "description": "Search by name or meaning; '/' focuses it.",
+      "html": "<label class=\"ds-search\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg><input placeholder=\"Search: a name, or what the code does\"><kbd>/</kbd></label>",
+      "css": ".ds-search{position:relative;display:flex;align-items:center;gap:8px;height:36px;padding:0 9px 0 11px;background:var(--paper,#f7f6f2);border:1px solid var(--rule,#dddbd4);border-radius:6px;color:var(--ink-muted,#565b62);font:400 14px/1.45 'Archivo Variable',system-ui,sans-serif}.ds-search input{flex:1;border:0;background:none;font:inherit;color:var(--ink,#17191c);outline:none}.ds-search:focus-within{outline:2px solid var(--focus,#17191c)}.ds-search kbd{font:600 12px/1 'JetBrains Mono',monospace;border:1px solid var(--rule,#dddbd4);border-radius:4px;padding:3px 6px}"
+    },
+    {
+      "name": "Station Sign",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Header of the function panel: line bullet, name, file and lines, close.",
+      "html": "<header class=\"ds-sign\"><span class=\"ds-bullet\"></span><div><h2>res.clearCookie</h2><p>lib/response.js lines 715 to 722</p></div><button aria-label=\"Close\">&times;</button></header>",
+      "css": ".ds-sign{display:grid;grid-template-columns:22px 1fr auto;gap:12px;padding:16px;background:var(--panel,#fff);border-bottom:1px solid var(--rule,#dddbd4);font-family:'Archivo Variable',system-ui,sans-serif;color:var(--ink,#17191c)}.ds-bullet{width:22px;height:22px;border-radius:50%;background:#0b4fa8;margin-top:2px}.ds-sign h2{margin:0;font-size:20px;font-weight:700;letter-spacing:-0.015em}.ds-sign p{margin:4px 0 0;font-size:12px;color:var(--ink-muted,#565b62)}.ds-sign button{width:32px;height:32px;border:1px solid var(--rule,#dddbd4);border-radius:6px;background:none;cursor:pointer}.ds-sign button:hover{background:var(--hover,#efede7)}.ds-sign button:focus-visible{outline:2px solid var(--focus,#17191c);outline-offset:2px}"
+    },
+    {
+      "name": "Transfer Row",
+      "kind": "custom",
+      "refersTo": "list-row-hover",
+      "description": "A caller or callee in the panel; click to change trains.",
+      "html": "<button class=\"ds-transfer\"><span></span><b>res.cookie</b><small>lib/response.js:748</small></button>",
+      "css": ".ds-transfer{display:grid;grid-template-columns:10px 1fr;column-gap:10px;align-items:center;width:100%;padding:6px 8px;border:0;border-radius:4px;background:none;text-align:left;cursor:pointer;font:400 14px/1.45 'Archivo Variable',system-ui,sans-serif;color:var(--ink,#17191c)}.ds-transfer span{width:10px;height:10px;border-radius:50%;background:#0b4fa8}.ds-transfer b{font-weight:600}.ds-transfer small{grid-column:2;font-size:12px;color:var(--ink-muted,#565b62)}.ds-transfer:hover{background:var(--hover,#efede7)}.ds-transfer:focus-visible{outline:2px solid var(--focus,#17191c)}"
+    },
+    {
+      "name": "Line Key Entry",
+      "kind": "custom",
+      "description": "One line in the map key; toggles a line focus.",
+      "html": "<button class=\"ds-keyline\" aria-pressed=\"false\"><span></span><b>res.send</b><em>53</em><small>lib/response.js</small></button>",
+      "css": ".ds-keyline{display:grid;grid-template-columns:22px 1fr auto;gap:0 8px;align-items:center;width:280px;padding:5px 8px;border:0;border-radius:4px;background:none;text-align:left;cursor:pointer;font:400 14px/1.45 'Archivo Variable',system-ui,sans-serif;color:var(--ink,#17191c)}.ds-keyline span{width:22px;height:6px;border-radius:3px;background:#d6362c}.ds-keyline em{font-style:normal;font-size:12px;color:var(--ink-muted,#565b62)}.ds-keyline small{grid-column:2/4;font-size:12px;color:var(--ink-muted,#565b62)}.ds-keyline:hover,.ds-keyline[aria-pressed=true]{background:var(--hover,#efede7)}.ds-keyline:focus-visible{outline:2px solid var(--focus,#17191c)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Transit Map",
+    "overview": "Cartograph shows a codebase the way a metro diagram shows a city: neighbourhoods of code are coloured lines, functions are stations, calls are track. The map is the work area and owns the screen; the interface around it is ink on paper, quiet enough that the line colours carry the meaning. Density is high and calm: small type, tabular numbers, thin rules, no decoration that does not explain the code.",
+    "keyCharacteristics": [
+      "Enamel line colours belong to neighbourhoods only, never to controls.",
+      "Stations: a coloured ring around a paper-coloured centre; a file's top-level code is a solid stop; size grows with calls.",
+      "One workhorse grotesk (Archivo) with tabular numerals; JetBrains Mono only for code.",
+      "Semantic zoom: file names are landmarks when zoomed out, function names when zoomed in.",
+      "Selection lights a station and its direct connections; everything else fades and loses its label."
+    ],
+    "rules": [
+      { "name": "The Lines Are Not Buttons Rule", "body": "Line colours mark neighbourhoods. Controls, links and focus never use them, so a colour on screen always means \"this code belongs here\".", "section": "colors" },
+      { "name": "The Fade, Don't Delete Rule", "body": "Focusing a line or a station fades everything else to Faded Track; nothing disappears from the map.", "section": "colors" },
+      { "name": "The Four Sizes Rule", "body": "12, 14, 17 and 20px are the whole scale. A new level is a weight or case change, not a new size.", "section": "typography" },
+      { "name": "The Paper Map Rule", "body": "Depth comes from tone and hairlines. A shadow means \"this floats over the map\", nothing else.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do name a line after its busiest station and show that station's file beneath.",
+      "Do keep every number on screen traceable to the index or a measurement.",
+      "Do give every map label a halo in the map colour.",
+      "Do reach every function by keyboard through search or the connection lists."
+    ],
+    "donts": [
+      "Don't use a line colour on a button, link or focus state.",
+      "Don't add type sizes beyond the four in the scale.",
+      "Don't add shadows to surfaces that don't float over the map.",
+      "Don't use purple gradients, pill-shaped buttons, emoji icons, invented metrics or filler copy (owner's standing rules)."
+    ]
+  }
+}
