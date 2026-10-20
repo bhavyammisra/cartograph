@@ -12,14 +12,18 @@ type Props = {
   flyTo: { node: string; nonce: number } | null
 }
 
-type Colors = { bg: string; ink: string; muted: string; faint: string; station: string; panel: string }
+type Colors = {
+  bg: string; ink: string; muted: string; faint: string; station: string; panel: string
+  grey: string; routeRing: string; routeFill: string; routeTrack: string
+}
 
 function readColors(): Colors {
   const css = getComputedStyle(document.documentElement)
   const v = (name: string) => css.getPropertyValue(name).trim()
   return {
     bg: v('--map-bg'), ink: v('--ink'), muted: v('--ink-muted'), faint: v('--track-faint'),
-    station: v('--station'), panel: v('--panel'),
+    station: v('--station'), panel: v('--panel'), grey: v('--map-grey'),
+    routeRing: v('--route-ring'), routeFill: v('--route-fill'), routeTrack: v('--route-track'),
   }
 }
 
@@ -104,7 +108,18 @@ export default function MapView({ map, selected, focusLine, onSelect, flyTo }: P
           return { ...a, hidden: !show, forceLabel: show, color: c.bg, zIndex: 3,
                    fillColor: c.bg, ringColor: c.bg, ringSize: 0 }
         }
-        const focus = s.selected ?? s.hovered
+        // Route view: once a station is picked, the map goes grey and only the route (the
+        // station and its direct connections) lights up, in yellow reserved for this alone.
+        if (s.selected !== null) {
+          const here = node === s.selected
+          if (here || graph.areNeighbors(s.selected, node)) {
+            return { ...a, label: a.label, forceLabel: here, zIndex: 2, color: c.routeRing,
+                     ringColor: c.routeRing, fillColor: c.routeFill,
+                     size: here ? a.size * 1.5 : a.size }
+          }
+          return { ...a, label: null, zIndex: 0, color: c.grey, ringColor: c.grey, fillColor: c.bg }
+        }
+        const focus = s.hovered // a hover previews connections in their line colours
         const near = focus === node || (focus !== null && graph.areNeighbors(focus, node))
         const onLine = s.focusLine === null || lineOf.get(node) === s.focusLine
         const dim = (focus !== null && !near) || (focus === null && !onLine)
@@ -125,7 +140,12 @@ export default function MapView({ map, selected, focusLine, onSelect, flyTo }: P
       edgeReducer: (edge, a) => {
         const c = s.colors
         const [src, dst] = graph.extremities(edge)
-        const focus = s.selected ?? s.hovered
+        if (s.selected !== null) {
+          const onRoute = src === s.selected || dst === s.selected
+          return { ...a, color: onRoute ? c.routeTrack : c.faint, size: onRoute ? 3 : 0.5,
+                   zIndex: onRoute ? 1 : 0 }
+        }
+        const focus = s.hovered
         if (focus !== null) {
           const touches = src === focus || dst === focus
           return { ...a, color: touches ? a.line : c.faint, size: touches ? 2.2 : 0.5,

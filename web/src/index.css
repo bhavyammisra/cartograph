@@ -10,6 +10,13 @@
   --rule: #dddbd4;
   --track-faint: #e3e1da;
   --station: #ffffff;
+  /* The route: yellow means only "where you are going". On light paper a thin yellow line
+     fails contrast, so stations are yellow signs with an ink ring and track is deep gold
+     (3.4:1 against paper). */
+  --map-grey: #cfcbc1;
+  --route-ring: #17191c;
+  --route-fill: #f5c400;
+  --route-track: #a87f00;
   --hover: #efede7;
   --focus: #17191c; /* ink, not a line colour: focus must never read as a neighbourhood */
   --selection: #c9dcf5;
@@ -40,6 +47,10 @@
     --rule: #2d3137;
     --track-faint: #262a2f;
     --station: #121417;
+    --map-grey: #3a3e44;
+    --route-ring: #ffd200;
+    --route-fill: #121417;
+    --route-track: #ffd200;
     --hover: #24282d;
     --focus: #eceae4;
     --selection: #23406b;

@@ -20,7 +20,7 @@ Read this first when starting a new session. It says where the project stands ri
 | 4 | Agent loop with event logging | Done (issues: index agent Acc@1 0.527 / Acc@5 0.757 vs grep agent 0.284 / 0.378, local Qwen3 4B) |
 | 5 | Precise call graph with Jelly, accuracy report; switch eval to Prettier | Done except Prettier (our links ~97% correct on a hand sample; recall vs Jelly 79%; see eval/express/CALLGRAPH.md) |
 | 6 | FastAPI server + SSE stream | Done (search, graph, function, impact, live agent stream; 32 tests) |
-| 7 | Map: Sigma.js, communities, semantic zoom | Done (transit-map design; search, station-sign panel, lines key, deep links, desktop + phone, light + dark) |
+| 7 | Map: Sigma.js, communities, semantic zoom | Done (transit map + yellow route on selection; search, station-sign panel, lines key, deep links, desktop + phone, light + dark) |
 | 8 | Trace replay + "why this result" | Not started |
 | 9 | Impact analysis validated against git co-change | Not started |
 | 10 | "X before Y" ordering queries + mini benchmark | Not started |
@@ -57,6 +57,7 @@ Read this first when starting a new session. It says where the project stands ri
 | 2026-10-20 | API binds to 127.0.0.1 only | It serves the indexed source code. |
 | 2026-10-20 | Agent stream = SSE from a worker thread through a queue | Browsers support SSE natively (`EventSource`); one-way push is all the map needs. |
 | 2026-10-20 | Map design: Transit Diagram (chosen by Bhavyam); rules in DESIGN.md | Functions as stations, calls as track; line colours never used for controls. |
+| 2026-10-20 | Hybrid design: transit colours for exploring; picking a function greys the map and lights its route in reserved yellow | Bhavyam's call after the Terminal Wayfinding mockup; amber line swapped for raspberry. |
 | 2026-10-20 | Sigma.js 3.0.3 (not 4) | Sigma 4's new styling API was too new to verify. |
 | 2026-10-20 | Screenshots via scripts/capture.py (DevTools protocol) | Headless Edge can't emulate phones (min 496 px) and doesn't wait for data. |
 | 2026-10-20 | MIT license, public repo | Standard for portfolio tools. |

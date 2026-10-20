@@ -15,8 +15,9 @@ const LANDMARKS = 12 // files labelled when zoomed out: the biggest, so labels d
 const shortPath = (path: string) => path.split('/').slice(-2).join('/')
 
 // Enamel line colours, in order of line size. Beyond these, lines share a neutral colour.
+// No yellow or amber: yellow is reserved for the route (see --route-* in index.css).
 export const LINE_COLORS = [
-  '#d6362c', '#00843d', '#0b4fa8', '#e08e0b', '#ef6a1a', '#8c4799', '#8a5a2b', '#0098b3',
+  '#d6362c', '#00843d', '#0b4fa8', '#c2337a', '#ef6a1a', '#8c4799', '#8a5a2b', '#0098b3',
 ]
 export const OTHER_LINE = '#8d9196'
 

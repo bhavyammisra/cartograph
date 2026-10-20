@@ -481,3 +481,13 @@ Desktop (1440x900) and phone (375x812), dark and light: map, search dropdown, En
 - "I render the call graph with Sigma.js on WebGL, lay it out with ForceAtlas2 and colour neighbourhoods with Louvain community detection; it reads like a metro map where calls are track and functions are stations."
 - "Semantic zoom keeps it readable: file landmarks when zoomed out, function names when zoomed in, and a selection fades everything except its direct connections."
 - "I verified the UI with real screenshots at desktop and phone sizes; when headless screenshots lied about phone layouts, I drove the browser through the DevTools protocol instead."
+
+### Update: the combined design (transit map + yellow route)
+Your idea after seeing the Terminal Wayfinding mockup: keep the transit map for exploring, and borrow wayfinding's best trick for looking things up.
+- **Exploring:** the full-colour transit map, unchanged.
+- **Picking a function** (search result or click): the map turns grey and only the route lights up in yellow: the function, its direct callers and callees, and the track between them. Close the panel and the colours come back.
+- **Yellow is reserved:** it means only "where you are going". The amber line colour was swapped for raspberry so nothing else on the map is yellow. Phase 8 will draw the AI agent's search as a yellow route too.
+- **Accessibility detail:** thin bright-yellow lines on near-white paper fail WCAG's 3:1 contrast for graphics, so light mode draws route stations as yellow signs with a black ring and the track in deep gold (3.4:1). Dark mode uses signal yellow (#ffd200).
+- Recorded as "The Yellow Route Rule" in DESIGN.md and in the design contract.
+
+*Interview line:* "Two modes: an overview that shows the codebase's structure in colour, and a focus mode where the map goes grey and only your route is yellow. I reserved yellow for that one meaning, and checked its contrast in both themes."

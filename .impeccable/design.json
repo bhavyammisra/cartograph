@@ -1,41 +1,137 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-20T22:45:00+05:30",
+  "generatedAt": "2026-10-21T00:10:00+05:30",
   "title": "Design System: Cartograph",
   "extensions": {
     "colorMeta": {
-      "paper": { "role": "neutral", "displayName": "Survey Paper" },
-      "panel": { "role": "neutral", "displayName": "Sign Board" },
-      "ink": { "role": "neutral", "displayName": "Print Ink" },
-      "ink-muted": { "role": "neutral", "displayName": "Pencil" },
-      "rule": { "role": "neutral", "displayName": "Hairline" },
-      "track-faint": { "role": "neutral", "displayName": "Faded Track" },
-      "focus": { "role": "neutral", "displayName": "Ink Ring" },
-      "line-red": { "role": "primary", "displayName": "Signal Red" },
-      "line-green": { "role": "primary", "displayName": "Signal Green" },
-      "line-blue": { "role": "primary", "displayName": "Signal Blue" },
-      "line-amber": { "role": "primary", "displayName": "Signal Amber" },
-      "line-orange": { "role": "primary", "displayName": "Signal Orange" },
-      "line-plum": { "role": "primary", "displayName": "Signal Plum" },
-      "line-brown": { "role": "primary", "displayName": "Signal Brown" },
-      "line-teal": { "role": "primary", "displayName": "Signal Teal" },
-      "line-other": { "role": "neutral", "displayName": "Siding Grey" }
+      "paper": {
+        "role": "neutral",
+        "displayName": "Survey Paper"
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Sign Board"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Print Ink"
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Pencil"
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Hairline"
+      },
+      "track-faint": {
+        "role": "neutral",
+        "displayName": "Faded Track"
+      },
+      "focus": {
+        "role": "neutral",
+        "displayName": "Ink Ring"
+      },
+      "line-red": {
+        "role": "primary",
+        "displayName": "Signal Red"
+      },
+      "line-green": {
+        "role": "primary",
+        "displayName": "Signal Green"
+      },
+      "line-blue": {
+        "role": "primary",
+        "displayName": "Signal Blue"
+      },
+      "line-orange": {
+        "role": "primary",
+        "displayName": "Signal Orange"
+      },
+      "line-plum": {
+        "role": "primary",
+        "displayName": "Signal Plum"
+      },
+      "line-brown": {
+        "role": "primary",
+        "displayName": "Signal Brown"
+      },
+      "line-teal": {
+        "role": "primary",
+        "displayName": "Signal Teal"
+      },
+      "line-other": {
+        "role": "neutral",
+        "displayName": "Siding Grey"
+      },
+      "line-raspberry": {
+        "role": "primary",
+        "displayName": "Signal Raspberry"
+      },
+      "map-grey": {
+        "role": "secondary",
+        "displayName": "Map Grey"
+      },
+      "route-ring": {
+        "role": "secondary",
+        "displayName": "Route Yellow (ring)"
+      },
+      "route-fill": {
+        "role": "secondary",
+        "displayName": "Route Yellow (fill)"
+      },
+      "route-track": {
+        "role": "secondary",
+        "displayName": "Route Yellow (track)"
+      }
     },
     "typographyMeta": {
-      "title": { "displayName": "Title", "purpose": "Function name on the station sign." },
-      "sign": { "displayName": "Sign", "purpose": "Product name in the top bar." },
-      "body": { "displayName": "Body", "purpose": "Results, connections, key entries." },
-      "label": { "displayName": "Label", "purpose": "Uppercase section names and the repository name." },
-      "code": { "displayName": "Code", "purpose": "Source in the panel." }
+      "title": {
+        "displayName": "Title",
+        "purpose": "Function name on the station sign."
+      },
+      "sign": {
+        "displayName": "Sign",
+        "purpose": "Product name in the top bar."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Results, connections, key entries."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase section names and the repository name."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Source in the panel."
+      }
     },
     "shadows": [
-      { "name": "floating", "value": "0 8px 24px rgb(0 0 0 / 0.12)", "purpose": "Results list and phone bottom sheet only." }
+      {
+        "name": "floating",
+        "value": "0 8px 24px rgb(0 0 0 / 0.12)",
+        "purpose": "Results list and phone bottom sheet only."
+      }
     ],
     "motion": [
-      { "name": "camera-fly", "value": "600ms quadratic ease-out", "purpose": "Flying the map to a picked station; 0ms under reduced motion." },
-      { "name": "chevron", "value": "160ms ease-out", "purpose": "Key toggle chevron rotation." }
+      {
+        "name": "camera-fly",
+        "value": "600ms quadratic ease-out",
+        "purpose": "Flying the map to a picked station; 0ms under reduced motion."
+      },
+      {
+        "name": "chevron",
+        "value": "160ms ease-out",
+        "purpose": "Key toggle chevron rotation."
+      }
     ],
-    "breakpoints": [ { "name": "phone", "value": "760px" } ]
+    "breakpoints": [
+      {
+        "name": "phone",
+        "value": "760px"
+      }
+    ]
   },
   "components": [
     {
@@ -78,22 +174,45 @@
       "Stations: a coloured ring around a paper-coloured centre; a file's top-level code is a solid stop; size grows with calls.",
       "One workhorse grotesk (Archivo) with tabular numerals; JetBrains Mono only for code.",
       "Semantic zoom: file names are landmarks when zoomed out, function names when zoomed in.",
-      "Selection lights a station and its direct connections; everything else fades and loses its label."
+      "Two modes: exploring shows the full-colour transit map; picking a function turns the map grey and lights its route in yellow, the only yellow on screen."
     ],
     "rules": [
-      { "name": "The Lines Are Not Buttons Rule", "body": "Line colours mark neighbourhoods. Controls, links and focus never use them, so a colour on screen always means \"this code belongs here\".", "section": "colors" },
-      { "name": "The Fade, Don't Delete Rule", "body": "Focusing a line or a station fades everything else to Faded Track; nothing disappears from the map.", "section": "colors" },
-      { "name": "The Four Sizes Rule", "body": "12, 14, 17 and 20px are the whole scale. A new level is a weight or case change, not a new size.", "section": "typography" },
-      { "name": "The Paper Map Rule", "body": "Depth comes from tone and hairlines. A shadow means \"this floats over the map\", nothing else.", "section": "elevation" }
+      {
+        "name": "The Lines Are Not Buttons Rule",
+        "body": "Line colours mark neighbourhoods. Controls, links and focus never use them, so a colour on screen always means \"this code belongs here\".",
+        "section": "colors"
+      },
+      {
+        "name": "The Yellow Route Rule",
+        "body": "Yellow means one thing: where you are going. It appears only on a picked station, its direct connections and the track between them (and, later, the agent's route). No line, control or label is ever yellow or amber.",
+        "section": "colors"
+      },
+      {
+        "name": "The Fade, Don't Delete Rule",
+        "body": "Showing a route turns everything else to Map Grey; focusing a line fades the rest to Faded Track. Nothing disappears from the map.",
+        "section": "colors"
+      },
+      {
+        "name": "The Four Sizes Rule",
+        "body": "12, 14, 17 and 20px are the whole scale. A new level is a weight or case change, not a new size.",
+        "section": "typography"
+      },
+      {
+        "name": "The Paper Map Rule",
+        "body": "Depth comes from tone and hairlines. A shadow means \"this floats over the map\", nothing else.",
+        "section": "elevation"
+      }
     ],
     "dos": [
       "Do name a line after its busiest station and show that station's file beneath.",
+      "Do switch the map to grey with a yellow route when a function is picked, and restore colours when it is closed.",
       "Do keep every number on screen traceable to the index or a measurement.",
       "Do give every map label a halo in the map colour.",
       "Do reach every function by keyboard through search or the connection lists."
     ],
     "donts": [
       "Don't use a line colour on a button, link or focus state.",
+      "Don't use yellow or amber anywhere except the route.",
       "Don't add type sizes beyond the four in the scale.",
       "Don't add shadows to surfaces that don't float over the map.",
       "Don't use purple gradients, pill-shaped buttons, emoji icons, invented metrics or filler copy (owner's standing rules)."

@@ -20,12 +20,18 @@ colors:
   line-red: "#d6362c"
   line-green: "#00843d"
   line-blue: "#0b4fa8"
-  line-amber: "#e08e0b"
+  line-raspberry: "#c2337a"
   line-orange: "#ef6a1a"
   line-plum: "#8c4799"
   line-brown: "#8a5a2b"
   line-teal: "#0098b3"
   line-other: "#8d9196"
+  map-grey: "#cfcbc1"
+  route-ring: "#17191c"
+  route-fill: "#f5c400"
+  route-track: "#a87f00"
+  map-grey-dark: "#3a3e44"
+  route-dark: "#ffd200"
 typography:
   title:
     fontFamily: "Archivo Variable, Archivo, system-ui, sans-serif"
@@ -97,14 +103,18 @@ Light and dark both exist and follow the system setting; they are the same map p
 - Stations: a coloured ring around a paper-coloured centre; a file's top-level code is a solid stop; size grows with calls.
 - One workhorse grotesk (Archivo) with tabular numerals; JetBrains Mono only for code.
 - Semantic zoom: file names are landmarks when zoomed out, function names when zoomed in.
-- Selection lights a station and its direct connections; everything else fades and loses its label.
+- Two modes: exploring shows the full-colour transit map; picking a function (search or click) turns the map grey and lights its route in yellow, the only yellow on screen.
 
 ## Colors
 
 Ink and paper for the interface, eight enamel colours for the lines.
 
 ### Primary
-- **Signal Line Colours** (line-red, line-green, line-blue, line-amber, line-orange, line-plum, line-brown, line-teal): one per neighbourhood, assigned by size, largest first. Used for station rings, same-line track, line bullets in lists and the station sign. Smaller neighbourhoods share **Siding Grey** (line-other).
+- **Signal Line Colours** (line-red, line-green, line-blue, line-raspberry, line-orange, line-plum, line-brown, line-teal): one per neighbourhood, assigned by size, largest first. Used for station rings, same-line track, line bullets in lists and the station sign. Smaller neighbourhoods share **Siding Grey** (line-other).
+
+### Secondary
+- **Route Yellow** (route-fill and route-track on light paper; route-dark on dark): the route only. Light: yellow station fill with a Print Ink ring (route-ring) and deep-gold track (3.4:1 against paper, because thin bright yellow fails contrast on paper). Dark: signal yellow ring and track.
+- **Map Grey** (map-grey / map-grey-dark): every station off the route while a route is shown.
 
 ### Neutral
 - **Survey Paper** (paper / paper-dark): the map ground and page background.
@@ -118,7 +128,9 @@ Ink and paper for the interface, eight enamel colours for the lines.
 ### Named Rules
 **The Lines Are Not Buttons Rule.** Line colours mark neighbourhoods. Controls, links and focus never use them, so a colour on screen always means "this code belongs here".
 
-**The Fade, Don't Delete Rule.** Focusing a line or a station fades everything else to Faded Track; nothing disappears from the map.
+**The Yellow Route Rule.** Yellow means one thing: where you are going. It appears only on a picked station, its direct connections and the track between them (and, later, the agent's route). No line, control or label is ever yellow or amber.
+
+**The Fade, Don't Delete Rule.** Showing a route turns everything else to Map Grey; focusing a line fades the rest to Faded Track. Nothing disappears from the map.
 
 ## Typography
 
@@ -172,12 +184,14 @@ Function labels sit right of their station; file landmarks sit centred above the
 
 ### Do:
 - **Do** name a line after its busiest station and show that station's file beneath.
+- **Do** switch the map to grey with a yellow route when a function is picked, and restore colours when it is closed.
 - **Do** keep every number on screen traceable to the index or a measurement.
 - **Do** give every map label a halo in the map colour.
 - **Do** reach every function by keyboard through search or the connection lists.
 
 ### Don't:
 - **Don't** use a line colour on a button, link or focus state.
+- **Don't** use yellow or amber anywhere except the route.
 - **Don't** add type sizes beyond the four in the scale.
 - **Don't** add shadows to surfaces that don't float over the map.
 - **Don't** use purple gradients, pill-shaped buttons, emoji icons, invented metrics or filler copy (owner's standing rules).
