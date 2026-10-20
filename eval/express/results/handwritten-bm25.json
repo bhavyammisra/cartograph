@@ -9,7 +9,7 @@
    "mrr": 0.575,
    "file_acc@5": 0.978,
    "p50_ms": 0.1,
-   "p95_ms": 0.2
+   "p95_ms": 0.1
   },
   "source=hand": {
    "n": 45,
@@ -20,7 +20,7 @@
    "mrr": 0.575,
    "file_acc@5": 0.978,
    "p50_ms": 0.1,
-   "p95_ms": 0.2
+   "p95_ms": 0.1
   },
   "type=meaning": {
    "n": 27,
@@ -31,7 +31,7 @@
    "mrr": 0.596,
    "file_acc@5": 0.963,
    "p50_ms": 0.1,
-   "p95_ms": 0.3
+   "p95_ms": 0.1
   },
   "type=structural": {
    "n": 10,
@@ -42,7 +42,7 @@
    "mrr": 0.4,
    "file_acc@5": 1.0,
    "p50_ms": 0.1,
-   "p95_ms": 0.2
+   "p95_ms": 0.1
   },
   "type=usage": {
    "n": 8,
@@ -53,7 +53,7 @@
    "mrr": 0.726,
    "file_acc@5": 1.0,
    "p50_ms": 0.1,
-   "p95_ms": 0.2
+   "p95_ms": 0.1
   },
   "answer not named": {
    "n": 34,
@@ -64,7 +64,7 @@
    "mrr": 0.579,
    "file_acc@5": 0.971,
    "p50_ms": 0.1,
-   "p95_ms": 0.3
+   "p95_ms": 0.1
   }
  },
  "questions": [
@@ -73,7 +73,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.20489999951678328,
+   "ms": 0.185500000952743,
    "top5": [
     252,
     251,
@@ -93,7 +93,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": true,
-   "ms": 0.09190000128000975,
+   "ms": 0.08320000051753595,
    "top5": [
     269,
     262,
@@ -113,7 +113,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.07230000119307078,
+   "ms": 0.06610000127693638,
    "top5": [
     282,
     35,
@@ -133,7 +133,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.05330000203684904,
+   "ms": 0.052299998060334474,
    "top5": [
     281,
     127,
@@ -153,7 +153,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.06590000339201652,
+   "ms": 0.06719999873894267,
    "top5": [
     267,
     268,
@@ -173,7 +173,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.07429999823216349,
+   "ms": 0.06829999983892776,
    "top5": [
     268,
     321,
@@ -193,7 +193,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.058400000852998346,
+   "ms": 0.05480000254465267,
    "top5": [
     272,
     41,
@@ -213,7 +213,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.050900001951958984,
+   "ms": 0.045900000259280205,
    "top5": [
     277,
     279,
@@ -233,7 +233,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.060900001699337736,
+   "ms": 0.0594000011915341,
    "top5": [
     284,
     18,
@@ -253,7 +253,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.04669999907491729,
+   "ms": 0.057199998991563916,
    "top5": [
     272,
     287,
@@ -273,7 +273,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.04740000076708384,
+   "ms": 0.05199999941396527,
    "top5": [
     196,
     156,
@@ -293,7 +293,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.12929999866173603,
+   "ms": 0.05450000026030466,
    "top5": [
     319,
     320,
@@ -313,7 +313,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.06669999856967479,
+   "ms": 0.05160000000614673,
    "top5": [
     157,
     196,
@@ -333,7 +333,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.059300000430084765,
+   "ms": 0.06289999873843044,
    "top5": [
     214,
     216,
@@ -353,7 +353,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.05539999983739108,
+   "ms": 0.059699999837903306,
    "top5": [
     159,
     47,
@@ -373,7 +373,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": true,
-   "ms": 0.0473000000056345,
+   "ms": 0.05859999873791821,
    "top5": [
     253,
     256,
@@ -393,7 +393,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": true,
-   "ms": 0.04959999932907522,
+   "ms": 0.053899999329587445,
    "top5": [
     317,
     247,
@@ -413,7 +413,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.048800000513438135,
+   "ms": 0.053899999329587445,
    "top5": [
     314,
     279,
@@ -433,7 +433,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.04310000076657161,
+   "ms": 0.06100000246078707,
    "top5": [
     250,
     196,
@@ -453,7 +453,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": true,
-   "ms": 0.06359999679261819,
+   "ms": 0.05379999856813811,
    "top5": [
     305,
     273,
@@ -473,7 +473,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.1274999995075632,
+   "ms": 0.07950000144774094,
    "top5": [
     314,
     246,
@@ -493,7 +493,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": true,
-   "ms": 0.06320000102277845,
+   "ms": 0.04819999958272092,
    "top5": [
     253,
     256,
@@ -513,7 +513,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.06790000043110922,
+   "ms": 0.060999998822808266,
    "top5": [
     215,
     214,
@@ -533,7 +533,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.13450000187731348,
+   "ms": 0.04990000161342323,
    "top5": [
     205,
     124,
@@ -553,7 +553,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.32310000096913427,
+   "ms": 0.05439999949885532,
    "top5": [
     212,
     238,
@@ -573,7 +573,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.33679999978630804,
+   "ms": 0.05779999992228113,
    "top5": [
     300,
     272,
@@ -593,7 +593,7 @@
    "source": "hand",
    "type": "meaning",
    "names_answer": false,
-   "ms": 0.23130000045057386,
+   "ms": 0.08439999874099158,
    "top5": [
     46,
     216,
@@ -613,7 +613,7 @@
    "source": "hand",
    "type": "usage",
    "names_answer": false,
-   "ms": 0.1598999988345895,
+   "ms": 0.09000000136438757,
    "top5": [
     224,
     215,
@@ -633,7 +633,7 @@
    "source": "hand",
    "type": "usage",
    "names_answer": false,
-   "ms": 0.1467000001866836,
+   "ms": 0.06040000153006986,
    "top5": [
     224,
     308,
@@ -653,7 +653,7 @@
    "source": "hand",
    "type": "usage",
    "names_answer": true,
-   "ms": 0.12559999959194101,
+   "ms": 0.05370000144466758,
    "top5": [
     268,
     172,
@@ -673,7 +673,7 @@
    "source": "hand",
    "type": "usage",
    "names_answer": true,
-   "ms": 0.13190000026952475,
+   "ms": 0.06470000153058209,
    "top5": [
     267,
     301,
@@ -693,7 +693,7 @@
    "source": "hand",
    "type": "usage",
    "names_answer": true,
-   "ms": 0.14790000204811804,
+   "ms": 0.054299998737405986,
    "top5": [
     224,
     309,
@@ -713,7 +713,7 @@
    "source": "hand",
    "type": "usage",
    "names_answer": false,
-   "ms": 0.09920000229612924,
+   "ms": 0.04819999958272092,
    "top5": [
     253,
     227,
@@ -733,7 +733,7 @@
    "source": "hand",
    "type": "usage",
    "names_answer": false,
-   "ms": 0.10779999865917489,
+   "ms": 0.1005000012810342,
    "top5": [
     216,
     279,
@@ -753,7 +753,7 @@
    "source": "hand",
    "type": "usage",
    "names_answer": false,
-   "ms": 0.09230000068782829,
+   "ms": 0.06420000136131421,
    "top5": [
     288,
     249,
@@ -773,7 +773,7 @@
    "source": "hand",
    "type": "structural",
    "names_answer": false,
-   "ms": 0.12459999925340526,
+   "ms": 0.07639999967068434,
    "top5": [
     283,
     284,
@@ -793,7 +793,7 @@
    "source": "hand",
    "type": "structural",
    "names_answer": false,
-   "ms": 0.10159999874304049,
+   "ms": 0.06930000017746352,
    "top5": [
     232,
     231,
@@ -813,7 +813,7 @@
    "source": "hand",
    "type": "structural",
    "names_answer": false,
-   "ms": 0.13250000120024197,
+   "ms": 0.06679999933112413,
    "top5": [
     269,
     210,
@@ -833,7 +833,7 @@
    "source": "hand",
    "type": "structural",
    "names_answer": true,
-   "ms": 0.21660000129486434,
+   "ms": 0.05709999823011458,
    "top5": [
     196,
     12,
@@ -853,7 +853,7 @@
    "source": "hand",
    "type": "structural",
    "names_answer": false,
-   "ms": 0.1100999979826156,
+   "ms": 0.05959999907645397,
    "top5": [
     233,
     289,
@@ -873,7 +873,7 @@
    "source": "hand",
    "type": "structural",
    "names_answer": true,
-   "ms": 0.08969999908003956,
+   "ms": 0.06369999755406752,
    "top5": [
     320,
     319,
@@ -893,7 +893,7 @@
    "source": "hand",
    "type": "structural",
    "names_answer": false,
-   "ms": 0.08760000127949752,
+   "ms": 0.05270000110613182,
    "top5": [
     224,
     308,
@@ -913,7 +913,7 @@
    "source": "hand",
    "type": "structural",
    "names_answer": true,
-   "ms": 0.1413000027241651,
+   "ms": 0.0689999978931155,
    "top5": [
     281,
     36,
@@ -933,7 +933,7 @@
    "source": "hand",
    "type": "structural",
    "names_answer": false,
-   "ms": 0.1548000000184402,
+   "ms": 0.059699999837903306,
    "top5": [
     40,
     41,
@@ -953,7 +953,7 @@
    "source": "hand",
    "type": "structural",
    "names_answer": false,
-   "ms": 0.12820000119972974,
+   "ms": 0.05950000195298344,
    "top5": [
     270,
     40,

@@ -47,7 +47,8 @@ def main(argv: list[str] | None = None) -> None:
 
         questions = mine(args.repo, args.github, args.prefix)
         args.out.parent.mkdir(parents=True, exist_ok=True)
-        args.out.write_text("".join(json.dumps(q) + "\n" for q in questions), encoding="utf-8")
+        args.out.write_text("".join(json.dumps(q) + "\n" for q in questions), encoding="utf-8",
+                            newline="\n")
         issues = sum(q["source"] == "issue" for q in questions)
         print(f"{len(questions)} questions ({issues} from issues, {len(questions) - issues} "
               f"from PRs) -> {args.out}")

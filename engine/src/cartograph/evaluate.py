@@ -75,4 +75,5 @@ def report(rows: list[dict], name: str, out_dir: Path) -> None:
         print(f"{g:<26}" + "".join(f"{s.get(c, '-'):>11}" for c in cols))
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / f"{name}.json").write_text(
-        json.dumps({"summary": summary, "questions": rows}, indent=1), encoding="utf-8")
+        json.dumps({"summary": summary, "questions": rows}, indent=1), encoding="utf-8",
+        newline="\n")
