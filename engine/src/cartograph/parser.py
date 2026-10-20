@@ -11,6 +11,9 @@ PARSERS = {
     "typescript": Parser(Language(tsts.language_typescript())),
     "tsx": Parser(Language(tsts.language_tsx())),
 }
+# Bump when parse() output changes: it is part of each file's fingerprint, so every file is
+# re-parsed on the next index run instead of keeping stale rows.
+PARSER_VERSION = "2"
 EXTENSIONS = {
     ".js": "javascript", ".mjs": "javascript", ".cjs": "javascript", ".jsx": "javascript",
     ".ts": "typescript", ".mts": "typescript", ".cts": "typescript", ".tsx": "tsx",
@@ -41,10 +44,10 @@ class Function:
     aliases: list[str] = field(default_factory=list)  # extra names: a.x = a.y = function...
 
 
-@dataclass
+@dataclass(frozen=True)
 class Import:
-    local: str  # name used in this file
-    source: str  # module string, e.g. './router' or 'debug'
+    local: str  # name used in this file; "module.exports" marks what this file exports
+    source: str  # module string, e.g. './router' or 'debug'; "" = defined in this file
     imported: str | None  # exported name it refers to; None = whole module, 'default' = default
 
 
@@ -120,6 +123,17 @@ def collect_imports(node: Node, out: list[Import]) -> None:
                         name = text(spec.child_by_field_name("name"))
                         alias = text(spec.child_by_field_name("alias")) or name
                         out.append(Import(alias, source, name))
+    elif node.type == "assignment_expression" and text(node.child_by_field_name("left")) in (
+            "module.exports", "exports"):
+        # What this file exports: `module.exports = fn`, `exports = module.exports = fn`,
+        # or a re-export `module.exports = require('./lib/x')`. Lets callers of the module resolve.
+        value = node.child_by_field_name("right")
+        while value is not None and value.type == "assignment_expression":
+            value = value.child_by_field_name("right")
+        if value is not None and value.type == "identifier":
+            out.append(Import("module.exports", "", text(value)))
+        elif (source := require_source(value)) is not None:
+            out.append(Import("module.exports", source, None))
     elif node.type == "variable_declarator":
         source = require_source(node.child_by_field_name("value"))
         target = node.child_by_field_name("name")
@@ -160,4 +174,4 @@ def parse(source: bytes, lang: str, module_name: str) -> tuple[list[Function], l
         elif node.type in ("call_expression", "new_expression") and require_source(node) is None:
             stack.append((node, owner, True))
         stack.extend((child, owner, False) for child in reversed(node.children))
-    return functions, imports
+    return functions, list(dict.fromkeys(imports))  # `a = b = x` would record x twice

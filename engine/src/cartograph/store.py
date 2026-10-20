@@ -6,7 +6,7 @@ from pathlib import Path
 
 import psycopg
 
-from .parser import EXTENSIONS, Import, parse
+from .parser import EXTENSIONS, PARSER_VERSION, Import, parse
 from .resolve import CallRef, FileInfo, resolve
 
 DEFAULT_DB = "postgresql://cartograph:cartograph@localhost:5432/cartograph"
@@ -63,6 +63,14 @@ CREATE TABLE IF NOT EXISTS embeddings (
   embedding vector NOT NULL,
   PRIMARY KEY (function_id, model)
 );
+-- Call edges from other analyzers (Jelly). Function ids change on re-index, so these are
+-- dropped with their functions and must be re-imported (cartograph jelly) after indexing.
+CREATE TABLE IF NOT EXISTS extra_edges (
+  caller_id int NOT NULL REFERENCES functions ON DELETE CASCADE,
+  callee_id int NOT NULL REFERENCES functions ON DELETE CASCADE,
+  source text NOT NULL,
+  PRIMARY KEY (caller_id, callee_id, source)
+);
 CREATE INDEX IF NOT EXISTS functions_file_idx ON functions (file_id);
 CREATE INDEX IF NOT EXISTS calls_caller_idx ON calls (caller_id);
 CREATE INDEX IF NOT EXISTS calls_callee_idx ON calls (callee_id);
@@ -100,7 +108,7 @@ def index_repo(conn: psycopg.Connection, root: Path) -> dict[str, int]:
             seen.add(rel)
             stats["files"] += 1
             data = full.read_bytes()
-            digest = hashlib.sha256(data).hexdigest()
+            digest = hashlib.sha256(PARSER_VERSION.encode() + data).hexdigest()
             if known.get(rel) == digest:
                 continue
             stats["parsed"] += 1

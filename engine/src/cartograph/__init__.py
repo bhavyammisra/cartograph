@@ -23,6 +23,11 @@ def main(argv: list[str] | None = None) -> None:
     emb = sub.add_parser("embed", help="add meaning vectors for an indexed repository")
     emb.add_argument("path", type=Path)
     emb.add_argument("--model", choices=["coderank", "jina"], default="coderank")
+    jel = sub.add_parser("jelly", help="run Jelly, compare call graphs, store Jelly's edges")
+    jel.add_argument("path", type=Path)
+    jel.add_argument("--entries", nargs="+", required=True,
+                     help="files/folders to analyze, relative to the repo, e.g. lib examples")
+    jel.add_argument("--out", type=Path, help="save the comparison report as JSON")
     mine_p = sub.add_parser("mine", help="build eval questions from issues and fix commits")
     mine_p.add_argument("repo", type=Path)
     mine_p.add_argument("--github", required=True, help="owner/name, e.g. expressjs/express")
@@ -49,12 +54,14 @@ def main(argv: list[str] | None = None) -> None:
     def connect():
         import psycopg
 
-        from .store import DEFAULT_DB
+        from .store import DEFAULT_DB, SCHEMA
 
         try:
-            return psycopg.connect(os.environ.get("DATABASE_URL", DEFAULT_DB), autocommit=True)
+            conn = psycopg.connect(os.environ.get("DATABASE_URL", DEFAULT_DB), autocommit=True)
         except psycopg.OperationalError as e:
             parser.exit(1, f"Can't reach Postgres ({e}).\nIs it running? Try: docker compose up -d\n")
+        conn.execute(SCHEMA)  # idempotent: adds tables a newer version needs
+        return conn
 
     if args.command == "eval":
         import json
@@ -103,6 +110,20 @@ def main(argv: list[str] | None = None) -> None:
             for fid in (agent.last_extra["answer"] or ranked[:3]):
                 print("  ", agent.label(fid))
             print(f"\n{agent.last_extra['tokens']} tokens, {time.perf_counter() - start:.1f} s")
+    elif args.command == "jelly":
+        import json
+
+        from .jelly import compare, store_edges
+
+        with connect() as conn:
+            report = compare(conn, args.path, args.entries,
+                             Path(".cache/jelly") / f"{args.path.resolve().name}.json")
+            store_edges(conn, args.path, report.pop("_theirs"))
+            report.pop("_ours")
+        print(json.dumps(report, indent=1))
+        if args.out:
+            args.out.write_text(json.dumps(report, indent=1) + "\n", encoding="utf-8",
+                                newline="\n")
     elif args.command == "mine":
         import json
 

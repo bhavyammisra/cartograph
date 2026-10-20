@@ -31,6 +31,17 @@ def test_imports():
     assert run("lib/app.js", "debug") == (None, "external")
 
 
+def test_calling_a_module_follows_its_exports():
+    files = {
+        "index.js": FileInfo([], [Import("module.exports", "./lib/express", None)]),
+        "lib/express.js": FileInfo([(1, "createApplication", "createApplication")],
+                                   [Import("module.exports", "", "createApplication")]),
+        "examples/a/index.js": FileInfo([], [Import("express", "../../", None)]),
+    }
+    hit = resolve(files, [CallRef(9, "examples/a/index.js", "express", None)])[0][1:]
+    assert hit == (1, "import")
+
+
 def test_builtins_never_match_repo_functions():
     assert run("lib/app.js", "create", "Object") == (None, "builtin")
     assert run("lib/app.js", "Error") == (None, "builtin")

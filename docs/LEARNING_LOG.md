@@ -326,3 +326,56 @@ Head to head on those 74 questions (right function in the top 5): only the index
 - "On 74 real GitHub issues, the same 4B model found the right function first 53% of the time with my index tools vs 28% with grep only, running free on a laptop GPU."
 - "The agent had the best Acc@1 and MRR but not the best Acc@5: it trades breadth for precision, which is what you want when a developer reads one answer."
 - "Running a small local model taught me to engineer for failure: cap generations, time out, record failures as misses, and checkpoint after every question so a two-hour eval survives a crash."
+
+---
+
+## Phase 5: Precise call graph with Jelly (20 October 2026)
+
+### What we built
+- `engine/src/cartograph/jelly.py` and `cartograph jelly <repo> --entries lib examples`: runs **Jelly** (a research JavaScript analyzer), matches its functions to ours by file + line range, measures our call graph against it, and stores Jelly's links in a new `extra_edges` table.
+- The agent's `graph_neighbors` tool now shows both sources; Jelly-only links are labelled "found by Jelly".
+- Resolver fix found by the comparison: **follow `module.exports` re-exports**, so `var express = require('../../'); express()` resolves through `index.js` to `createApplication`.
+- The parser's version is now part of each file's fingerprint, so changing the parser re-parses every file automatically (fixes the "schema change needs a manual reset" problem for parser changes).
+- Full write-up: `eval/express/CALLGRAPH.md`.
+
+### Precision and recall, in plain words
+- **Precision:** of the links we claim, how many are real. Wrong links send the agent the wrong way.
+- **Recall:** of the real links, how many we found. Missing links hide paths.
+
+### Results (Express's own code)
+| | Ours (tree-sitter) | Jelly |
+|---|---|---|
+| Links found | 291 | 79 |
+| Shared | 62 | 62 |
+| Raw agreement | 21% of ours are in Jelly | 79% of Jelly's are in ours (was 44%) |
+| **Hand-checked estimate** | **~97% correct, finds ~94% of all real links found by either** | finds ~26% |
+
+**Why raw agreement is misleading here:** Express builds `app`, `req` and `res` at run time (`Object.create`, `Object.setPrototypeOf`). Jelly loses track of which methods those objects carry, so it misses nearly all `res.send()` / `this.set()` style calls. A random sample of 25 of our links that Jelly lacked: **24 correct.** All 44 links Jelly had and we lacked: **real**, and ~29 of them were one fixable pattern (re-exports).
+
+**By our confidence label:** `import` links agree with Jelly 97% of the time; `qualname` links (`res.send()` → `res.send = function...`) only 2%, but the hand check shows they are right: that's exactly the run-time wiring Jelly can't follow.
+
+**Effect on the agent:** only 2 of 172 test questions touch a Jelly-only link, and re-running both gave identical scores. On Express, Jelly's value is **measurement**; its callback links should matter more in callback-heavy code.
+
+### Problems we hit
+| Problem | Cause | Fix |
+|---|---|---|
+| Jelly found only 77 links at first | Express's dependencies weren't installed, and they're what attaches methods | `npm install --ignore-scripts` (no install scripts run), analyze through dependencies, count only Express-to-Express links |
+| 50 Jelly functions didn't match ours | Jelly treats each file's top-level code as one function starting at line 1, column 1 | map those to our `module` entries |
+| "13% precision" looked alarming | the reference itself was blind to Express's run-time wiring | hand-checked a random sample instead of trusting one number |
+| Parser change wouldn't re-parse anything | files' fingerprints hadn't changed | parser version is now part of the fingerprint |
+| New table missing at agent start | tables were only created by `index` | every command creates missing tables on connect (idempotent) |
+
+### Decisions to be able to explain
+- **No approximate interpretation:** that Jelly mode *executes* the analyzed code. A code-search tool must never run the code it reads.
+- **Two analyzers, not one:** tree-sitter is fast and catches method calls; Jelly tracks values and catches callbacks. Neither alone is enough.
+- **Didn't re-run the 2-hour eval:** measured first that only 2 of 172 questions could be affected, re-ran those 2.
+
+### New tools
+- **Jelly** (Aarhus University, BSD-3): static analysis for JavaScript; builds call graphs by tracking where functions flow. Run via `npx` pinned to 0.13.0.
+- **npx:** runs an npm package at an exact version without installing it globally.
+- **`npm install --ignore-scripts`:** installs packages without running their install scripts (a supply-chain safety habit).
+
+### Interview lines
+- "I measured my tree-sitter call graph against Jelly, a research-grade analyzer. Raw agreement was 21%, but hand-checking showed Jelly was the blind one: Express wires its methods at run time. My links were about 97% correct on a sample."
+- "The comparison paid for itself: it exposed a missing re-export rule, and fixing it raised recall against Jelly from 44% to 79%."
+- "Static analysis has two failure modes, missing links and wrong links; I report both, with the method, instead of one accuracy number."

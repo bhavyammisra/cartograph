@@ -1,4 +1,4 @@
-from cartograph.parser import parse
+from cartograph.parser import Import, parse
 
 SOURCE = b"""
 var Router = require('./router');
@@ -62,6 +62,13 @@ def test_imports():
         ("send", "./send.js", "default"),
         ("toJson", "./send.js", "json"),
     }
+
+
+def test_module_exports_are_recorded():
+    src = b"exports = module.exports = createApplication;\nfunction createApplication() {}"
+    assert parse(src, "javascript", "e.js")[1] == [Import("module.exports", "", "createApplication")]
+    src = b"module.exports = require('./lib/express');"
+    assert parse(src, "javascript", "i.js")[1] == [Import("module.exports", "./lib/express", None)]
 
 
 def test_chained_assignment_keeps_every_name():

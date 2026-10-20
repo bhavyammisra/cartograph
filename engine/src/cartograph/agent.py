@@ -158,10 +158,12 @@ class Agent:
         fid = self.fid(handle)
         if fid is None:
             return f"unknown function {handle}", []
+        # Links Jelly (value tracking) found that our parser couldn't, e.g. callbacks.
         if direction == "callers":
             rows = self.conn.execute(
-                """SELECT c.caller_id, min(c.seq) FROM calls c WHERE c.callee_id = %s
-                   GROUP BY 1 ORDER BY 1""", (fid,)).fetchall()
+                """SELECT c.caller_id FROM calls c WHERE c.callee_id = %s
+                   UNION SELECT e.caller_id FROM extra_edges e WHERE e.callee_id = %s
+                   ORDER BY 1""", (fid, fid)).fetchall()
             ids = [r[0] for r in rows if r[0] in self.docs]
             return ("\n".join(self.label(i) for i in ids) or "no known callers"), ids
         rows = self.conn.execute(
@@ -170,6 +172,11 @@ class Agent:
             (fid,)).fetchall()
         ids = list(dict.fromkeys(r[0] for r in rows if r[0] in self.docs))
         lines = [self.label(r[0]) if r[0] in self.docs else f"{r[1]} ({r[2]})" for r in rows]
+        for (callee,) in self.conn.execute(
+                "SELECT callee_id FROM extra_edges WHERE caller_id = %s ORDER BY 1", (fid,)):
+            if callee in self.docs and callee not in ids:
+                ids.append(callee)
+                lines.append(self.label(callee) + " (found by Jelly)")
         return "\n".join(dict.fromkeys(lines)) or "calls nothing", ids
 
     def read_code(self, handle) -> tuple[str, list[int]]:

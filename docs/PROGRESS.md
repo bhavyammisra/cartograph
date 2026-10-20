@@ -5,8 +5,8 @@ Read this first when starting a new session. It says where the project stands ri
 **Last updated:** 20 October 2026
 
 ## Current state
-- **Phase:** 4 done (Phase 2's grep-agent baseline finished with it).
-- **Next step:** Phase 5: Jelly precise call graph + accuracy report, then switch the headline eval to Prettier. Optional any time: strong-model comparison on the Groq free tier (needs Bhavyam's `GROQ_API_KEY` in `.env`).
+- **Phase:** 5 done (Jelly comparison). Not done from the original Phase 5 plan: switching the headline eval to Prettier (deferred, see next step).
+- **Next step:** Phase 6 (FastAPI server + SSE stream). Before publishing numbers: index Prettier and mine its questions for the headline eval. Optional any time: strong-model comparison on the Groq free tier (needs Bhavyam's `GROQ_API_KEY` in `.env`).
 - **Blocked on:** Bhavyam: review `eval/express/handwritten.jsonl` and set `"reviewed": true`.
 
 ## Phases
@@ -18,7 +18,7 @@ Read this first when starting a new session. It says where the project stands ri
 | 2 | Eval harness: auto-mined + hand-labelled questions, grep and BM25 baselines | Done (grep agent finished in Phase 4) |
 | 3 | Embeddings (CodeRankEmbed) + BM25 + RRF hybrid search | Done (issues Acc@5: BM25 0.703, dense 0.743, hybrid 0.784; jina dense 0.878 but 17x slower) |
 | 4 | Agent loop with event logging | Done (issues: index agent Acc@1 0.527 / Acc@5 0.757 vs grep agent 0.284 / 0.378, local Qwen3 4B) |
-| 5 | Precise call graph with Jelly, accuracy report; switch eval to Prettier | Not started |
+| 5 | Precise call graph with Jelly, accuracy report; switch eval to Prettier | Done except Prettier (our links ~97% correct on a hand sample; recall vs Jelly 79%; see eval/express/CALLGRAPH.md) |
 | 6 | FastAPI server + SSE stream | Not started |
 | 7 | Map: Sigma.js, communities, semantic zoom | Not started |
 | 8 | Trace replay + "why this result" | Not started |
@@ -51,6 +51,9 @@ Read this first when starting a new session. It says where the project stands ri
 | 2026-10-20 | Agent model: Qwen3 4B Instruct (non-thinking), 8K context, 1,024-token reply cap | The thinking edition was 3x+ slower; the default 4K window cut conversations; the cap stops runaway generations. |
 | 2026-10-20 | Agent ranking = submitted answer, then everything it was shown | Same rule for both agents; the answer alone is reported as Acc@answer. |
 | 2026-10-20 | Evals checkpoint after every question | A crash at question 120 lost a 70-minute run. |
+| 2026-10-20 | Jelly runs static-only (no --approx), via npx pinned to 0.13.0 | Approximate interpretation executes the analyzed code. |
+| 2026-10-20 | Keep both call graphs: tree-sitter edges in `calls`, Jelly edges in `extra_edges` | Tree-sitter catches run-time-wired methods, Jelly catches callbacks; neither alone is enough. |
+| 2026-10-20 | Parser version is part of each file's fingerprint | Parser changes re-parse every file automatically. |
 | 2026-10-20 | MIT license, public repo | Standard for portfolio tools. |
 
 ## Environment
@@ -60,10 +63,11 @@ Read this first when starting a new session. It says where the project stands ri
 - Eval: `cartograph mine ../targets/express --github expressjs/express --out ../eval/express/mined.jsonl` (GitHub responses cached in `engine/.cache/github`); `cartograph eval ../targets/express --questions ../eval/express/<set>.jsonl`.
 - Embeddings: `cartograph embed ../targets/express [--model jina]`; `cartograph eval ... --retriever dense|hybrid --model coderank|jina`. Models cached in `~/.cache/huggingface`.
 - Agent: the Ollama app (auto-starts) serves localhost:11434; Cartograph creates `cartograph-qwen3-4b` from `qwen3:4b-instruct` itself. `cartograph ask ../targets/express "<question>"`; `cartograph eval ... --retriever agent|grep-agent` (about 1 to 1.5 h per 127 questions, resumes after a crash). Live status: `& .\scripts\watch-eval.ps1`.
+- Jelly: `cartograph jelly ../targets/express --entries lib examples index.js --out ../eval/express/callgraph-vs-jelly.json`. Needs the target's dependencies installed (`npm install --ignore-scripts --omit=dev` inside `targets/express`). Re-run after every `index` (Jelly edges are tied to function ids). After a re-index, jina embeddings are gone too (`cartograph embed ... --model jina` to restore, ~15 min).
 - Laptop: i5-12450HX, 12 GB RAM, RTX 2050 (4 GB), ~45 GB free disk.
 - Website dev server config: `.claude/launch.json` (port 5173).
 
 ## Known issues
-- Schema changes need a manual reset (`DROP TABLE imports, calls, functions, files, repos CASCADE`) then re-index; no migrations yet.
+- Changing an existing table's columns needs a manual reset (`DROP TABLE extra_edges, embeddings, imports, calls, functions, files, repos CASCADE`) then re-index; new tables are created automatically, and parser changes re-parse automatically (PARSER_VERSION).
 - uv prints "Missing expected target directory for Python minor version link" on Windows. Harmless (optional symlink).
 - Shells opened before Docker was installed can't find `docker`; restart the terminal or add `C:\Program Files\Docker\Docker\resources\bin` to PATH.

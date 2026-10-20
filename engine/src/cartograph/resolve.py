@@ -65,6 +65,17 @@ def resolve(files: dict[str, FileInfo], calls: list[CallRef]) -> list[tuple[int,
     def unique(ids: list[int]) -> int | None:
         return ids[0] if len(set(ids)) == 1 else None  # a function may appear under aliases
 
+    def default_export(path: str, hops: int = 0) -> int | None:
+        """The function a file exports as a whole, following re-exports:
+        index.js `module.exports = require('./lib/express')` -> `= createApplication`."""
+        exp = imports[path].get("module.exports")
+        if exp is None or hops > 5:
+            return None
+        if exp.source == "":
+            return unique(by_file[path].get(exp.imported, []))
+        nxt = import_target(path, exp.source, files) if exp.source.startswith(".") else None
+        return default_export(nxt, hops + 1) if nxt else None
+
     out = []
     for c in calls:
         if c.name is None:
@@ -86,6 +97,11 @@ def resolve(files: dict[str, FileInfo], calls: list[CallRef]) -> list[tuple[int,
             target = import_target(c.path, imp.source, files)
             wanted = c.name if c.receiver or imp.imported in (None, "default") else imp.imported
             if target and (hit := unique(by_file[target].get(wanted, []))):
+                out.append((c.id, hit, "import"))
+                continue
+            # Calling the module itself: var express = require('../../'); express()
+            if (target and c.receiver is None and imp.imported in (None, "default")
+                    and (hit := default_export(target))):
                 out.append((c.id, hit, "import"))
                 continue
         if c.receiver and (hit := unique(global_quals.get(f"{c.receiver}.{c.name}", []))):
