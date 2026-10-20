@@ -232,23 +232,48 @@ class Agent:
                 ids.append(self.function_at(m.group(1), int(m.group(2))) if m else None)
         return list(dict.fromkeys(i for i in ids if i is not None))
 
+    def answer_from_text(self, text: str) -> tuple[list[int], bool] | None:
+        """Small models sometimes type the submission as plain text instead of calling the tool:
+        `submit_answer(["F12"])`, `{"name": "submit_answer", "arguments": {...}}` or `not_found`.
+        Read that as the submission; text without one is not."""
+        pos = text.find("submit_answer")
+        if pos < 0:
+            return ([], True) if text.strip().strip("`.") == "not_found" else None
+        inner = text[pos:]
+        if self.mode == "index":
+            args = {"functions": re.findall(r"\bF\d+\b", inner)}
+        else:
+            args = {"locations": [f"{p}:{n}" for p, n in re.findall(r"([\w./-]+\.\w+):(\d+)", inner)]}
+        ids = self.answer_ids(args)
+        return ids, not ids
+
     def __call__(self, question: str, k: int = 50) -> list[int]:
         messages = [{"role": "system", "content": SYSTEM[self.mode]},
                     {"role": "user", "content": question}]
         tools = INDEX_TOOLS if self.mode == "index" else GREP_TOOLS
+        submit_only = False  # after a text reply, offer nothing but submit_answer
         seen: list[int] = []  # every function the agent was shown, in order
         events, answer, tokens, not_found = [], None, 0, False
         for step in range(MAX_STEPS + 1):
             start = time.perf_counter()
             resp = self.client.chat.completions.create(
-                model=self.model, messages=messages, tools=tools, temperature=0)
+                model=self.model, messages=messages, temperature=0,
+                tools=tools[-1:] if submit_only else tools)
             tokens += resp.usage.total_tokens if resp.usage else 0
             msg = resp.choices[0].message
             messages.append(msg.model_dump(exclude_none=True))
             if not msg.tool_calls:
-                events.append({"step": step, "type": "text", "text": (msg.content or "")[:500]})
+                text = msg.content or ""
+                if (parsed := self.answer_from_text(text)) is not None:
+                    answer, not_found = parsed
+                    events.append({"step": step, "type": "answer", "from_text": True,
+                                   "text": text[:300], "ids": answer,
+                                   "ms": round((time.perf_counter() - start) * 1000)})
+                    break
+                events.append({"step": step, "type": "text", "text": text[:500]})
                 messages.append({"role": "user",
                                  "content": "Call submit_answer now with your best answer."})
+                submit_only = True
                 continue
             for call in msg.tool_calls:
                 name = call.function.name
