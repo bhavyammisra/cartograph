@@ -125,3 +125,66 @@ We chose **precision over recall** for links: a wrong link sends the agent and t
 - "I record calls in post-order so the sequence matches execution order, which my ordering queries depend on."
 - "Each call edge carries a confidence label; I deliberately chose precision over recall and measured the unresolved rate: 40% in Express's core."
 - "Profiling showed the indexer was waiting on the database, so I switched to COPY bulk loading: 162 s down to 4 s."
+
+---
+
+## Phase 2, part 1: Evaluation harness + BM25 baseline (20 October 2026)
+
+### What we built
+The exam every later feature is graded on:
+- `cartograph mine` builds questions from a repo's history (`engine/src/cartograph/mine.py`).
+- `eval/express/handwritten.jsonl`: 45 questions written against Express's code (27 meaning, 8 usage, 10 structural), every answer checked in the source.
+- `cartograph eval` scores any search method (`evaluate.py`) and saves per-question results in `eval/express/results/`.
+- The first competitor: **BM25 keyword search** (`search.py`).
+
+### How mining works
+1. Go through every commit that touched `lib/`, skipping docs/chore/upgrade commits.
+2. For each `#number` in the message, ask GitHub (via `gh api`, cached in `.cache/`) whether it's an issue or a pull request. Pull requests are followed to the issue they fix ("fixes #123"). If there isn't one, the PR's own text is used and flagged `source: pr`.
+3. **Question** = issue title + text. **Gold** = functions whose old code the fix changed: read the diff (`git diff -U0` gives the changed line numbers), parse the file as it was before the fix with our Phase 1 parser, and take the smallest function containing each changed line.
+4. Keep a question only if its gold functions still exist today (the shortcut, see below) and there are at most 5.
+
+Result: **127 questions** (74 from issues, 53 from PRs). Hand check of 20 random issue questions: **18 clean, 2 noisy (10%)**, details in `eval/express/NOISE_CHECK.md`.
+
+### The scores
+| Score | Meaning |
+|---|---|
+| Acc@k | a correct function is in the top k |
+| Recall@10 | share of all correct functions in the top 10 |
+| MRR | average of 1/rank of the first correct answer |
+| File Acc@5 | a correct *file* is in the top 5 |
+| p50 / p95 ms | median / slow-end time per question |
+
+### BM25 results (Express, 275 searchable functions)
+| Set | n | Acc@1 | Acc@5 | Acc@10 | MRR | File Acc@5 |
+|---|---|---|---|---|---|---|
+| Mined, all | 127 | 0.425 | 0.756 | 0.843 | 0.576 | 0.961 |
+| Mined, issues only | 74 | 0.311 | 0.703 | 0.811 | 0.492 | 0.932 |
+| Mined, PRs only | 53 | 0.585 | 0.830 | 0.887 | 0.693 | 1.000 |
+| Mined, answer not named in question | 39 | 0.282 | 0.590 | 0.744 | 0.428 | 0.949 |
+| Hand, meaning | 27 | 0.444 | 0.741 | 0.778 | 0.596 | 0.963 |
+| Hand, usage | 8 | 0.625 | 0.875 | 1.000 | 0.726 | 1.000 |
+| Hand, structural | 10 | 0.200 | 0.700 | 0.900 | 0.400 | 1.000 |
+
+Median time per question: 0.1 ms.
+
+### What the numbers say
+- **PR questions are easier** than issue questions (Acc@1 0.59 vs 0.31): the person fixing names the code. Headline numbers should use issues.
+- **Questions that name the answer are easier.** Without the name: Acc@1 0.28.
+- **Keyword search is weak at structure** (Acc@1 0.20 on "what does X call"): it can't follow calls. That's the gap the call graph and the agent should close.
+- **Express is small:** file-level is nearly solved (0.93 or more). The hard part is the right *function*. The headline eval moves to Prettier for this reason.
+
+### Known limits
+- Gold is checked against today's code, not the code before each fix. Slightly easier than the strict method; the strict version comes with Prettier.
+- Hand questions were drafted by Claude against the code and **still need Bhavyam's review** (`"reviewed": false`) before calling them hand-labelled.
+- Grep-agent baseline not run yet (needs an AI API key).
+
+### New tools
+- **`gh api`**: GitHub's API from the command line, to read issues and PRs.
+- **`git diff -U0`**: a diff with zero context lines, so every hunk header gives exactly the changed line numbers.
+- **bm25s**: a fast BM25 library in Python (uses NumPy).
+- **JSONL**: one JSON object per line; the standard format for eval sets (easy to append, diff and stream).
+
+### Interview lines
+- "I auto-mined 127 questions from Express's history: issue text as the question, functions changed by the fix as the answer, and I hand-checked a sample for a 10% noise rate."
+- "I split results by whether the question was written by a user (issue) or the fixer (PR); PR questions were almost twice as easy, so headline numbers use issues only."
+- "BM25 handled usage questions well but only got 20% at rank 1 on structural questions, which motivated the call-graph tools."
