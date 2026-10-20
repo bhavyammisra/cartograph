@@ -254,3 +254,75 @@ Median time per question: 0.1 ms.
 - "Dense retrieval with a 137M code model raised Acc@5 on real GitHub issues from 0.70 to 0.74, and hybrid RRF to 0.78. A 494M model reached 0.88 but was 17x slower and non-commercially licensed, so I kept the small one as default."
 - "RRF isn't free accuracy: it helped the weaker retriever and hurt the stronger one, because fusion averages in the worse list."
 - "I avoided `trust_remote_code` by loading the model through the library's built-in architecture, with the model revision pinned."
+
+---
+
+## Phase 4: The AI agent (20 October 2026)
+
+### What we built
+- `engine/src/cartograph/agent.py`: an agent loop. An LLM gets the question and a set of tools, calls them one at a time, reads the results, and finishes with `submit_answer` (or "not found"). At most 8 tool calls.
+- Two toolsets on the **same loop and same model**, so the comparison is fair:
+  - **Index agent (Cartograph):** `search_keyword` (BM25), `search_meaning` (CodeRankEmbed + pgvector), `graph_neighbors` (callers / callees from the Phase 1 call graph), `read_code`.
+  - **Grep agent (the baseline):** `grep` (regex over the source files) and `read_file`. This is how Claude Code, Codex and Gemini CLI explore code.
+- Every step is logged (tool, input, functions shown, time). These traces drive the map animation in Phase 8.
+- `cartograph ask <repo> "<question>"` prints the agent's steps. `cartograph eval ... --retriever agent|grep-agent` scores it.
+- `scripts/watch-eval.ps1`: a live status screen for long runs.
+
+### The AI brain: free and local
+- **Ollama** runs **Qwen3 4B Instruct (2507)** on the laptop's RTX 2050 (4 GB); about 55% of the model fits on the GPU, the rest runs on the CPU.
+- Cartograph talks to it through the standard `openai` Python library (Ollama speaks the same API), so switching to a cloud model later is one setting.
+- Cost: $0. Time: about 16 to 40 s per question.
+
+### Results (Express)
+**Real GitHub issues (n=74), the headline set:**
+| Method | Acc@1 | Acc@5 | MRR | Time per question |
+|---|---|---|---|---|
+| BM25 keyword search | 0.311 | 0.703 | 0.492 | 0.1 ms |
+| Hybrid search (BM25 + CodeRankEmbed, RRF) | 0.405 | 0.784 | 0.579 | 0.15 s |
+| Meaning search, jina (comparison only) | 0.405 | **0.878** | 0.604 | 2.1 s |
+| **Index agent (Cartograph, Qwen3 4B)** | **0.527** | 0.757 | **0.627** | 40 s |
+| Grep agent (same model) | 0.284 | 0.378 | 0.322 | 32 s |
+
+Head to head on those 74 questions (right function in the top 5): only the index agent 32, only the grep agent 4, both 24, neither 14.
+
+**Hand-drafted questions by type (Acc@1 / Acc@5):**
+| Method | Meaning (27) | Usage (8) | Structural (10) |
+|---|---|---|---|
+| Best single search | 0.815 / 0.926 (jina) | 0.625 / 0.875 (BM25) | 0.200 / 0.700 (BM25) |
+| **Index agent** | **0.889 / 0.963** | 0.500 / **1.000** | **0.500 / 0.700** |
+| Grep agent | 0.222 / 0.333 | 0.625 / 1.000 | 0.100 / 0.200 |
+
+### What the numbers say
+1. **The index nearly doubles a small agent's accuracy** versus grep: Acc@1 0.53 vs 0.28 on real issues, Acc@5 0.76 vs 0.38. The grep agent gave up (empty answer) on 87 of 127 mined questions; the index agent on 25.
+2. **The agent is best at picking the single right answer** (Acc@1 0.53 and MRR 0.63, both the highest) but not at Acc@5: plain hybrid search (0.78) and jina (0.88) list more candidates. The agent shows fewer, better-checked results.
+3. **The call graph works:** structural questions ("what does res.redirect call?") went from 0.2 to 0.5 at rank 1.
+4. **Grep still wins exact-string questions** ("where is the 'etag fn' setting used?"): its submitted answer was right on all 8 usage questions.
+5. **Speed is the price:** 40 s per question on a laptop vs 0.15 s for hybrid search.
+6. **The small model prefers keywords:** 201 keyword searches vs 104 meaning searches and 47 graph lookups.
+
+### Honest caveats
+- The grep agent here runs on a 4B model. A strong model (like the ones behind Claude Code) greps far better, so this does **not** prove "indexes beat grep" in general. It shows that **for a small local model, an index is the difference between useful and not**. A strong-model comparison (Groq free tier) would test the general case.
+- 1 of 127 grep-agent questions failed (a request hit the 3-minute limit) and counts as a miss.
+- The hand-drafted questions still need Bhavyam's review.
+- The first three runs had no reply cap; the last used a 1,024-token cap. The cap only affects runaway replies.
+
+### Problems we hit (interview gold)
+| Problem | Cause | Fix |
+|---|---|---|
+| 60 to 90 s per step, wrong answers | the default `qwen3:4b` writes about 1,000 tokens of hidden "thinking" per step and ignored `/no_think` through this API | switched to the non-thinking **instruct** edition: 30 s for a whole question |
+| Agent said "not found" while its top result was correct | Ollama's default 4,096-token window silently cut off the conversation | auto-created model variant with an 8,192-token window |
+| The model variant never actually changed | Ollama's create API streams its reply; the code didn't read it, so the request was cancelled | `stream: false`, and read the reply |
+| Agent typed `submit_answer(["F282"])` or JSON as text instead of calling the tool | a common small-model failure | after a text reply, offer only the submit tool; read submissions written as text (16 index-agent and 47 grep-agent answers were rescued this way) |
+| A 70-minute run crashed at question 120 and saved nothing | the model got stuck generating forever; three 10-minute timeouts | 1,024-token reply cap, 3-minute timeout with one retry, failed questions recorded as misses, and **results saved after every question so runs resume** |
+| First full run failed instantly ("cartograph: program not found") | Windows briefly locked the command file | re-ran; runs now resume anyway |
+
+### New tools
+- **Ollama:** runs open AI models locally and serves an OpenAI-compatible API on `localhost:11434`.
+- **Qwen3 4B Instruct:** a small open model from Alibaba with tool calling, quantized to 4 bits (Q4_K_M) so it fits in 2.5 GB.
+- **openai Python library:** the standard client for OpenAI-style APIs, here pointed at Ollama.
+- **Tool calling:** the model replies with a structured "call this function with these arguments" instead of text; our code runs it and sends back the result.
+
+### Interview lines
+- "On 74 real GitHub issues, the same 4B model found the right function first 53% of the time with my index tools vs 28% with grep only, running free on a laptop GPU."
+- "The agent had the best Acc@1 and MRR but not the best Acc@5: it trades breadth for precision, which is what you want when a developer reads one answer."
+- "Running a small local model taught me to engineer for failure: cap generations, time out, record failures as misses, and checkpoint after every question so a two-hour eval survives a crash."

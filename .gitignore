@@ -28,3 +28,7 @@ targets/
 Thumbs.db
 .vscode/
 .idea/
+
+# Eval run logs and resume checkpoints (temporary)
+eval/**/run.log
+*.partial.jsonl

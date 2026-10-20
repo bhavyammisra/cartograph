@@ -6,6 +6,12 @@ while ($true) {
     Write-Host "Cartograph eval status   $(Get-Date -Format 'HH:mm:ss')   (refreshes every 15 s, Ctrl+C to stop)`n"
     $running = @(Get-Process cartograph -ErrorAction SilentlyContinue).Count -gt 0
     Write-Host ("Eval running: " + $(if ($running) { "yes" } else { "no" }))
+    Get-ChildItem $results -Filter *.partial.jsonl | ForEach-Object {
+        $done = @(Get-Content $_.FullName).Count
+        $last = (Get-Content $_.FullName -Tail 1 | ConvertFrom-Json)
+        Write-Host ("In progress: {0}  {1} questions done, last {2} at {3:HH:mm:ss}" -f `
+            $_.BaseName.Replace('.partial', ''), $done, $last.id, $_.LastWriteTime)
+    }
     Write-Host "`nFinished result files (newest first):"
     Get-ChildItem $results -Filter *.json | Sort-Object LastWriteTime -Descending | ForEach-Object {
         $s = (Get-Content $_.FullName -Raw | ConvertFrom-Json).summary.all

@@ -4,6 +4,19 @@ Ask questions about a JavaScript codebase in plain English and get the exact fil
 
 **Status: early development.** Nothing works end to end yet. Results will be added here only once they are measured. See [progress](docs/PROGRESS.md).
 
+## Early results (Express, measured)
+
+74 questions taken from real GitHub issues in [Express](https://github.com/expressjs/express); the answer is the function the fix changed. Acc@k = a correct function is in the top k results.
+
+| Method | Acc@1 | Acc@5 | Time per question |
+|---|---|---|---|
+| BM25 keyword search | 0.31 | 0.70 | 0.1 ms |
+| Hybrid search (BM25 + CodeRankEmbed, RRF) | 0.41 | 0.78 | 0.15 s |
+| Grep-only agent (Qwen3 4B, local) | 0.28 | 0.38 | 32 s |
+| **Cartograph agent (Qwen3 4B, local)** | **0.53** | 0.76 | 40 s |
+
+Both agents use the same free model running on a laptop GPU (RTX 2050, 4 GB) and the same step budget; only their tools differ. Express is a small codebase, so these are development numbers: the headline evaluation moves to a larger repository. Method and caveats: [docs/LEARNING_LOG.md](docs/LEARNING_LOG.md).
+
 ## Planned
 
 - Hybrid search over a JS/TS repo: keyword (BM25), meaning (code embeddings) and call graph, merged with Reciprocal Rank Fusion
