@@ -45,16 +45,24 @@ def evaluate(questions: list[dict], docs: list[Doc], retriever: Callable[[str], 
         start = time.perf_counter()
         ranked = retriever(q["question"])
         ms = (time.perf_counter() - start) * 1000
-        rows.append({"id": q["id"], "source": q["source"], "type": q["type"],
-                     "names_answer": names_answer(q["question"], q["gold"]), "ms": ms,
-                     "top5": ranked[:5], **score_one(ranked, gold, file_of)})
+        row = {"id": q["id"], "source": q["source"], "type": q["type"],
+               "names_answer": names_answer(q["question"], q["gold"]), "ms": ms,
+               "top5": ranked[:5], **score_one(ranked, gold, file_of)}
+        if extra := getattr(retriever, "last_extra", None):  # agents: score the answer itself
+            row |= {"acc@answer": float(bool(gold & set(extra["answer"]))),
+                    "steps": extra["steps"], "tokens": extra["tokens"],
+                    "answer": extra["answer"], "events": extra["events"]}
+        rows.append(row)
+        print(f"  {len(rows)}/{len(questions)} {q['id']}: acc@5={row['acc@5']:.0f} "
+              f"{ms / 1000:.1f}s", flush=True)
     return rows
 
 
 def summarize(rows: list[dict]) -> dict[str, float]:
     if not rows:
         return {"n": 0}
-    metrics = [k for k in rows[0] if k.startswith(("acc", "recall", "mrr", "file"))]
+    metrics = [k for k in rows[0]
+               if k.startswith(("acc", "recall", "mrr", "file")) or k in ("steps", "tokens")]
     out = {"n": len(rows)} | {m: round(statistics.mean(r[m] for r in rows), 3) for m in metrics}
     ms = sorted(r["ms"] for r in rows)
     out["p50_ms"] = round(ms[len(ms) // 2], 1)
@@ -70,6 +78,8 @@ def report(rows: list[dict], name: str, out_dir: Path) -> None:
     groups["answer not named"] = [r for r in rows if not r["names_answer"]]
     summary = {g: summarize(rs) for g, rs in groups.items()}
     cols = ["n", "acc@1", "acc@5", "acc@10", "recall@10", "mrr", "file_acc@5", "p50_ms"]
+    if "acc@answer" in rows[0]:
+        cols += ["acc@answer", "steps", "tokens"]
     print(f"\n{name}\n{'group':<26}" + "".join(f"{c:>11}" for c in cols))
     for g, s in summary.items():
         print(f"{g:<26}" + "".join(f"{s.get(c, '-'):>11}" for c in cols))
