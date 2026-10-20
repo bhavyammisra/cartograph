@@ -275,6 +275,17 @@ class Agent:
         ids = self.answer_ids(args)
         return ids, not ids
 
+    def answer_from_names(self, text: str, seen: list[int]) -> list[int]:
+        """Last resort when the agent still answers in prose: the functions it was shown that the
+        text names exactly (F-id or full qualname, word-bounded), in the order the text names them."""
+        hits = []
+        for fid in seen:
+            names = [f"F{fid}", self.docs[fid].qualname]
+            found = [m.start() for n in names for m in re.finditer(rf"(?<![\w.]){re.escape(n)}(?![\w])", text)]
+            if found:
+                hits.append((min(found), fid))
+        return [fid for _, fid in sorted(hits)]
+
     def __call__(self, question: str, k: int = 50) -> list[int]:
         messages = [{"role": "system", "content": SYSTEM[self.mode]},
                     {"role": "user", "content": question}]
@@ -297,7 +308,11 @@ class Agent:
             messages.append(msg.model_dump(exclude_none=True))
             if not msg.tool_calls:
                 text = msg.content or ""
-                if (parsed := self.answer_from_text(text)) is not None:
+                parsed = self.answer_from_text(text)
+                if parsed is None and submit_only:  # told to submit and still wrote prose
+                    named = self.answer_from_names(text, seen)
+                    parsed = (named, False) if named else None
+                if parsed is not None:
                     answer, not_found = parsed
                     events.append({"step": step, "type": "answer", "from_text": True,
                                    "text": text[:300], "ids": answer,

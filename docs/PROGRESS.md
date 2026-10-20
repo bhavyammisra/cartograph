@@ -5,8 +5,8 @@ Read this first when starting a new session. It says where the project stands ri
 **Last updated:** 20 October 2026
 
 ## Current state
-- **Phase:** 7 done (the map website). Deferred from Phase 5: switching the headline eval to Prettier.
-- **Next step:** Phase 8: replay the agent's search on the map (route with stops, from `/api/ask` events) + "why this result". Before publishing numbers: index Prettier and mine its questions for the headline eval. Optional any time: strong-model comparison on the Groq free tier (needs Bhavyam's `GROQ_API_KEY` in `.env`).
+- **Phase:** 8 done (agent route replay + "why this result"). Deferred from Phase 5: switching the headline eval to Prettier.
+- **Next step:** Phase 9: impact analysis validated against git co-change. Re-run the agent eval (the text-recovery rule postdates the Phase 4 numbers). Before publishing numbers: index Prettier and mine its questions for the headline eval. Optional any time: strong-model comparison on the Groq free tier (needs Bhavyam's `GROQ_API_KEY` in `.env`).
 - **Blocked on:** Bhavyam: review `eval/express/handwritten.jsonl` and set `"reviewed": true`.
 
 ## Phases
@@ -21,7 +21,7 @@ Read this first when starting a new session. It says where the project stands ri
 | 5 | Precise call graph with Jelly, accuracy report; switch eval to Prettier | Done except Prettier (our links ~97% correct on a hand sample; recall vs Jelly 79%; see eval/express/CALLGRAPH.md) |
 | 6 | FastAPI server + SSE stream | Done (search, graph, function, impact, live agent stream; 32 tests) |
 | 7 | Map: Sigma.js, communities, semantic zoom | Done (transit map + yellow route on selection; search, station-sign panel, lines key, deep links, desktop + phone, light + dark) |
-| 8 | Trace replay + "why this result" | Not started |
+| 8 | Trace replay + "why this result" | Done (live route with numbered stops, follow camera, replay, provenance on search and answers, `#ask=` links; 33 engine + 5 web tests) |
 | 9 | Impact analysis validated against git co-change | Not started |
 | 10 | "X before Y" ordering queries + mini benchmark | Not started |
 | 11 | MCP server, measured with Claude Code | Not started |
@@ -58,6 +58,7 @@ Read this first when starting a new session. It says where the project stands ri
 | 2026-10-20 | Agent stream = SSE from a worker thread through a queue | Browsers support SSE natively (`EventSource`); one-way push is all the map needs. |
 | 2026-10-20 | Map design: Transit Diagram (chosen by Bhavyam); rules in DESIGN.md | Functions as stations, calls as track; line colours never used for controls. |
 | 2026-10-20 | Hybrid design: transit colours for exploring; picking a function greys the map and lights its route in reserved yellow | Bhavyam's call after the Terminal Wayfinding mockup; amber line swapped for raspberry. |
+| 2026-10-20 | Agent answers written as prose are recovered only by exact names of functions it was shown, and labelled in the UI | The 4B model sometimes never calls submit; guessing from partial words would invent answers. |
 | 2026-10-20 | Sigma.js 3.0.3 (not 4) | Sigma 4's new styling API was too new to verify. |
 | 2026-10-20 | Screenshots via scripts/capture.py (DevTools protocol) | Headless Edge can't emulate phones (min 496 px) and doesn't wait for data. |
 | 2026-10-20 | MIT license, public repo | Standard for portfolio tools. |

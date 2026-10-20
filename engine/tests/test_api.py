@@ -47,6 +47,8 @@ def client(tmp_path):
 def test_search_graph_function_impact(client):
     hits = client.get("/api/search", params={"q": "cookie serialize", "mode": "bm25"}).json()
     assert hits[0]["qualname"] in ("setCookie", "serialize") and hits[0]["rank"] == 1
+    # provenance: in keyword-only mode the keyword rank is the rank, and meaning is absent
+    assert [(h["keyword_rank"], h["meaning_rank"]) for h in hits] == [(h["rank"], None) for h in hits]
 
     graph = client.get("/api/graph").json()
     by_name = {n["qualname"]: n["id"] for n in graph["nodes"]}

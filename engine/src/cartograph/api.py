@@ -16,7 +16,7 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
 from .graph import impact
-from .search import BM25, Dense, Hybrid, load_corpus
+from .search import BM25, Dense, load_corpus, rrf
 
 
 class Function(BaseModel):
@@ -48,6 +48,8 @@ class FunctionDetail(Function):
 
 class Hit(Function):
     rank: int
+    keyword_rank: int | None  # where BM25 alone ranked it (None: not in its top 50)
+    meaning_rank: int | None  # where meaning search alone ranked it
 
 
 class Impacted(Function):
@@ -110,12 +112,15 @@ def create_app(root: str, db_url: str, llm: str = "qwen3-4b") -> FastAPI:
                mode: Literal["bm25", "dense", "hybrid"] = "hybrid",
                k: int = Query(10, ge=1, le=50)) -> list[Hit]:
         with connect() as conn:
-            if mode == "bm25":
-                ids = bm25(q, k)
-            else:
-                dense = Dense(conn, root, "coderank", embedder=get_embedder())
-                ids = (dense if mode == "dense" else Hybrid(bm25, dense))(q, k)
-            return [Hit(**f.model_dump(), rank=i) for i, f in enumerate(functions(conn, ids), 1)]
+            # Each method's own ranking (top 50) is kept, so every hit can say why it's here.
+            keyword = bm25(q, 50) if mode != "dense" else []
+            meaning = (Dense(conn, root, "coderank", embedder=get_embedder())(q, 50)
+                       if mode != "bm25" else [])
+            ids = rrf([keyword, meaning])[:k] if mode == "hybrid" else (keyword or meaning)[:k]
+            pos = lambda ranked, fid: ranked.index(fid) + 1 if fid in ranked else None
+            return [Hit(**f.model_dump(), rank=i, keyword_rank=pos(keyword, f.id),
+                        meaning_rank=pos(meaning, f.id))
+                    for i, f in enumerate(functions(conn, ids), 1)]
 
     @app.get("/api/graph")
     def graph() -> Graph:

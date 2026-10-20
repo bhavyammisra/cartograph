@@ -491,3 +491,31 @@ Your idea after seeing the Terminal Wayfinding mockup: keep the transit map for 
 - Recorded as "The Yellow Route Rule" in DESIGN.md and in the design contract.
 
 *Interview line:* "Two modes: an overview that shows the codebase's structure in colour, and a focus mode where the map goes grey and only your route is yellow. I reserved yellow for that one meaning, and checked its contrast in both themes."
+
+## Phase 8: the agent's search, replayed on the map
+
+### What we built (plain words)
+When you ask the AI agent a question, you now watch it travel across the map like a train on a route.
+- **Ask agent button** next to search. The question goes to `/api/ask`, and every step the agent takes streams back live.
+- **The route:** the map turns grey. Each place the agent actually stopped (read the code, or explored its calls) becomes a numbered yellow station: 1, 2, 3. Functions it was shown but never visited get a plain ring. The track between stops is thick when it followed a real call, thin when it jumped there from a search. The answer is a big solid yellow station: the destination.
+- **The camera follows** the agent to each new stop, then to the destination.
+- **Route panel:** the question, a live status ("Working, step 3", then, on the run in the screenshots, "Arrived in 31 s, 5 steps, 4,624 tokens"), the numbered steps in words, and the destination with **"Why this result"**: the exact steps that led there, for example "Found at step 1 by meaning search, #1" and "Reached again at step 2 by following the calls of res.redirect".
+- **Replay** plays the route again, one step every 0.9 s (skipped if your system asks for reduced motion).
+- **Search provenance:** plain search results now say where they came from: "keyword #3 · meaning #1", the rank from each half of the hybrid search before they were merged.
+- **Links:** `#ask=<question>` opens the page and runs that question, so a route can be shared.
+- **Back to route:** opening a function from the route shows a "Back to route" button; Escape steps back one level at a time.
+
+### Making the small model finish
+In testing, the 4B model sometimes wrote its answer as a sentence ("the header is built in res.location") six times in a row instead of calling `submit_answer`, so the panel showed an empty Destination. Two fixes:
+1. **Recovery from text:** if the agent writes prose again after being told to submit, Cartograph reads the answer from it, but only functions the agent was actually shown, named exactly (full name or F-id, not a partial word). The step is marked, and "Why this result" says "Named in the agent's written reply (it never called submit)", so nothing is hidden.
+2. **Honest empty state:** if there is still no answer, the panel says "No answer: the agent ran out of steps" instead of an empty heading.
+
+Note: the Phase 4 eval numbers were measured before the recovery rule existed; a re-run would be needed before quoting new ones.
+
+### New tools
+- **Server-Sent Events in the browser** (`EventSource`): reads the live agent stream.
+- **Node's built-in test runner** (`node --test`): tests the route logic in TypeScript with no test library; now runs in CI.
+
+### Interview lines
+- "You can watch the agent work: each tool call becomes a numbered stop on the map, and every answer comes with the exact steps that produced it."
+- "Small local models don't always follow the tool protocol. I recover answers from their text only when they name a function they were actually shown, and I label that in the UI so it's transparent."

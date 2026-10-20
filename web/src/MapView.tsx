@@ -3,18 +3,21 @@ import { useEffect, useRef } from 'react'
 import Sigma from 'sigma'
 import type { NodeDisplayData, PartialButFor } from 'sigma/types'
 import type { CodeMap } from './buildGraph'
+import type { Journey } from './journey'
 
 type Props = {
   map: CodeMap
   selected: string | null
   focusLine: number | null
+  journey: Journey | null
   onSelect: (node: string | null) => void
   flyTo: { node: string; nonce: number } | null
+  follow: string | null // the agent's latest stop: the camera moves there as the route grows
 }
 
 type Colors = {
   bg: string; ink: string; muted: string; faint: string; station: string; panel: string
-  grey: string; routeRing: string; routeFill: string; routeTrack: string
+  grey: string; routeRing: string; routeFill: string; routeTrack: string; routeDest: string
 }
 
 function readColors(): Colors {
@@ -24,6 +27,7 @@ function readColors(): Colors {
     bg: v('--map-bg'), ink: v('--ink'), muted: v('--ink-muted'), faint: v('--track-faint'),
     station: v('--station'), panel: v('--panel'), grey: v('--map-grey'),
     routeRing: v('--route-ring'), routeFill: v('--route-fill'), routeTrack: v('--route-track'),
+    routeDest: v('--route-dest'),
   }
 }
 
@@ -37,13 +41,16 @@ const StationProgram = createNodeBorderProgram({
   ],
 })
 
-export default function MapView({ map, selected, focusLine, onSelect, flyTo }: Props) {
+export default function MapView({ map, selected, focusLine, journey, onSelect, flyTo, follow }: Props) {
   const container = useRef<HTMLDivElement>(null)
   const sigma = useRef<Sigma | null>(null)
   // Sigma's reducers read this on every frame; React state would re-create the renderer.
   const state = useRef({
     selected, focusLine, hovered: null as string | null, colors: readColors(), ratio: 1,
     landmarks: 12, // how many file labels fit; set from the map's width
+    journey: null as null | {
+      stopNo: Map<string, number>; considered: Set<string>; dest: Set<string>; legs: Map<string, 'call' | 'jump'>
+    },
   })
 
   useEffect(() => {
@@ -119,6 +126,27 @@ export default function MapView({ map, selected, focusLine, onSelect, flyTo }: P
           }
           return { ...a, label: null, zIndex: 0, color: c.grey, ringColor: c.grey, fillColor: c.bg }
         }
+        // Agent journey: numbered yellow stops, a solid yellow destination, and the stations it
+        // was shown but didn't visit kept visible with a plain ring. The rest goes grey.
+        if (s.journey !== null) {
+          const j = s.journey
+          if (j.dest.has(node)) {
+            return { ...a, forceLabel: true, zIndex: 3, color: c.routeRing, ringColor: c.routeRing,
+                     fillColor: c.routeDest, size: a.size * 1.8 }
+          }
+          const n = j.stopNo.get(node)
+          if (n !== undefined) {
+            return { ...a, label: `${n}. ${a.label}`, forceLabel: true, zIndex: 2,
+                     color: c.routeRing, ringColor: c.routeRing, fillColor: c.routeFill,
+                     size: a.size * 1.3 }
+          }
+          if (j.considered.has(node)) {
+            // Unnamed on purpose: only the route's own stations get labels, so they never get
+            // buried under the names of everything the agent merely glanced at.
+            return { ...a, label: null, zIndex: 1, color: c.muted, ringColor: c.muted, fillColor: c.bg }
+          }
+          return { ...a, label: null, zIndex: 0, color: c.grey, ringColor: c.grey, fillColor: c.bg }
+        }
         const focus = s.hovered // a hover previews connections in their line colours
         const near = focus === node || (focus !== null && graph.areNeighbors(focus, node))
         const onLine = s.focusLine === null || lineOf.get(node) === s.focusLine
@@ -144,6 +172,12 @@ export default function MapView({ map, selected, focusLine, onSelect, flyTo }: P
           const onRoute = src === s.selected || dst === s.selected
           return { ...a, color: onRoute ? c.routeTrack : c.faint, size: onRoute ? 3 : 0.5,
                    zIndex: onRoute ? 1 : 0 }
+        }
+        if (s.journey !== null) {
+          // Thick: the agent followed a real call. Thin: it jumped there via a search.
+          const leg = s.journey.legs.get(`${src}>${dst}`) ?? s.journey.legs.get(`${dst}>${src}`)
+          return { ...a, color: leg ? c.routeTrack : c.faint, size: leg === 'call' ? 4 : leg ? 1.6 : 0.5,
+                   zIndex: leg ? 1 : 0 }
         }
         const focus = s.hovered
         if (focus !== null) {
@@ -191,6 +225,31 @@ export default function MapView({ map, selected, focusLine, onSelect, flyTo }: P
     }
   }, [map, onSelect])
 
+  // The journey's track: legs that follow a real call reuse that edge; search jumps get a
+  // temporary edge, removed again when the journey changes or closes.
+  useEffect(() => {
+    const s = state.current
+    const g = map.graph
+    const added: string[] = []
+    if (journey) {
+      const legs = new Map<string, 'call' | 'jump'>()
+      for (const l of journey.legs) {
+        legs.set(`${l.from}>${l.to}`, l.kind)
+        const key = `leg:${l.from}>${l.to}`
+        if (!g.hasEdge(l.from, l.to) && !g.hasEdge(l.to, l.from) && !g.hasEdge(key)) {
+          g.addDirectedEdgeWithKey(key, l.from, l.to, { line: '', sameLine: false })
+          added.push(key)
+        }
+      }
+      s.journey = { stopNo: new Map(journey.stops.map((x) => [x.node, x.n])),
+                    considered: journey.considered, dest: new Set(journey.destinations), legs }
+    } else {
+      s.journey = null
+    }
+    sigma.current?.refresh()
+    return () => added.forEach((key) => g.hasEdge(key) && g.dropEdge(key))
+  }, [journey, map])
+
   useEffect(() => {
     state.current.selected = selected
     state.current.focusLine = focusLine
@@ -204,6 +263,14 @@ export default function MapView({ map, selected, focusLine, onSelect, flyTo }: P
     if (pos) r.getCamera().animate({ x: pos.x, y: pos.y, ratio: 0.18 },
                                    { duration: reducedMotion() ? 0 : 600, easing: 'quadraticOut' })
   }, [flyTo])
+
+  // Following the agent zooms out a little more than a pick does, so the route stays in view.
+  useEffect(() => {
+    const r = sigma.current
+    const pos = follow ? r?.getNodeDisplayData(follow) : null
+    if (r && pos) r.getCamera().animate({ x: pos.x, y: pos.y, ratio: 0.35 },
+                                        { duration: reducedMotion() ? 0 : 600, easing: 'quadraticOut' })
+  }, [follow])
 
   return (
     <div

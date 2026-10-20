@@ -99,6 +99,7 @@ export function buildMap(data: GraphData): CodeMap {
       x, y,
       kind: n.kind === 'module' ? 'module' : 'function',
       label: displayName(n),
+      line_no: n.start_line,
       path: n.path,
       size: Math.min(3 + Math.sqrt(degree.get(n.id) ?? 0) * 1.6, 11),
       line: colorOf.get(c) ?? OTHER_LINE,

@@ -1,4 +1,4 @@
-import { X } from 'lucide-react'
+import { ArrowLeft, X } from 'lucide-react'
 import { Highlight } from 'prism-react-renderer'
 import { useEffect, useState } from 'react'
 import { api, displayName, type FunctionDetail, type FunctionRef } from './api'
@@ -8,6 +8,7 @@ type Props = {
   colorOf: (id: number) => string
   onPick: (id: number) => void
   onClose: () => void
+  onBack?: () => void // shown when this function was opened from an agent route
 }
 
 // Token colours come from CSS (.token.keyword etc.), so the code follows the theme.
@@ -37,7 +38,7 @@ function Connections({ title, items, colorOf, onPick }: {
 }
 
 /** The station sign: line bullet, function name, file and lines, then code and connections. */
-export default function FunctionPanel({ id, colorOf, onPick, onClose }: Props) {
+export default function FunctionPanel({ id, colorOf, onPick, onClose, onBack }: Props) {
   const [loaded, setFn] = useState<FunctionDetail | null>(null)
   const [failedId, setFailedId] = useState<number | null>(null)
   const error = failedId === id
@@ -51,6 +52,11 @@ export default function FunctionPanel({ id, colorOf, onPick, onClose }: Props) {
 
   return (
     <aside className="panel" aria-label="Function details">
+      {onBack && (
+        <button type="button" className="text-button back" onClick={onBack}>
+          <ArrowLeft size={14} aria-hidden /> Back to route
+        </button>
+      )}
       <header className="sign">
         <span className="sign-bullet" style={{ background: colorOf(id) }} aria-hidden />
         <div className="sign-text">

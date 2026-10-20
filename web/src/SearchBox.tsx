@@ -1,11 +1,23 @@
-import { Search } from 'lucide-react'
+import { Route, Search } from 'lucide-react'
 import { useEffect, useId, useRef, useState } from 'react'
 import { api, displayName, type Hit } from './api'
 
-type Props = { onPick: (id: number) => void; colorOf: (id: number) => string }
+type Props = {
+  onPick: (id: number) => void
+  onAsk: (question: string) => void
+  asking: boolean
+  colorOf: (id: number) => string
+}
 
-/** Combobox: type a question or a name, arrow through results, Enter flies the map there. */
-export default function SearchBox({ onPick, colorOf }: Props) {
+/** Why a search hit is where it is: its rank in each method before they were merged. */
+function why(h: Hit) {
+  const parts = [h.keyword_rank && `keyword #${h.keyword_rank}`, h.meaning_rank && `meaning #${h.meaning_rank}`]
+  return parts.filter(Boolean).join(' · ')
+}
+
+/** Combobox: type a question or a name, arrow through results, Enter flies the map there.
+ * "Ask agent" sends the same text to the AI agent instead, which searches on its own. */
+export default function SearchBox({ onPick, onAsk, asking, colorOf }: Props) {
   const [q, setQ] = useState('')
   const [hits, setHits] = useState<Hit[] | null>(null)
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle')
@@ -42,6 +54,7 @@ export default function SearchBox({ onPick, colorOf }: Props) {
   const showList = open && hits !== null
 
   return (
+    <div className="find">
     <div className="search">
       <Search className="search-icon" size={16} aria-hidden />
       <input
@@ -88,10 +101,20 @@ export default function SearchBox({ onPick, colorOf }: Props) {
               <span className="bullet" style={{ background: colorOf(h.id) }} aria-hidden />
               <span className="result-name">{displayName(h)}</span>
               <span className="result-path">{h.path}:{h.start_line}</span>
+              {why(h) && <span className="result-why">{why(h)}</span>}
             </li>
           ))}
         </ul>
       )}
+    </div>
+    <button
+      type="button"
+      className="ask"
+      disabled={!q.trim() || asking}
+      onClick={() => { setOpen(false); onAsk(q.trim()) }}
+    >
+      <Route size={16} aria-hidden /> {asking ? 'Agent working' : 'Ask agent'}
+    </button>
     </div>
   )
 }

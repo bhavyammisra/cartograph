@@ -12,7 +12,32 @@ export type FunctionRef = {
 
 export type Edge = { source: number; target: number; via: string }
 export type GraphData = { nodes: FunctionRef[]; edges: Edge[] }
-export type Hit = FunctionRef & { rank: number }
+/** rank: merged position; keyword_rank / meaning_rank: where each method alone put it (null: not
+ * in its top 50). These are the "why this result" for search. */
+export type Hit = FunctionRef & { rank: number; keyword_rank: number | null; meaning_rank: number | null }
+
+/** One message from the agent's live stream (/api/ask), mirroring agent.py's events. */
+export type AgentEvent =
+  | { type: 'tool'; step: number; tool: string; args: Record<string, unknown>; ids: number[]; ms: number }
+  | { type: 'answer'; step: number; ids: number[]; args?: Record<string, unknown>; from_text?: boolean; ms?: number }
+  | { type: 'text'; step: number; text: string }
+  | { type: 'error'; step?: number; text: string }
+  | { type: 'done'; answer: number[]; not_found: boolean; ranked: number[]; tokens: number }
+
+/** Opens the agent stream; returns a function that stops it. */
+export function ask(q: string, onEvent: (e: AgentEvent) => void): () => void {
+  const source = new EventSource(`/api/ask?q=${encodeURIComponent(q)}`)
+  source.onmessage = (m) => {
+    const e = JSON.parse(m.data) as AgentEvent
+    onEvent(e)
+    if (e.type === 'done' || e.type === 'error') source.close()
+  }
+  source.onerror = () => {
+    if (source.readyState !== EventSource.CLOSED) onEvent({ type: 'error', text: 'Lost the connection to the API.' })
+    source.close()
+  }
+  return () => source.close()
+}
 export type FunctionDetail = FunctionRef & {
   code: string
   callers: FunctionRef[]

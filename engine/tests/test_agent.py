@@ -63,6 +63,18 @@ def test_answer_typed_as_text_counts_as_submission():
     assert agent("q") == [] and agent.last_extra["not_found"]
 
 
+def test_second_prose_reply_is_read_by_exact_names_of_seen_functions():
+    agent = make_agent([reply(("search_meaning", {"query": "x"})),
+                        reply(text="Let me look again."),
+                        reply(text="The header is built in res.location, called by res.redirect.")])
+    agent.docs = {i: NS(qualname=q) for i, q in
+                  [(1, "res.redirect"), (2, "res.location"), (3, "location")]}
+    agent("q")
+    # F2 named first; F3 "location" only appears inside res.location; F1 was never shown.
+    assert agent.last_extra["answer"] == [2]
+    assert agent.last_extra["events"][-1]["from_text"]
+
+
 def test_text_reply_gets_nudged_and_budget_is_enforced():
     script = [reply(text="I think it is F1")] + [
         reply(("search_keyword", {"query": "x"})) for _ in range(MAX_STEPS)]

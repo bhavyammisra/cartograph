@@ -34,6 +34,7 @@ def main() -> None:
     p.add_argument("--scheme", choices=["light", "dark"])
     p.add_argument("--wait-for", default="body", help="CSS selector that must exist first")
     p.add_argument("--settle", type=float, default=1.5, help="seconds after the selector appears")
+    p.add_argument("--timeout", type=float, default=60, help="seconds to wait for the selector")
     p.add_argument("--browser", default=EDGE)
     a = p.parse_args()
 
@@ -75,7 +76,7 @@ def main() -> None:
                  features=[{"name": "prefers-color-scheme", "value": a.scheme}])
         send("Page.enable")
         send("Page.navigate", url=a.url)
-        deadline = time.time() + 60
+        deadline = time.time() + a.timeout
         while time.time() < deadline:
             found = send("Runtime.evaluate", expression=f"!!document.querySelector({a.wait_for!r})",
                          returnByValue=True)["result"].get("value")
