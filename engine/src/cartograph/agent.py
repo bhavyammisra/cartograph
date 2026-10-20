@@ -72,12 +72,14 @@ SYSTEM = {
         "Use search_meaning for descriptions of behavior, search_keyword for exact names, strings "
         "and settings, graph_neighbors for what calls what, and read_code to check a candidate. "
         f"You have at most {MAX_STEPS} tool calls. When confident, call submit_answer with the "
-        "best function ids first. If the repository does not answer it, submit not_found."),
+        "best function ids first. If the repository does not answer it, submit not_found. Always finish by calling "
+        "submit_answer; never answer in plain text."),
     "grep": (
         "You find the code in a JavaScript repository that answers a developer's question. "
         "Use grep to search the files and read_file to read them. "
         f"You have at most {MAX_STEPS} tool calls. When confident, call submit_answer with the "
-        "best path:line locations first. If the repository does not answer it, submit not_found."),
+        "best path:line locations first. If the repository does not answer it, submit not_found. Always finish by calling "
+        "submit_answer; never answer in plain text."),
 }
 
 
@@ -86,11 +88,13 @@ def ensure_ollama_model(cfg: dict) -> None:
     import urllib.error
     import urllib.request
 
-    body = json.dumps({"model": cfg["model"], "from": cfg["ollama_from"],
+    # stream=False: a streamed create is cancelled if the response isn't read to the end
+    body = json.dumps({"model": cfg["model"], "from": cfg["ollama_from"], "stream": False,
                        "parameters": {"num_ctx": cfg["num_ctx"]}}).encode()
     try:
-        urllib.request.urlopen(urllib.request.Request(
-            f"{OLLAMA}/api/create", body, {"Content-Type": "application/json"}), timeout=120)
+        with urllib.request.urlopen(urllib.request.Request(
+                f"{OLLAMA}/api/create", body, {"Content-Type": "application/json"}), timeout=120) as r:
+            r.read()
     except urllib.error.HTTPError as e:
         raise SystemExit(f"Ollama can't create the model ({e.read().decode()[:200]}).\n"
                          f"Download the base model first: ollama pull {cfg['ollama_from']}") from e
