@@ -20,8 +20,18 @@ def make_agent(script):
     replies = iter(script)
     agent.client = NS(chat=NS(completions=NS(create=lambda **_: next(replies))))
     agent.run_tool = lambda name, args: ("results", [3, 2])  # every tool "shows" F3, F2
-    agent.last_extra = {}
+    agent.last_extra, agent.api_error = {}, TimeoutError
     return agent
+
+
+def test_api_error_ends_the_question_instead_of_the_run():
+    def boom(**_):
+        raise TimeoutError("runaway generation")
+
+    agent = make_agent([])
+    agent.client = NS(chat=NS(completions=NS(create=boom)))
+    assert agent("q") == []
+    assert agent.last_extra["events"][0]["type"] == "error"
 
 
 def test_submitted_answer_ranks_first_then_seen_functions():

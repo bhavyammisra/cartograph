@@ -78,10 +78,13 @@ def main(argv: list[str] | None = None) -> None:
                 dense = Dense(conn, root, args.model)
                 retriever = dense if args.retriever == "dense" else Hybrid(BM25(docs), dense)
                 name = f"{args.retriever}-{args.model}"
-            rows = evaluate(questions, docs, retriever)
-        suffix = f"-first{args.limit}" if args.limit else ""
-        report(rows, f"{args.questions.stem}-{name}{suffix}",
-               args.out or args.questions.parent / "results")
+            run = f"{args.questions.stem}-{name}" + (f"-first{args.limit}" if args.limit else "")
+            out = args.out or args.questions.parent / "results"
+            out.mkdir(parents=True, exist_ok=True)
+            checkpoint = out / f"{run}.partial.jsonl"  # resume point if the run is interrupted
+            rows = evaluate(questions, docs, retriever, checkpoint)
+        report(rows, run, out)
+        checkpoint.unlink(missing_ok=True)
     elif args.command == "ask":
         from .agent import Agent
         from .search import load_corpus

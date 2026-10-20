@@ -29,6 +29,7 @@ LLMS = {
 }
 MAX_STEPS = 8
 MAX_RESULT_CHARS = 3000  # keeps tool output inside a small local model's context window
+MAX_REPLY_TOKENS = 1024  # a tool call or answer needs far less; stops runaway generations
 
 
 def tool(name: str, description: str, **params) -> dict:
@@ -108,7 +109,7 @@ class Agent:
 
     def __init__(self, conn: psycopg.Connection, root: str, docs: list[Doc], llm: str,
                  mode: str = "index", trace_dir: Path | None = None):
-        from openai import OpenAI
+        from openai import APIError, OpenAI
 
         cfg = LLMS[llm]
         key = os.environ.get(cfg["key_env"], "") if cfg["key_env"] else "local"
@@ -116,7 +117,10 @@ class Agent:
             raise SystemExit(f"Set {cfg['key_env']} in .env to use {llm}.")
         if "ollama_from" in cfg:
             ensure_ollama_model(cfg)
-        self.client, self.model = OpenAI(base_url=cfg["base_url"], api_key=key), cfg["model"]
+        # A small local model can fall into an endless repetition loop: cap time and retries
+        # so one bad question costs minutes, not the whole run.
+        self.client = OpenAI(base_url=cfg["base_url"], api_key=key, timeout=180, max_retries=1)
+        self.model, self.api_error = cfg["model"], APIError
         self.conn, self.root, self.mode, self.trace_dir = conn, Path(root), mode, trace_dir
         self.docs = {d.id: d for d in docs}
         if mode == "index":
@@ -256,9 +260,14 @@ class Agent:
         events, answer, tokens, not_found = [], None, 0, False
         for step in range(MAX_STEPS + 1):
             start = time.perf_counter()
-            resp = self.client.chat.completions.create(
-                model=self.model, messages=messages, temperature=0,
-                tools=tools[-1:] if submit_only else tools)
+            try:
+                resp = self.client.chat.completions.create(
+                    model=self.model, messages=messages, temperature=0, max_tokens=MAX_REPLY_TOKENS,
+                    tools=tools[-1:] if submit_only else tools)
+            except self.api_error as e:  # e.g. a runaway generation that timed out
+                events.append({"step": step, "type": "error", "text": str(e)[:300],
+                               "ms": round((time.perf_counter() - start) * 1000)})
+                break
             tokens += resp.usage.total_tokens if resp.usage else 0
             msg = resp.choices[0].message
             messages.append(msg.model_dump(exclude_none=True))

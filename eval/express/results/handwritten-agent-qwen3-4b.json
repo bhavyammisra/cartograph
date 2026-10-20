@@ -1,0 +1,4369 @@
+{
+ "summary": {
+  "all": {
+   "n": 45,
+   "acc@1": 0.733,
+   "acc@5": 0.911,
+   "acc@10": 0.911,
+   "recall@10": 0.87,
+   "mrr": 0.791,
+   "file_acc@5": 0.978,
+   "acc@answer": 0.689,
+   "steps": 4.756,
+   "tokens": 4948.8,
+   "p50_ms": 16035.5,
+   "p95_ms": 30501.2
+  },
+  "source=hand": {
+   "n": 45,
+   "acc@1": 0.733,
+   "acc@5": 0.911,
+   "acc@10": 0.911,
+   "recall@10": 0.87,
+   "mrr": 0.791,
+   "file_acc@5": 0.978,
+   "acc@answer": 0.689,
+   "steps": 4.756,
+   "tokens": 4948.8,
+   "p50_ms": 16035.5,
+   "p95_ms": 30501.2
+  },
+  "type=meaning": {
+   "n": 27,
+   "acc@1": 0.889,
+   "acc@5": 0.963,
+   "acc@10": 0.963,
+   "recall@10": 0.92,
+   "mrr": 0.906,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.815,
+   "steps": 4.593,
+   "tokens": 4680.593,
+   "p50_ms": 16720.4,
+   "p95_ms": 30501.2
+  },
+  "type=structural": {
+   "n": 10,
+   "acc@1": 0.5,
+   "acc@5": 0.7,
+   "acc@10": 0.7,
+   "recall@10": 0.633,
+   "mrr": 0.575,
+   "file_acc@5": 0.9,
+   "acc@answer": 0.5,
+   "steps": 4.8,
+   "tokens": 4931.6,
+   "p50_ms": 14324.0,
+   "p95_ms": 21654.4
+  },
+  "type=usage": {
+   "n": 8,
+   "acc@1": 0.5,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.677,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.5,
+   "steps": 5.25,
+   "tokens": 5875.5,
+   "p50_ms": 20688.8,
+   "p95_ms": 45635.7
+  },
+  "answer not named": {
+   "n": 34,
+   "acc@1": 0.735,
+   "acc@5": 0.912,
+   "acc@10": 0.912,
+   "recall@10": 0.877,
+   "mrr": 0.785,
+   "file_acc@5": 0.971,
+   "acc@answer": 0.706,
+   "steps": 4.765,
+   "tokens": 4898.029,
+   "p50_ms": 15463.6,
+   "p95_ms": 26991.6
+  }
+ },
+ "questions": [
+  {
+   "id": "hw-01",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 33712.54690000205,
+   "top5": [
+    251,
+    252,
+    169,
+    157,
+    156
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 6,
+   "tokens": 6857,
+   "answer": [
+    251,
+    252
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does express figure out client's ip address behind reverse proxy"
+     },
+     "ids": [
+      251,
+      252,
+      169,
+      157,
+      156,
+      168,
+      249,
+      170,
+      137,
+      136
+     ],
+     "ms": 5113
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "express reverse proxy client ip address"
+     },
+     "ids": [
+      252,
+      251,
+      253,
+      284,
+      215,
+      255,
+      249,
+      285,
+      214,
+      156
+     ],
+     "ms": 1797
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F252"
+     },
+     "ids": [
+      252
+     ],
+     "ms": 1799
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F251"
+     },
+     "ids": [
+      251
+     ],
+     "ms": 1801
+    },
+    {
+     "step": 4,
+     "type": "text",
+     "text": "The functions `F251` and `F252` in Express handle determining the client's IP address when running behind a reverse proxy. \n\n- `F251.ip()` retrieves the client's IP address by using a trust proxy function (`this.app.get('trust proxy fn')`) to validate and extract the IP from the request headers. It calls `proxyaddr(this, trust)` to get the client's IP.\n- `F252.ips()` is similar but returns an array of IP addresses, which can be useful for tracking multiple IPs (e.g., in a load-balanced setup). I"
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F251",
+       "F252"
+      ]
+     },
+     "ids": [
+      251,
+      252
+     ],
+     "ms": 3067
+    }
+   ]
+  },
+  {
+   "id": "hw-02",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": true,
+   "ms": 6361.698900000192,
+   "top5": [
+    262,
+    283,
+    285,
+    286,
+    269
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 3,
+   "tokens": 2636,
+   "answer": [
+    262
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "where is the http status code of a response set"
+     },
+     "ids": [
+      262,
+      283,
+      285,
+      286,
+      269,
+      284,
+      280,
+      273,
+      300,
+      293
+     ],
+     "ms": 2439
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F262"
+     },
+     "ids": [
+      262
+     ],
+     "ms": 1728
+    },
+    {
+     "step": 2,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F262"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      262
+     ],
+     "ms": 2194
+    }
+   ]
+  },
+  {
+   "id": "hw-03",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 16720.360899998923,
+   "top5": [
+    282,
+    35,
+    36,
+    37,
+    33
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 3,
+   "tokens": 2970,
+   "answer": [
+    282
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "where are cookies signed with a secret before being sent to the browser"
+     },
+     "ids": [
+      282,
+      35,
+      36,
+      37,
+      33,
+      9,
+      250,
+      164,
+      162,
+      15
+     ],
+     "ms": 2565
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F282"
+     },
+     "ids": [
+      282
+     ],
+     "ms": 1687
+    },
+    {
+     "step": 2,
+     "type": "answer",
+     "from_text": true,
+     "text": "The cookies are signed with a secret before being sent to the browser in the `res.cookie` function, specifically in the `lib/response.js` file. When the `signed` option is enabled and a secret is provided via `this.req.secret`, the function uses the `sign` function to create a signed value. This sig",
+     "ids": [
+      282
+     ],
+     "ms": 12468
+    }
+   ]
+  },
+  {
+   "id": "hw-04",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 17667.149099994276,
+   "top5": [
+    281,
+    36,
+    129,
+    282,
+    116
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 4,
+   "tokens": 3575,
+   "answer": [
+    281
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how to delete a cookie from the client"
+     },
+     "ids": [
+      281,
+      36,
+      129,
+      282,
+      116,
+      37,
+      139,
+      35,
+      290,
+      119
+     ],
+     "ms": 2466
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F281"
+     },
+     "ids": [
+      281
+     ],
+     "ms": 1776
+    },
+    {
+     "step": 2,
+     "type": "text",
+     "text": "The function `res.clearCookie` is used to delete a cookie from the client. It works by setting the cookie's expiration date to a past date (using `new Date(1)`) and sending an empty value with that expired timestamp. This effectively removes the cookie from the client's browser.\n\nThe implementation in `res.clearCookie` ensures that the cookie is cleared by:\n1. Setting the `expires` option to a date in the past.\n2. Removing the `maxAge` option to avoid conflicts.\n3. Using `this.cookie` to send an"
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F281"
+      ]
+     },
+     "ids": [
+      281
+     ],
+     "ms": 2367
+    }
+   ]
+  },
+  {
+   "id": "hw-05",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 22994.91979999584,
+   "top5": [
+    301,
+    267,
+    287,
+    285,
+    268
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 5,
+   "tokens": 5132,
+   "answer": [
+    301
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "where does the response body get serialized to JSON including spaces and replacer settings"
+     },
+     "ids": [
+      301,
+      267,
+      287,
+      285,
+      268,
+      283,
+      23,
+      286,
+      160,
+      266
+     ],
+     "ms": 2844
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F301",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 2206
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F301"
+     },
+     "ids": [
+      301
+     ],
+     "ms": 1964
+    },
+    {
+     "step": 3,
+     "type": "text",
+     "text": "F301 stringify is the function that serializes the response body to JSON, including the spaces and replacer settings. It uses `JSON.stringify` with the provided `replacer` and `spaces` parameters to generate the JSON string. The `spaces` parameter controls the indentation and spacing in the output, while the `replacer` function can be used to modify the output by filtering or transforming values. Additionally, if `escape` is true, it replaces specific characters like `<`, `>`, and `&` with their"
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "from_text": true,
+     "text": "{\"name\": \"submit_answer\", \"arguments\": {\"functions\": [\"F301\"]}}",
+     "ids": [
+      301
+     ],
+     "ms": 2412
+    }
+   ]
+  },
+  {
+   "id": "hw-06",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 23555.550199998834,
+   "top5": [
+    268,
+    236,
+    322,
+    321,
+    289
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 5,
+   "tokens": 6123,
+   "answer": [
+    268
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "JSONP callback"
+     },
+     "ids": [
+      268,
+      236,
+      322,
+      321,
+      289,
+      295,
+      323,
+      294,
+      214,
+      298
+     ],
+     "ms": 1866
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how is the callback name sanitized in JSONP"
+     },
+     "ids": [
+      268,
+      112,
+      298,
+      292,
+      22,
+      302,
+      301,
+      111,
+      110,
+      129
+     ],
+     "ms": 2152
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F268"
+     },
+     "ids": [
+      268
+     ],
+     "ms": 1772
+    },
+    {
+     "step": 3,
+     "type": "text",
+     "text": "The JSONP callback is supported in the `res.jsonp` function (F268) located in `lib/response.js`. \n\nThe callback name is sanitized by:\n1. Extracting the callback from the request query using `this.req.query[app.get('jsonp callback name')]`.\n2. If the callback is an array, taking the first element (`callback[0]`).\n3. Restricting the callback name using a regular expression: `callback.replace(/[^\\[\\]\\w$.]/g, '')`, which removes any characters that are not valid in JavaScript identifiers (like brack"
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F268"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      268
+     ],
+     "ms": 3050
+    }
+   ]
+  },
+  {
+   "id": "hw-07",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 8703.712499998801,
+   "top5": [
+    277,
+    41,
+    40,
+    39,
+    272
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.2,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 4,
+   "tokens": 3687,
+   "answer": [
+    277
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does the server send a file so the browser downloads it with a filename"
+     },
+     "ids": [
+      41,
+      40,
+      39,
+      272,
+      156,
+      291,
+      270,
+      277,
+      296,
+      60
+     ],
+     "ms": 2731
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F277",
+      "direction": "callees"
+     },
+     "ids": [
+      273,
+      279
+     ],
+     "ms": 2195
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F277"
+     },
+     "ids": [
+      277
+     ],
+     "ms": 1608
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F277"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      277
+     ],
+     "ms": 2169
+    }
+   ]
+  },
+  {
+   "id": "hw-08",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 7956.545499997446,
+   "top5": [
+    277,
+    279,
+    272,
+    266,
+    249
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 4,
+   "tokens": 3858,
+   "answer": [
+    277
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "Content-Disposition header"
+     },
+     "ids": [
+      277,
+      279,
+      272,
+      266,
+      249,
+      280,
+      273,
+      43,
+      241,
+      300
+     ],
+     "ms": 1753
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "set Content-Disposition header in response"
+     },
+     "ids": [
+      277,
+      273,
+      279,
+      300,
+      272,
+      266,
+      25,
+      284,
+      286,
+      285
+     ],
+     "ms": 2107
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F277"
+     },
+     "ids": [
+      277
+     ],
+     "ms": 1803
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F277"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      277
+     ],
+     "ms": 2293
+    }
+   ]
+  },
+  {
+   "id": "hw-09",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 22724.57559999748,
+   "top5": [
+    24,
+    18,
+    23,
+    25,
+    31
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 5,
+   "tokens": 4604,
+   "answer": [
+    24
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does express choose between html json plain text based on accept header"
+     },
+     "ids": [
+      18,
+      23,
+      25,
+      31,
+      21,
+      19,
+      266,
+      24,
+      267,
+      120
+     ],
+     "ms": 2784
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F24",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 2300
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F24"
+     },
+     "ids": [
+      24
+     ],
+     "ms": 1884
+    },
+    {
+     "step": 3,
+     "type": "text",
+     "text": "The function `format` in Express determines the response type (HTML, JSON, or plain text) based on the `Accept` header by using a content negotiation strategy. It checks the `Accept` header in the request and delegates to appropriate response functions (like `res.json`, `res.html`, or `res.text`) depending on the header's value. If the header specifies a format (e.g., `application/json`, `text/html`), the corresponding function is called. If no format is specified, it defaults to the first accep"
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F24"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      24
+     ],
+     "ms": 2557
+    }
+   ]
+  },
+  {
+   "id": "hw-10",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 17752.129399996193,
+   "top5": [
+    316,
+    315,
+    266,
+    287,
+    286
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 6,
+   "tokens": 6245,
+   "answer": [
+    316
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "ETag response body generated"
+     },
+     "ids": [
+      315,
+      316,
+      266,
+      287,
+      286,
+      285,
+      269,
+      284,
+      268,
+      267
+     ],
+     "ms": 1771
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how is ETag generated for response bodies"
+     },
+     "ids": [
+      316,
+      266,
+      315,
+      287,
+      286,
+      308,
+      285,
+      274,
+      271,
+      273
+     ],
+     "ms": 2060
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F316",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 2264
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F316"
+     },
+     "ids": [
+      316
+     ],
+     "ms": 2190
+    },
+    {
+     "step": 4,
+     "type": "text",
+     "text": "The ETag for response bodies is generated by the `generateETag` function (F316), which is located in `lib/utils.js`. This function takes a body and an encoding as inputs, converts the body into a buffer if necessary, and then uses the `etag` library to generate the ETag. The generated ETag is then used in the response headers.\n\nFinal answer: F316"
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F316"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      316
+     ],
+     "ms": 2823
+    }
+   ]
+  },
+  {
+   "id": "hw-11",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 11895.84730000206,
+   "top5": [
+    258,
+    257,
+    156,
+    80,
+    51
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.5,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 4,
+   "tokens": 3885,
+   "answer": [
+    258
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does express decide whether the client's cached copy is outdated"
+     },
+     "ids": [
+      257,
+      258,
+      156,
+      80,
+      51,
+      45,
+      37,
+      36,
+      41,
+      181
+     ],
+     "ms": 2510
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "stale"
+     },
+     "ids": [
+      258,
+      323,
+      40,
+      306,
+      325,
+      39,
+      37,
+      36,
+      35,
+      33
+     ],
+     "ms": 1586
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F258"
+     },
+     "ids": [
+      258
+     ],
+     "ms": 1774
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F258"
+      ]
+     },
+     "ids": [
+      258
+     ],
+     "ms": 6026
+    }
+   ]
+  },
+  {
+   "id": "hw-12",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 26991.57749999722,
+   "top5": [
+    324,
+    320,
+    181,
+    148,
+    137
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 9,
+   "tokens": 9469,
+   "answer": [],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "where does express find template file on disk for view name"
+     },
+     "ids": [
+      324,
+      320,
+      181,
+      148,
+      137,
+      196,
+      156,
+      180,
+      170,
+      179
+     ],
+     "ms": 2624
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F320",
+      "direction": "callees"
+     },
+     "ids": [
+      324
+     ],
+     "ms": 2233
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F324",
+      "direction": "callees"
+     },
+     "ids": [
+      325
+     ],
+     "ms": 2039
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F325",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 2216
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F325"
+     },
+     "ids": [
+      325
+     ],
+     "ms": 2141
+    },
+    {
+     "step": 5,
+     "type": "text",
+     "text": "The Express framework finds the template file on disk by using the `fs.statSync` function to check if a file exists at the resolved path. This path is constructed by combining the view directory (typically set via the `view engine` and `view` configuration options) with the view name. The `tryStat` function, which is called by `View.prototype.resolve`, uses `fs.statSync` to verify the existence of the file, ensuring it is present before rendering.\n\nThe key function responsible for this behavior "
+    },
+    {
+     "step": 6,
+     "type": "text",
+     "text": "{\"functions\": [\"F325\"], \"not_found\": false}"
+    },
+    {
+     "step": 7,
+     "type": "text",
+     "text": "{\"functions\": [\"F325\"], \"not_found\": false}"
+    },
+    {
+     "step": 8,
+     "type": "text",
+     "text": "{\"functions\": [\"F325\"], \"not_found\": false}"
+    }
+   ]
+  },
+  {
+   "id": "hw-13",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 6324.846699993941,
+   "top5": [
+    234,
+    157,
+    168,
+    231,
+    299
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 3,
+   "tokens": 2606,
+   "answer": [
+    234
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does the app start accepting HTTP connections on a port"
+     },
+     "ids": [
+      234,
+      157,
+      168,
+      231,
+      299,
+      230,
+      101,
+      242,
+      219,
+      216
+     ],
+     "ms": 2489
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F234"
+     },
+     "ids": [
+      234
+     ],
+     "ms": 1710
+    },
+    {
+     "step": 2,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F234"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      234
+     ],
+     "ms": 2126
+    }
+   ]
+  },
+  {
+   "id": "hw-14",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 6872.441100000287,
+   "top5": [
+    214,
+    98,
+    99,
+    216,
+    157
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 3,
+   "tokens": 3061,
+   "answer": [
+    214
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "configure default settings environment views folder powered-by header app creation"
+     },
+     "ids": [
+      214,
+      98,
+      99,
+      216,
+      157,
+      212,
+      172,
+      162,
+      178,
+      218
+     ],
+     "ms": 2496
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F214"
+     },
+     "ids": [
+      214
+     ],
+     "ms": 1723
+    },
+    {
+     "step": 2,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F214"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      214
+     ],
+     "ms": 2653
+    }
+   ]
+  },
+  {
+   "id": "hw-15",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 16035.460700004478,
+   "top5": [
+    259,
+    250,
+    248,
+    257,
+    160
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 5,
+   "tokens": 4810,
+   "answer": [
+    259
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how to tell if request was sent by XMLHttpRequest AJAX"
+     },
+     "ids": [
+      259,
+      250,
+      248,
+      257,
+      160,
+      159,
+      249,
+      255,
+      258,
+      268
+     ],
+     "ms": 2494
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F248"
+     },
+     "ids": [
+      248
+     ],
+     "ms": 1708
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F259"
+     },
+     "ids": [
+      259
+     ],
+     "ms": 1828
+    },
+    {
+     "step": 3,
+     "type": "text",
+     "text": "The handler can tell whether the request was sent by an XMLHttpRequest (AJAX) by checking the value of the `X-Requested-With` header. If the header's value is `\"xmlhttprequest\"` (case-insensitive), then the request was sent by an XMLHttpRequest.\n\nThe relevant function is `xhr` (F259), which checks the `X-Requested-With` header in the request and returns `true` if it matches `\"xmlhttprequest\"`.\n\nFinal answer: F259"
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "from_text": true,
+     "text": "{\"name\": \"submit_answer\", \"arguments\": {\"functions\": [\"F259\"], \"not_found\": false}}",
+     "ids": [
+      259
+     ],
+     "ms": 2439
+    }
+   ]
+  },
+  {
+   "id": "hw-16",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": true,
+   "ms": 16774.43179999682,
+   "top5": [
+    256,
+    255,
+    249,
+    252,
+    251
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 4,
+   "tokens": 3718,
+   "answer": [],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "compute hostname taking proxy headers into account"
+     },
+     "ids": [
+      256,
+      255,
+      249,
+      252,
+      251,
+      241,
+      257,
+      310,
+      169,
+      253
+     ],
+     "ms": 2114
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F256",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 2148
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F256"
+     },
+     "ids": [
+      256
+     ],
+     "ms": 1941
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "args": {
+      "functions": [],
+      "not_found": true
+     },
+     "ids": [],
+     "ms": 10572
+    }
+   ]
+  },
+  {
+   "id": "hw-17",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": true,
+   "ms": 26992.10889999813,
+   "top5": [
+    247,
+    239,
+    25,
+    181,
+    307
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.3333333333333333,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 6,
+   "tokens": 6814,
+   "answer": [
+    247
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does express turn url query string into object"
+     },
+     "ids": [
+      247,
+      239,
+      25,
+      181,
+      307,
+      142,
+      116,
+      154,
+      24,
+      99
+     ],
+     "ms": 2443
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F247"
+     },
+     "ids": [
+      247
+     ],
+     "ms": 1735
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F239"
+     },
+     "ids": [
+      239
+     ],
+     "ms": 1730
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F307"
+     },
+     "ids": [
+      307
+     ],
+     "ms": 1691
+    },
+    {
+     "step": 4,
+     "type": "text",
+     "text": "The URL query string is turned into an object through a series of functions in Express. Specifically, the `query` function in `lib/request.js` (F247) is responsible for parsing the query string. It first checks if a query parser function is enabled via `this.app.get('query parser fn')`. If no parser is set, it returns an empty object. Otherwise, it uses the `parse` function to extract the query string from the request and then passes it to the configured query parser function (`queryparse`). Thi"
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F247"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      247
+     ],
+     "ms": 3343
+    }
+   ]
+  },
+  {
+   "id": "hw-18",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 14578.270600002725,
+   "top5": [
+    314,
+    279,
+    266,
+    273,
+    268
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 4,
+   "tokens": 4021,
+   "answer": [
+    314
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "charset Content-Type header"
+     },
+     "ids": [
+      314,
+      279,
+      266,
+      273,
+      268,
+      267,
+      241,
+      277,
+      305,
+      249
+     ],
+     "ms": 1828
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how is charset parameter added to Content-Type header"
+     },
+     "ids": [
+      314,
+      244,
+      279,
+      273,
+      302,
+      25,
+      160,
+      22,
+      243,
+      305
+     ],
+     "ms": 2171
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F314"
+     },
+     "ids": [
+      314
+     ],
+     "ms": 1757
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F314"
+      ]
+     },
+     "ids": [
+      314
+     ],
+     "ms": 8823
+    }
+   ]
+  },
+  {
+   "id": "hw-19",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 24342.127199997776,
+   "top5": [
+    249,
+    250,
+    259,
+    248,
+    255
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 4,
+   "tokens": 4120,
+   "answer": [
+    249
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how is it determined whether a request came over HTTPS"
+     },
+     "ids": [
+      250,
+      249,
+      259,
+      248,
+      255,
+      215,
+      243,
+      257,
+      245,
+      252
+     ],
+     "ms": 2489
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F248"
+     },
+     "ids": [
+      248
+     ],
+     "ms": 1732
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F249"
+     },
+     "ids": [
+      249
+     ],
+     "ms": 1739
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "from_text": true,
+     "text": "The determination of whether a request came over HTTPS is made in the `protocol` function (F249). It checks the `socket.encrypted` property to see if the connection is encrypted (indicating HTTPS). If the connection is not encrypted, it defaults to \"http\". If a trust proxy function is configured, it",
+     "ids": [
+      249
+     ],
+     "ms": 18381
+    }
+   ]
+  },
+  {
+   "id": "hw-20",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": true,
+   "ms": 30501.20479999896,
+   "top5": [
+    248,
+    305,
+    259,
+    257,
+    266
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 6,
+   "tokens": 7042,
+   "answer": [
+    248,
+    305
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "check incoming request body MIME type"
+     },
+     "ids": [
+      305,
+      248,
+      259,
+      257,
+      266,
+      273,
+      242,
+      243,
+      245,
+      133
+     ],
+     "ms": 2402
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "req.is"
+     },
+     "ids": [
+      115,
+      33,
+      37,
+      114,
+      162,
+      150,
+      164,
+      116,
+      87,
+      94
+     ],
+     "ms": 1618
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F248"
+     },
+     "ids": [
+      248
+     ],
+     "ms": 1789
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F305"
+     },
+     "ids": [
+      305
+     ],
+     "ms": 1833
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F248",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 2416
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F248",
+       "F305"
+      ]
+     },
+     "ids": [
+      248,
+      305
+     ],
+     "ms": 20443
+    }
+   ]
+  },
+  {
+   "id": "hw-21",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 12550.939599997946,
+   "top5": [
+    246,
+    279,
+    120,
+    266,
+    249
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 4,
+   "tokens": 3906,
+   "answer": [
+    246
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "Range header partial content"
+     },
+     "ids": [
+      246,
+      279,
+      120,
+      266,
+      249,
+      280,
+      273,
+      262,
+      115,
+      43
+     ],
+     "ms": 2019
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "parse Range header for partial content requests"
+     },
+     "ids": [
+      246,
+      120,
+      115,
+      25,
+      20,
+      24,
+      22,
+      18,
+      169,
+      19
+     ],
+     "ms": 2032
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F246"
+     },
+     "ids": [
+      246
+     ],
+     "ms": 1764
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F246"
+      ]
+     },
+     "ids": [
+      246
+     ],
+     "ms": 6736
+    }
+   ]
+  },
+  {
+   "id": "hw-22",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": true,
+   "ms": 6267.132599998149,
+   "top5": [
+    253,
+    169,
+    256,
+    255,
+    170
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 3,
+   "tokens": 2591,
+   "answer": [
+    253
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how are subdomains extracted from the request host"
+     },
+     "ids": [
+      253,
+      169,
+      256,
+      255,
+      170,
+      168,
+      144,
+      252,
+      109,
+      142
+     ],
+     "ms": 2388
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F253"
+     },
+     "ids": [
+      253
+     ],
+     "ms": 1743
+    },
+    {
+     "step": 2,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F253"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      253
+     ],
+     "ms": 2136
+    }
+   ]
+  },
+  {
+   "id": "hw-23",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 22464.418199997453,
+   "top5": [
+    215,
+    214,
+    224,
+    231,
+    217
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 5,
+   "tokens": 4844,
+   "answer": [
+    215
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does a sub-application inherit settings from a parent app"
+     },
+     "ids": [
+      215,
+      214,
+      224,
+      231,
+      217,
+      225,
+      218,
+      230,
+      226,
+      169
+     ],
+     "ms": 2458
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F215",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 2180
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F215"
+     },
+     "ids": [
+      215
+     ],
+     "ms": 1951
+    },
+    {
+     "step": 3,
+     "type": "text",
+     "text": "The sub-application is mounted onto a parent app using the `onmount` function (F215). When a sub-application is mounted, it inherits settings from the parent app by setting the prototype of its request, response, engines, and settings objects to those of the parent app via `Object.setPrototypeOf`. This ensures that the sub-application shares the same configuration and behavior as the parent app, including settings like trust proxy and engine configurations.\n\nFor example:\n- `Object.setPrototypeOf"
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F215"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      215
+     ],
+     "ms": 2725
+    }
+   ]
+  },
+  {
+   "id": "hw-24",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 10965.473999996902,
+   "top5": [
+    223,
+    107,
+    110,
+    126,
+    230
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 4,
+   "tokens": 3998,
+   "answer": [
+    223
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "callbacks that run when a route parameter is present"
+     },
+     "ids": [
+      223,
+      107,
+      110,
+      126,
+      230,
+      137,
+      128,
+      139,
+      125,
+      231
+     ],
+     "ms": 2403
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "app.param"
+     },
+     "ids": [
+      223,
+      238,
+      239,
+      267,
+      218,
+      219,
+      217,
+      124,
+      231,
+      230
+     ],
+     "ms": 1569
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F223"
+     },
+     "ids": [
+      223
+     ],
+     "ms": 1774
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "from_text": true,
+     "text": "The function `app.param` is used to register callbacks that run when a route parameter is present. It delegates the actual registration to `this.router.param(name, fn)`, which is part of the router's parameter handling mechanism.\n\nThus, the correct function is **F223**.\n\nsubmit_answer([\"F223\"])",
+     "ids": [
+      223
+     ],
+     "ms": 5219
+    }
+   ]
+  },
+  {
+   "id": "hw-25",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 10185.64989999868,
+   "top5": [
+    238,
+    212,
+    99,
+    218,
+    214
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 4,
+   "tokens": 3577,
+   "answer": [
+    238
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "builds a new Express application object"
+     },
+     "ids": [
+      238,
+      212,
+      99,
+      218,
+      214,
+      217,
+      216,
+      98,
+      239,
+      234
+     ],
+     "ms": 2256
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F238"
+     },
+     "ids": [
+      238
+     ],
+     "ms": 1738
+    },
+    {
+     "step": 2,
+     "type": "text",
+     "text": "The function that builds a new Express application object is `createApplication`. It initializes an application object by setting up request and response prototypes, mixing in event emitter and application prototypes, and then calling `app.init()` to configure the application.\n\nFinal answer: F238"
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F238"
+      ]
+     },
+     "ids": [
+      238
+     ],
+     "ms": 2209
+    }
+   ]
+  },
+  {
+   "id": "hw-26",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 8017.433299995901,
+   "top5": [
+    279,
+    300,
+    263,
+    278,
+    274
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.25,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 4,
+   "tokens": 3781,
+   "answer": [
+    279
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "add response headers without overwriting existing values"
+     },
+     "ids": [
+      300,
+      279,
+      263,
+      278,
+      274,
+      280,
+      282,
+      220,
+      299,
+      288
+     ],
+     "ms": 2326
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F279",
+      "direction": "callees"
+     },
+     "ids": [
+      279
+     ],
+     "ms": 2195
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F279"
+     },
+     "ids": [
+      279
+     ],
+     "ms": 1606
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F279"
+      ]
+     },
+     "ids": [
+      279
+     ],
+     "ms": 1891
+    }
+   ]
+  },
+  {
+   "id": "hw-27",
+   "source": "hand",
+   "type": "meaning",
+   "names_answer": false,
+   "ms": 23695.947599997453,
+   "top5": [
+    216,
+    51,
+    46,
+    45,
+    58
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 7,
+   "tokens": 8446,
+   "answer": [
+    216
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "where is an incoming request handed off to the router with a fallback error handler"
+     },
+     "ids": [
+      51,
+      46,
+      45,
+      58,
+      47,
+      53,
+      54,
+      79,
+      57,
+      132
+     ],
+     "ms": 2799
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F51",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 2128
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F51",
+      "direction": "callers"
+     },
+     "ids": [],
+     "ms": 2346
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "router fallback error handler"
+     },
+     "ids": [
+      46,
+      213,
+      212,
+      132,
+      216,
+      217,
+      221,
+      68,
+      99,
+      74
+     ],
+     "ms": 2013
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F216"
+     },
+     "ids": [
+      216
+     ],
+     "ms": 1890
+    },
+    {
+     "step": 5,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F217"
+     },
+     "ids": [
+      217
+     ],
+     "ms": 2018
+    },
+    {
+     "step": 6,
+     "type": "answer",
+     "from_text": true,
+     "text": "The incoming request is handed off to the router in the `app.handle` function (F216), which calls `this.router.handle(req, res, done)`. If there is an error during processing, it is passed to the fallback error handler via the `finalhandler` function, which is initialized in `app.handle` with the `c",
+     "ids": [
+      216
+     ],
+     "ms": 10502
+    }
+   ]
+  },
+  {
+   "id": "hw-28",
+   "source": "hand",
+   "type": "usage",
+   "names_answer": false,
+   "ms": 15178.978700001608,
+   "top5": [
+    310,
+    215,
+    251,
+    224,
+    214
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 5,
+   "tokens": 5073,
+   "answer": [
+    310
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "trust proxy fn"
+     },
+     "ids": [
+      215,
+      251,
+      224,
+      214,
+      252,
+      255,
+      249,
+      218,
+      217,
+      223
+     ],
+     "ms": 2023
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "read trust proxy setting"
+     },
+     "ids": [
+      251,
+      310,
+      249,
+      255,
+      215,
+      252,
+      224,
+      214,
+      250,
+      22
+     ],
+     "ms": 1901
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F310",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 2281
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F310",
+      "direction": "callers"
+     },
+     "ids": [
+      224
+     ],
+     "ms": 2189
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F310"
+      ]
+     },
+     "ids": [
+      310
+     ],
+     "ms": 6785
+    }
+   ]
+  },
+  {
+   "id": "hw-29",
+   "source": "hand",
+   "type": "usage",
+   "names_answer": false,
+   "ms": 19798.729399997683,
+   "top5": [
+    316,
+    308,
+    224,
+    266,
+    218
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.25,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 5,
+   "tokens": 5216,
+   "answer": [
+    316
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "etag fn"
+     },
+     "ids": [
+      308,
+      224,
+      266,
+      218,
+      217,
+      316,
+      6,
+      223,
+      178,
+      201
+     ],
+     "ms": 1755
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "generate ETag for HTTP response"
+     },
+     "ids": [
+      316,
+      266,
+      315,
+      286,
+      282,
+      265,
+      264,
+      273,
+      274,
+      263
+     ],
+     "ms": 2077
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F316",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 2273
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F316"
+     },
+     "ids": [
+      316
+     ],
+     "ms": 2176
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F316"
+      ]
+     },
+     "ids": [
+      316
+     ],
+     "ms": 11518
+    }
+   ]
+  },
+  {
+   "id": "hw-30",
+   "source": "hand",
+   "type": "usage",
+   "names_answer": true,
+   "ms": 22697.42419999966,
+   "top5": [
+    268,
+    236,
+    233,
+    214,
+    322
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 5,
+   "tokens": 6060,
+   "answer": [
+    268
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "jsonp callback name"
+     },
+     "ids": [
+      268,
+      236,
+      233,
+      214,
+      322,
+      321,
+      289,
+      295,
+      272,
+      323
+     ],
+     "ms": 1977
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how is jsonp callback name used in rendering"
+     },
+     "ids": [
+      268,
+      112,
+      129,
+      121,
+      22,
+      322,
+      20,
+      289,
+      110,
+      19
+     ],
+     "ms": 2208
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F268"
+     },
+     "ids": [
+      268
+     ],
+     "ms": 1758
+    },
+    {
+     "step": 3,
+     "type": "text",
+     "text": "The 'jsonp callback name' setting is used in the `res.jsonp` function (F268) to retrieve the callback function name from the request query parameters. Specifically, in the code, it accesses `this.req.query[app.get('jsonp callback name')]` to get the callback name, which is then used to construct a JSONP response. This setting is critical for enabling JSONP requests, where the callback name is passed as a query parameter and used to wrap the JSON response in a JavaScript function call.\n\nThe setti"
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F268"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      268
+     ],
+     "ms": 3806
+    }
+   ]
+  },
+  {
+   "id": "hw-31",
+   "source": "hand",
+   "type": "usage",
+   "names_answer": true,
+   "ms": 45635.689299997466,
+   "top5": [
+    267,
+    268,
+    301,
+    23,
+    56
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 6,
+   "tokens": 8465,
+   "answer": [
+    267,
+    268,
+    301
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "json spaces json replacer json escape"
+     },
+     "ids": [
+      267,
+      301,
+      268,
+      23,
+      56,
+      31,
+      54,
+      18,
+      262,
+      122
+     ],
+     "ms": 2510
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how are json spaces replacer escape settings used in response formatting"
+     },
+     "ids": [
+      301,
+      267,
+      268,
+      302,
+      23,
+      31,
+      274,
+      25,
+      300,
+      282
+     ],
+     "ms": 5854
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F301"
+     },
+     "ids": [
+      301
+     ],
+     "ms": 2719
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F267"
+     },
+     "ids": [
+      267
+     ],
+     "ms": 2350
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F268"
+     },
+     "ids": [
+      268
+     ],
+     "ms": 1974
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "from_text": true,
+     "text": "The settings 'json spaces', 'json replacer', and 'json escape' are used in the `res.json` and `res.jsonp` functions. \n\n- In `res.json` (F267), these settings are retrieved from the application configuration using `app.get('json spaces')`, `app.get('json replacer')`, and `app.get('json escape')`. The",
+     "ids": [
+      267,
+      268,
+      301
+     ],
+     "ms": 30228
+    }
+   ]
+  },
+  {
+   "id": "hw-32",
+   "source": "hand",
+   "type": "usage",
+   "names_answer": true,
+   "ms": 21450.592100001813,
+   "top5": [
+    309,
+    247,
+    224,
+    199,
+    153
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 5,
+   "tokens": 5318,
+   "answer": [
+    309
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "query parser fn"
+     },
+     "ids": [
+      309,
+      247,
+      224,
+      199,
+      153,
+      5,
+      155,
+      317,
+      218,
+      214
+     ],
+     "ms": 2055
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "compileQueryParser function"
+     },
+     "ids": [
+      309,
+      310,
+      247,
+      317,
+      307,
+      153,
+      308,
+      155,
+      254,
+      107
+     ],
+     "ms": 1960
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F309",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 2368
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F309"
+     },
+     "ids": [
+      309
+     ],
+     "ms": 2067
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F309"
+      ]
+     },
+     "ids": [
+      309
+     ],
+     "ms": 13001
+    }
+   ]
+  },
+  {
+   "id": "hw-33",
+   "source": "hand",
+   "type": "usage",
+   "names_answer": false,
+   "ms": 12442.123999993782,
+   "top5": [
+    253,
+    256,
+    217,
+    214,
+    323
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 4,
+   "tokens": 3947,
+   "answer": [
+    253
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "subdomain offset"
+     },
+     "ids": [
+      253,
+      256,
+      217,
+      214,
+      323,
+      40,
+      306,
+      325,
+      39,
+      37
+     ],
+     "ms": 1882
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "subdomain offset setting usage"
+     },
+     "ids": [
+      253,
+      169,
+      170,
+      224,
+      188,
+      109,
+      101,
+      115,
+      120,
+      9
+     ],
+     "ms": 1969
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F253"
+     },
+     "ids": [
+      253
+     ],
+     "ms": 1803
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "from_text": true,
+     "text": "The 'subdomain offset' setting is used in the `subdomains` function (F253) located in `lib/request.js` at lines 383-394. Specifically, it is retrieved using `this.app.get('subdomain offset')` and then used to slice the hostname's subdomains, effectively determining which parts of the hostname are co",
+     "ids": [
+      253
+     ],
+     "ms": 6788
+    }
+   ]
+  },
+  {
+   "id": "hw-34",
+   "source": "hand",
+   "type": "usage",
+   "names_answer": false,
+   "ms": 20688.78229999973,
+   "top5": [
+    300,
+    279,
+    216,
+    160,
+    299
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 6,
+   "tokens": 6739,
+   "answer": [
+    300
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "set X-Powered-By header on responses"
+     },
+     "ids": [
+      300,
+      279,
+      216,
+      160,
+      299,
+      280,
+      101,
+      271,
+      219,
+      220
+     ],
+     "ms": 2433
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F300"
+     },
+     "ids": [
+      300
+     ],
+     "ms": 1715
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F279"
+     },
+     "ids": [
+      279
+     ],
+     "ms": 1714
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F300"
+     },
+     "ids": [
+      300
+     ],
+     "ms": 1926
+    },
+    {
+     "step": 4,
+     "type": "text",
+     "text": "The X-Powered-By header is set in the `headers` function (F300) located in `lib/response.js` at lines 999-1007. This function iterates over the headers object and uses `res.setHeader` to set each header, including the X-Powered-By header, if it is defined in the options. The header is ultimately set via `res.setHeader(k, obj[k])` where `k` is the header name and `obj[k]` is its value. \n\nFinal answer: F300"
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F300"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      300
+     ],
+     "ms": 3185
+    }
+   ]
+  },
+  {
+   "id": "hw-35",
+   "source": "hand",
+   "type": "usage",
+   "names_answer": false,
+   "ms": 15375.651800000924,
+   "top5": [
+    288,
+    249,
+    280,
+    279,
+    43
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 6,
+   "tokens": 6186,
+   "answer": [
+    288
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "Vary header"
+     },
+     "ids": [
+      288,
+      249,
+      280,
+      279,
+      43,
+      241,
+      300,
+      216,
+      274,
+      266
+     ],
+     "ms": 1798
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "res.header updates Vary header"
+     },
+     "ids": [
+      300,
+      288,
+      279,
+      280,
+      274,
+      150,
+      241,
+      257,
+      169,
+      289
+     ],
+     "ms": 1966
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F288"
+     },
+     "ids": [
+      288
+     ],
+     "ms": 1751
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F288"
+     },
+     "ids": [
+      288
+     ],
+     "ms": 1708
+    },
+    {
+     "step": 4,
+     "type": "text",
+     "text": "The Vary header is updated in the function `res.vary` (F288), which is located in `lib/response.js` at lines 878-882. This function calls `vary(this, field)` to update the Vary header in the response.\n\nFinal answer:\n- F288\n"
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F288"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      288
+     ],
+     "ms": 2801
+    }
+   ]
+  },
+  {
+   "id": "hw-36",
+   "source": "hand",
+   "type": "structural",
+   "names_answer": false,
+   "ms": 13296.693800002686,
+   "top5": [
+    283,
+    284,
+    280,
+    286,
+    285
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 5,
+   "tokens": 4602,
+   "answer": [
+    283
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does res.redirect compute the Location header"
+     },
+     "ids": [
+      284,
+      283,
+      280,
+      286,
+      285,
+      300,
+      170,
+      136,
+      11,
+      279
+     ],
+     "ms": 2194
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F284",
+      "direction": "callees"
+     },
+     "ids": [
+      283,
+      274,
+      262,
+      279
+     ],
+     "ms": 2164
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F283"
+     },
+     "ids": [
+      283
+     ],
+     "ms": 1642
+    },
+    {
+     "step": 3,
+     "type": "text",
+     "text": "The function `res.redirect` computes the Location header by calling `res.location(url)`, which in turn sets the 'Location' header using the provided URL. The implementation of `res.location` is defined in the code snippet above, where it sets the 'Location' header with the encoded URL.\n\nFinal answer: F283"
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "from_text": true,
+     "text": "{\"name\": \"submit_answer\", \"arguments\": {\"functions\": [\"F283\"], \"not_found\": false}}",
+     "ids": [
+      283
+     ],
+     "ms": 2352
+    }
+   ]
+  },
+  {
+   "id": "hw-37",
+   "source": "hand",
+   "type": "structural",
+   "names_answer": false,
+   "ms": 5075.697200001741,
+   "top5": [],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 2,
+   "tokens": 1342,
+   "answer": [],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "res.send",
+      "direction": "callers"
+     },
+     "ids": [],
+     "ms": 2886
+    },
+    {
+     "step": 1,
+     "type": "answer",
+     "from_text": true,
+     "text": "The function `res.send` is not found in the repository. Therefore, no functions call it.\n\nsubmit_answer([\"not_found\"])",
+     "ids": [],
+     "ms": 2190
+    }
+   ]
+  },
+  {
+   "id": "hw-38",
+   "source": "hand",
+   "type": "structural",
+   "names_answer": false,
+   "ms": 13653.545200002554,
+   "top5": [
+    262,
+    269,
+    210,
+    209,
+    41
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.3333333333333333,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 5,
+   "tokens": 4694,
+   "answer": [
+    262
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "res.sendStatus"
+     },
+     "ids": [
+      269,
+      210,
+      209,
+      41,
+      40,
+      262,
+      257,
+      45,
+      54,
+      284
+     ],
+     "ms": 1678
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F269",
+      "direction": "callees"
+     },
+     "ids": [
+      262,
+      273,
+      266
+     ],
+     "ms": 2245
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F262"
+     },
+     "ids": [
+      262
+     ],
+     "ms": 1606
+    },
+    {
+     "step": 3,
+     "type": "text",
+     "text": "The function `res.sendStatus` calls `res.status` to set the HTTP status code. This is evident from the code of `res.status`, which validates the status code and assigns it to `this.statusCode`. The `res.status` function is then used by `res.sendStatus` to handle the status code before sending a response.\n\nFinal answer: F262"
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F262"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      262
+     ],
+     "ms": 2626
+    }
+   ]
+  },
+  {
+   "id": "hw-39",
+   "source": "hand",
+   "type": "structural",
+   "names_answer": true,
+   "ms": 10830.371700001706,
+   "top5": [
+    236,
+    196,
+    12,
+    50,
+    65
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.09090909090909091,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 4,
+   "tokens": 3589,
+   "answer": [
+    236
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "res.render"
+     },
+     "ids": [
+      196,
+      12,
+      50,
+      236,
+      65,
+      66,
+      289,
+      323,
+      321,
+      55
+     ],
+     "ms": 2079
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F289",
+      "direction": "callees"
+     },
+     "ids": [
+      233
+     ],
+     "ms": 2190
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F233",
+      "direction": "callees"
+     },
+     "ids": [
+      226,
+      213,
+      319,
+      236
+     ],
+     "ms": 2083
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "from_text": true,
+     "text": "The function `res.render` delegates to `tryRender` (F236) in the application layer, which is ultimately called by `app.render` (F233). \n\nFinal answer: F236. \n\nsubmit_answer({\"functions\": [\"F236\"]})",
+     "ids": [
+      236
+     ],
+     "ms": 4478
+    }
+   ]
+  },
+  {
+   "id": "hw-40",
+   "source": "hand",
+   "type": "structural",
+   "names_answer": false,
+   "ms": 15463.609200000064,
+   "top5": [
+    320,
+    181,
+    180,
+    233,
+    321
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.07142857142857142,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 6,
+   "tokens": 7549,
+   "answer": [
+    320
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "what does app.render call to construct and render the view"
+     },
+     "ids": [
+      181,
+      180,
+      233,
+      321,
+      289,
+      148,
+      196,
+      142,
+      191,
+      12
+     ],
+     "ms": 2511
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F233",
+      "direction": "callees"
+     },
+     "ids": [
+      226,
+      213,
+      319,
+      236
+     ],
+     "ms": 2190
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F319"
+     },
+     "ids": [
+      319
+     ],
+     "ms": 1709
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F319",
+      "direction": "callees"
+     },
+     "ids": [
+      320
+     ],
+     "ms": 2624
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F320"
+     },
+     "ids": [
+      320
+     ],
+     "ms": 1945
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "from_text": true,
+     "text": "app.render calls `View.prototype.lookup` to construct and render the view. This function resolves the path of the view file based on the provided name and root directories, ultimately determining the file location for rendering.\n\nsubmit_answer([\"F320\"])",
+     "ids": [
+      320
+     ],
+     "ms": 4484
+    }
+   ]
+  },
+  {
+   "id": "hw-41",
+   "source": "hand",
+   "type": "structural",
+   "names_answer": true,
+   "ms": 12442.340499997954,
+   "top5": [
+    319,
+    233,
+    320,
+    220,
+    173
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 4,
+   "tokens": 3515,
+   "answer": [
+    319,
+    233
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "View.prototype.lookup"
+     },
+     "ids": [
+      320,
+      319,
+      233,
+      220,
+      173,
+      215,
+      214,
+      305,
+      324,
+      219
+     ],
+     "ms": 1841
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F320",
+      "direction": "callers"
+     },
+     "ids": [
+      319
+     ],
+     "ms": 2172
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F319",
+      "direction": "callers"
+     },
+     "ids": [
+      233
+     ],
+     "ms": 2403
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F319",
+       "F233"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      319,
+      233
+     ],
+     "ms": 6026
+    }
+   ]
+  },
+  {
+   "id": "hw-42",
+   "source": "hand",
+   "type": "structural",
+   "names_answer": false,
+   "ms": 16401.865400002862,
+   "top5": [
+    224,
+    308,
+    315,
+    316,
+    310
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 4,
+   "tokens": 3887,
+   "answer": [
+    224
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "compileETag"
+     },
+     "ids": [
+      224,
+      308,
+      315,
+      316,
+      310,
+      309,
+      266,
+      257,
+      37,
+      36
+     ],
+     "ms": 1723
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F308",
+      "direction": "callers"
+     },
+     "ids": [
+      224
+     ],
+     "ms": 2154
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F224"
+     },
+     "ids": [
+      224
+     ],
+     "ms": 1561
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "from_text": true,
+     "text": "The function `compileETag` is called inside `app.set` when the setting is `'etag'`. Specifically, in the code block at line 365:\n\n```javascript\nthis.set('etag fn', compileETag(val));\n```\n\nThis occurs when `app.set('etag', val)` is called, where `val` is the configuration for ETag generation.\n\nThus, ",
+     "ids": [
+      224
+     ],
+     "ms": 10963
+    }
+   ]
+  },
+  {
+   "id": "hw-43",
+   "source": "hand",
+   "type": "structural",
+   "names_answer": true,
+   "ms": 21654.3731999991,
+   "top5": [
+    281,
+    36,
+    282,
+    33,
+    37
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 6,
+   "tokens": 6415,
+   "answer": [
+    281
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "clearCookie expire"
+     },
+     "ids": [
+      281,
+      36,
+      282,
+      33,
+      37,
+      323,
+      40,
+      306,
+      325,
+      39
+     ],
+     "ms": 1889
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does clearCookie expire cookie"
+     },
+     "ids": [
+      281,
+      36,
+      37,
+      282,
+      35,
+      287,
+      33,
+      302,
+      10,
+      296
+     ],
+     "ms": 2012
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F281",
+      "direction": "callees"
+     },
+     "ids": [
+      282
+     ],
+     "ms": 2276
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F281"
+     },
+     "ids": [
+      281
+     ],
+     "ms": 1697
+    },
+    {
+     "step": 4,
+     "type": "text",
+     "text": "The `res.clearCookie` function expires a cookie by setting the `expires` option to a date in the past (specifically, `new Date(1)`), which is effectively a date that is very early in the past. This causes the browser to treat the cookie as expired when it is next requested.\n\nThe actual expiration is handled by the `cookie` method, which uses the `expires` option to determine when the cookie should expire. By setting `expires` to a date in the past, the cookie is considered expired.\n\nThus, `res.c"
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "from_text": true,
+     "text": "{\"name\": \"submit_answer\", \"arguments\": {\"functions\": [\"F281\"], \"not_found\": false}}",
+     "ids": [
+      281
+     ],
+     "ms": 2703
+    }
+   ]
+  },
+  {
+   "id": "hw-44",
+   "source": "hand",
+   "type": "structural",
+   "names_answer": false,
+   "ms": 16291.819700003543,
+   "top5": [
+    270,
+    39,
+    40,
+    41,
+    272
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 7,
+   "tokens": 8676,
+   "answer": [
+    270
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "res.download"
+     },
+     "ids": [
+      39,
+      40,
+      41,
+      272,
+      54,
+      216,
+      36,
+      210,
+      174,
+      12
+     ],
+     "ms": 2621
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F272",
+      "direction": "callees"
+     },
+     "ids": [
+      324,
+      270
+     ],
+     "ms": 2264
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "contentDisposition.create"
+     },
+     "ids": [
+      277,
+      272,
+      273,
+      315,
+      238,
+      212,
+      279,
+      274,
+      267,
+      23
+     ],
+     "ms": 1563
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F277"
+     },
+     "ids": [
+      277
+     ],
+     "ms": 1800
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F272"
+     },
+     "ids": [
+      272
+     ],
+     "ms": 1856
+    },
+    {
+     "step": 5,
+     "type": "text",
+     "text": "The function that `res.download` calls to send the file is `res.sendFile`.\n\nFinal answer: F270"
+    },
+    {
+     "step": 6,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F270"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      270
+     ],
+     "ms": 3574
+    }
+   ]
+  },
+  {
+   "id": "hw-45",
+   "source": "hand",
+   "type": "structural",
+   "names_answer": false,
+   "ms": 14324.014000005263,
+   "top5": [
+    270,
+    41,
+    40,
+    291,
+    156
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.25,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 5,
+   "tokens": 5047,
+   "answer": [],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "res.sendFile stream"
+     },
+     "ids": [
+      270,
+      41,
+      40,
+      291,
+      156,
+      324,
+      273,
+      272,
+      305,
+      320
+     ],
+     "ms": 1783
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does res.sendFile stream a file"
+     },
+     "ids": [
+      270,
+      291,
+      272,
+      296,
+      156,
+      266,
+      41,
+      40,
+      299,
+      277
+     ],
+     "ms": 2060
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F299 onstream",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 2419
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F296 onfile",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 2906
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "from_text": true,
+     "text": "The query about which helper `res.sendFile` uses to stream a file could not be resolved with the available information. Despite searching for relevant keywords and meanings, and exploring function call graphs, no clear helper function or implementation was identified for streaming in `res.sendFile`.",
+     "ids": [],
+     "ms": 5155
+    }
+   ]
+  }
+ ]
+}

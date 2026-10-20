@@ -1,4 +1,4 @@
-from cartograph.evaluate import score_one, summarize
+from cartograph.evaluate import evaluate, score_one, summarize
 from cartograph.search import BM25, Doc, rrf, tokenize
 
 
@@ -18,6 +18,19 @@ def test_score_one():
     assert s["file_acc@5"] == 1.0
     miss = score_one([1, 2], {4}, FILE_OF)
     assert (miss["acc@10"], miss["mrr"], miss["file_acc@5"]) == (0.0, 0.0, 0.0)
+
+
+def test_checkpoint_resumes_without_rerunning(tmp_path):
+    docs = [Doc(1, "a.js", "f", ""), Doc(2, "b.js", "g", "")]
+    qs = [{"id": i, "source": "hand", "type": "meaning", "question": "q",
+           "gold": [{"path": "a.js", "qualname": "f"}]} for i in ("q1", "q2")]
+    calls = []
+    retriever = lambda q: calls.append(q) or [1]
+    ckpt = tmp_path / "run.partial.jsonl"
+    evaluate(qs[:1], docs, retriever, ckpt)  # "crash" after the first question
+    rows = evaluate(qs, docs, retriever, ckpt)
+    assert len(calls) == 2 and [r["id"] for r in rows] == ["q1", "q2"]
+    assert all(r["acc@1"] == 1.0 for r in rows)
 
 
 def test_summarize_latency_percentiles():

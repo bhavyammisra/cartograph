@@ -35,13 +35,23 @@ def gold_ids(question: dict, docs: list[Doc]) -> set[int]:
     return {d.id for d in docs if (d.path, d.qualname) in wanted}
 
 
-def evaluate(questions: list[dict], docs: list[Doc], retriever: Callable[[str], list[int]]):
+def evaluate(questions: list[dict], docs: list[Doc], retriever: Callable[[str], list[int]],
+             checkpoint: Path | None = None):
+    """Score every question. With `checkpoint`, each finished row is appended to that file and
+    rows already in it are reused, so an interrupted multi-hour agent run resumes."""
     file_of = {d.id: d.path for d in docs}
+    done = {}
+    if checkpoint and checkpoint.exists():
+        done = {r["id"]: r for r in map(json.loads, checkpoint.read_text(encoding="utf-8")
+                                         .splitlines()) if r}
     rows = []
     for q in questions:
         gold = gold_ids(q, docs)
         if not gold:
             continue  # gold function missing from the corpus (e.g. index out of date)
+        if q["id"] in done:
+            rows.append(done[q["id"]])
+            continue
         start = time.perf_counter()
         ranked = retriever(q["question"])
         ms = (time.perf_counter() - start) * 1000
@@ -53,6 +63,9 @@ def evaluate(questions: list[dict], docs: list[Doc], retriever: Callable[[str], 
                     "steps": extra["steps"], "tokens": extra["tokens"],
                     "answer": extra["answer"], "events": extra["events"]}
         rows.append(row)
+        if checkpoint:
+            with checkpoint.open("a", encoding="utf-8", newline="\n") as f:
+                f.write(json.dumps(row) + "\n")
         print(f"  {len(rows)}/{len(questions)} {q['id']}: acc@5={row['acc@5']:.0f} "
               f"{ms / 1000:.1f}s", flush=True)
     return rows
