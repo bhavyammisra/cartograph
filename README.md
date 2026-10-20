@@ -42,6 +42,8 @@ Requires Python 3.12 (via [uv](https://docs.astral.sh/uv/)), Node.js 20+ and Doc
 docker compose up -d          # Postgres + pgvector
 cd engine && uv run pytest    # engine tests
 uv run cartograph index ../path/to/js-repo   # parse a repo into the database
+uv run cartograph embed ../path/to/js-repo   # add meaning vectors (CPU)
+uv run cartograph serve ../path/to/js-repo   # API on http://127.0.0.1:8000 (docs at /docs)
 cd web && npm install && npm run dev   # website on http://localhost:5173
 ```
 

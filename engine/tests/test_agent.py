@@ -20,8 +20,17 @@ def make_agent(script):
     replies = iter(script)
     agent.client = NS(chat=NS(completions=NS(create=lambda **_: next(replies))))
     agent.run_tool = lambda name, args: ("results", [3, 2])  # every tool "shows" F3, F2
-    agent.last_extra, agent.api_error = {}, TimeoutError
+    agent.last_extra, agent.api_error, agent.on_event = {}, TimeoutError, None
     return agent
+
+
+def test_steps_are_reported_as_they_happen():
+    agent = make_agent([reply(("search_meaning", {"query": "x"})),
+                        reply(("submit_answer", {"functions": ["F3"]}))])
+    seen = []
+    agent.on_event = lambda e: seen.append(e["type"])
+    agent("q")
+    assert seen == ["tool", "answer"]
 
 
 def test_api_error_ends_the_question_instead_of_the_run():

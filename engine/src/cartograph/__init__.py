@@ -43,6 +43,10 @@ def main(argv: list[str] | None = None) -> None:
     ev.add_argument("--llm", default="qwen3-4b", help="LLM for agents (see agent.LLMS)")
     ev.add_argument("--limit", type=int, help="only the first N questions (quick checks)")
     ev.add_argument("--out", type=Path, help="results folder (default: next to the questions)")
+    srv = sub.add_parser("serve", help="run the API server for the map website")
+    srv.add_argument("repo", type=Path)
+    srv.add_argument("--port", type=int, default=8000)
+    srv.add_argument("--llm", default="qwen3-4b")
     ask = sub.add_parser("ask", help="ask one question and print every agent step")
     ask.add_argument("repo", type=Path)
     ask.add_argument("question")
@@ -110,6 +114,17 @@ def main(argv: list[str] | None = None) -> None:
             for fid in (agent.last_extra["answer"] or ranked[:3]):
                 print("  ", agent.label(fid))
             print(f"\n{agent.last_extra['tokens']} tokens, {time.perf_counter() - start:.1f} s")
+    elif args.command == "serve":
+        import uvicorn
+
+        from .api import create_app
+        from .store import DEFAULT_DB
+
+        connect().close()  # fail early with the friendly message if Postgres is down
+        app = create_app(args.repo.resolve().as_posix(),
+                         os.environ.get("DATABASE_URL", DEFAULT_DB), args.llm)
+        print(f"Cartograph API on http://127.0.0.1:{args.port}  (docs: /docs)")
+        uvicorn.run(app, host="127.0.0.1", port=args.port, log_level="warning")
     elif args.command == "jelly":
         import json
 

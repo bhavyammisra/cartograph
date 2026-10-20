@@ -9,6 +9,7 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "bm25s>=0.3.14",
+    "fastapi>=0.153.0",
     "openai>=3.35.1",
     "pgvector>=0.5.1",
     "psycopg[binary]>=3.3.6",
@@ -17,6 +18,7 @@ dependencies = [
     "tree-sitter>=0.26.0",
     "tree-sitter-javascript>=0.25.0",
     "tree-sitter-typescript>=0.23.2",
+    "uvicorn>=0.54.0",
 ]
 
 [project.scripts]
@@ -28,6 +30,7 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
+    "httpx>=0.28.1",
     "pytest>=9.1.1",
     "ruff>=0.17.1",
 ]

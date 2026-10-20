@@ -55,14 +55,15 @@ def rrf(ranked_lists: list[list[int]], k: int = 60) -> list[int]:
 class Dense:
     """Meaning search: embed the question, return the nearest function vectors from pgvector."""
 
-    def __init__(self, conn: psycopg.Connection, root: str, model: str):
+    def __init__(self, conn: psycopg.Connection, root: str, model: str, embedder=None):
+        """embedder: reuse an already-loaded model (loading takes ~18 s on CPU)."""
         from pgvector.psycopg import register_vector
 
         from .embed import Embedder
 
         register_vector(conn)
         self.conn, self.root, self.model = conn, root, model
-        self.embedder = Embedder(model)
+        self.embedder = embedder or Embedder(model)
 
     def __call__(self, question: str, k: int = 50) -> list[int]:
         vec = self.embedder.encode([question], query=True)[0]

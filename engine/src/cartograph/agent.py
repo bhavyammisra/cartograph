@@ -103,12 +103,28 @@ def ensure_ollama_model(cfg: dict) -> None:
         raise SystemExit("Ollama isn't running. Start the Ollama app, or run: ollama serve") from e
 
 
+class EventLog(list):
+    """The agent's step list; also hands each new step to a listener (the API's live stream)."""
+
+    def __init__(self, listener=None):
+        super().__init__()
+        self.listener = listener
+
+    def append(self, event: dict) -> None:
+        super().append(event)
+        if self.listener:
+            self.listener(event)
+
+
 class Agent:
     """Callable like the other retrievers: question -> ranked function ids. Extra per-question
     data (answer, steps, tokens, trace) lands in `last_extra` for the evaluator."""
 
     def __init__(self, conn: psycopg.Connection, root: str, docs: list[Doc], llm: str,
-                 mode: str = "index", trace_dir: Path | None = None):
+                 mode: str = "index", bm25: BM25 | None = None, dense: Dense | None = None,
+                 on_event=None):
+        """bm25/dense: pass already-built searchers to skip rebuilding them (the API server
+        keeps one of each). on_event(event): called as each step happens, for live streaming."""
         from openai import APIError, OpenAI
 
         cfg = LLMS[llm]
@@ -121,10 +137,11 @@ class Agent:
         # so one bad question costs minutes, not the whole run.
         self.client = OpenAI(base_url=cfg["base_url"], api_key=key, timeout=180, max_retries=1)
         self.model, self.api_error = cfg["model"], APIError
-        self.conn, self.root, self.mode, self.trace_dir = conn, Path(root), mode, trace_dir
+        self.conn, self.root, self.mode, self.on_event = conn, Path(root), mode, on_event
         self.docs = {d.id: d for d in docs}
         if mode == "index":
-            self.bm25, self.dense = BM25(docs), Dense(conn, root, "coderank")
+            self.bm25 = bm25 or BM25(docs)
+            self.dense = dense or Dense(conn, root, "coderank")
         self.files = sorted({d.path for d in docs})
         self.last_extra: dict = {}
 
@@ -264,7 +281,7 @@ class Agent:
         tools = INDEX_TOOLS if self.mode == "index" else GREP_TOOLS
         submit_only = False  # after a text reply, offer nothing but submit_answer
         seen: list[int] = []  # every function the agent was shown, in order
-        events, answer, tokens, not_found = [], None, 0, False
+        events, answer, tokens, not_found = EventLog(self.on_event), None, 0, False
         for step in range(MAX_STEPS + 1):
             start = time.perf_counter()
             try:
