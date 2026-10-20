@@ -590,6 +590,36 @@ Like a waiter: the website orders, FastAPI takes the order to the kitchen (the e
 
 *Interview:* "The React map calls a FastAPI server, and agent steps stream over Server-Sent Events so the map animates live."
 
+### What is Express, and why do we test on it?
+Express is the most popular web server framework for Node.js (JavaScript on the server). When a website's backend receives a request like "GET /users/42", Express decides which code runs and helps send the response back. Example:
+
+```js
+const express = require('express')
+const app = express()
+app.get('/hello', (req, res) => res.send('Hi!'))   // when someone visits /hello, reply "Hi!"
+app.listen(3000)                                     // start the server on port 3000
+```
+`req` is the incoming request, `res` is the response being built. Functions like `res.send`, `res.json`, `res.cookie` and `res.redirect` live in Express's `lib/response.js`; those are the functions our questions are about.
+
+Why it's our practice codebase (`targets/express`): it's real, widely used, small (about 50 source files), all JavaScript, and has 10+ years of history with linked GitHub issues, which is what the question miner needs. Small also means fast to re-index while building. Its weakness as a test: small codebases make search easier, so the headline numbers will come from the much larger Prettier.
+
+*Interview:* "I developed against Express, the most used Node.js web framework, because it's small enough to iterate fast and has a decade of issue-linked history for mining eval questions."
+
+### What is Jina (jina-code-embeddings)?
+Jina AI is a company that makes search models. `jina-code-embeddings-0.5b` is one of their models that turns code and questions into vectors for meaning search, the same job as CodeRankEmbed.
+
+| | CodeRankEmbed (Nomic) | jina-code-embeddings-0.5b (Jina AI) |
+|---|---|---|
+| Size | 137 million parameters | 494 million (3.6x bigger) |
+| Built on | a BERT-style model trained for code search | Qwen2.5-Coder, a small code language model |
+| Vector length | 768 numbers | 896 numbers |
+| License | MIT: use anywhere | CC-BY-NC-4.0: **non-commercial only** |
+| Our role for it | default model | comparison only |
+
+We test it to answer: "does a bigger model find code better, and is it worth the extra time?" Because of its license it can never be Cartograph's default, since Cartograph is MIT and anyone may use it commercially.
+
+*Interview:* "I benchmarked a 137M and a 494M code embedding model; I also checked licenses, and the bigger one was non-commercial, so it could only ever be a comparison."
+
 ---
 
 ## Part 7: How we'll work

@@ -40,6 +40,48 @@ def load_corpus(conn: psycopg.Connection, root: str) -> list[Doc]:
     return [Doc(i, p, q, f"{p} {q} {a} {code}") for i, p, q, a, code in rows]
 
 
+def rrf(ranked_lists: list[list[int]], k: int = 60) -> list[int]:
+    """Reciprocal Rank Fusion: each list gives 1/(k + rank); highest total first.
+
+    Uses ranks, not scores, because BM25 and cosine scores live on different scales.
+    k=60 is the value from the original RRF paper (Cormack et al., 2009)."""
+    scores: dict[int, float] = {}
+    for ranked in ranked_lists:
+        for rank, fid in enumerate(ranked, start=1):
+            scores[fid] = scores.get(fid, 0.0) + 1 / (k + rank)
+    return sorted(scores, key=scores.__getitem__, reverse=True)
+
+
+class Dense:
+    """Meaning search: embed the question, return the nearest function vectors from pgvector."""
+
+    def __init__(self, conn: psycopg.Connection, root: str, model: str):
+        from pgvector.psycopg import register_vector
+
+        from .embed import Embedder
+
+        register_vector(conn)
+        self.conn, self.root, self.model = conn, root, model
+        self.embedder = Embedder(model)
+
+    def __call__(self, question: str, k: int = 50) -> list[int]:
+        vec = self.embedder.encode([question], query=True)[0]
+        rows = self.conn.execute(
+            """SELECT e.function_id FROM embeddings e JOIN functions fn ON fn.id = e.function_id
+               JOIN files f ON f.id = fn.file_id JOIN repos r ON r.id = f.repo_id
+               WHERE r.root = %s AND e.model = %s ORDER BY e.embedding <=> %s LIMIT %s""",
+            (self.root, self.model, vec, k)).fetchall()
+        return [r[0] for r in rows]
+
+
+class Hybrid:
+    def __init__(self, *retrievers):
+        self.retrievers = retrievers
+
+    def __call__(self, question: str, k: int = 50) -> list[int]:
+        return rrf([r(question, k) for r in self.retrievers])[:k]
+
+
 class BM25:
     def __init__(self, docs: list[Doc]):
         self.ids = [d.id for d in docs]

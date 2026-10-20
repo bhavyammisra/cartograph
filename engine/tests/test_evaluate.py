@@ -1,5 +1,13 @@
 from cartograph.evaluate import score_one, summarize
-from cartograph.search import BM25, Doc, tokenize
+from cartograph.search import BM25, Doc, rrf, tokenize
+
+
+def test_rrf_rewards_agreement():
+    # 7 is 2nd in both lists, so it beats 1 and 9, which each top only one list.
+    assert rrf([[1, 7, 3], [9, 7, 4]])[0] == 7
+    # 1st + 3rd (1/61 + 1/63) still edges out 2nd + 2nd (2/62)
+    assert rrf([[1, 7, 3], [9, 7, 1]])[0] == 1
+    assert rrf([[5]]) == [5]
 
 FILE_OF = {1: "a.js", 2: "a.js", 3: "b.js", 4: "c.js"}
 

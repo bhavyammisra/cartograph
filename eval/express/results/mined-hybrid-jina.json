@@ -1,0 +1,2601 @@
+{
+ "summary": {
+  "all": {
+   "n": 127,
+   "acc@1": 0.504,
+   "acc@5": 0.85,
+   "acc@10": 0.906,
+   "recall@10": 0.868,
+   "mrr": 0.654,
+   "file_acc@5": 0.976,
+   "p50_ms": 1633.5,
+   "p95_ms": 6987.3
+  },
+  "source=issue": {
+   "n": 74,
+   "acc@1": 0.432,
+   "acc@5": 0.811,
+   "acc@10": 0.905,
+   "recall@10": 0.864,
+   "mrr": 0.603,
+   "file_acc@5": 0.959,
+   "p50_ms": 2179.1,
+   "p95_ms": 7112.0
+  },
+  "source=pr": {
+   "n": 53,
+   "acc@1": 0.604,
+   "acc@5": 0.906,
+   "acc@10": 0.906,
+   "recall@10": 0.874,
+   "mrr": 0.725,
+   "file_acc@5": 1.0,
+   "p50_ms": 1212.4,
+   "p95_ms": 5877.8
+  },
+  "type=mined": {
+   "n": 127,
+   "acc@1": 0.504,
+   "acc@5": 0.85,
+   "acc@10": 0.906,
+   "recall@10": 0.868,
+   "mrr": 0.654,
+   "file_acc@5": 0.976,
+   "p50_ms": 1633.5,
+   "p95_ms": 6987.3
+  },
+  "answer not named": {
+   "n": 39,
+   "acc@1": 0.256,
+   "acc@5": 0.692,
+   "acc@10": 0.821,
+   "recall@10": 0.729,
+   "mrr": 0.45,
+   "file_acc@5": 0.949,
+   "p50_ms": 1398.3,
+   "p95_ms": 7112.0
+  }
+ },
+ "questions": [
+  {
+   "id": "express-1024",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1283.3876000004238,
+   "top5": [
+    24,
+    18,
+    25,
+    114,
+    115
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.041666666666666664,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1065",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1866.572000006272,
+   "top5": [
+    320,
+    325,
+    324,
+    270,
+    319
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0625,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1072",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1442.54440000077,
+   "top5": [
+    273,
+    305,
+    274,
+    266,
+    314
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1128",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 3680.353700001433,
+   "top5": [
+    268,
+    295,
+    294,
+    292,
+    298
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.125,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1132",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 5066.328399996564,
+   "top5": [
+    268,
+    267,
+    301,
+    23,
+    31
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1154",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 4526.766100003442,
+   "top5": [
+    284,
+    274,
+    24,
+    266,
+    18
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1226",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 2026.6058999986853,
+   "top5": [
+    58,
+    54,
+    45,
+    56,
+    57
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "express-1304",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 2179.146499998751,
+   "top5": [
+    268,
+    214,
+    287,
+    275,
+    274
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1307",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1374.1773000001558,
+   "top5": [
+    268,
+    23,
+    31,
+    43,
+    267
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.2,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1336",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 383.82190000265837,
+   "top5": [
+    262,
+    284,
+    269,
+    136,
+    41
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1349",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1296.970000003057,
+   "top5": [
+    267,
+    273,
+    268,
+    266,
+    314
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1374",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1127.9035000043223,
+   "top5": [
+    268,
+    289,
+    295,
+    294,
+    24
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1382",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1372.3492999997688,
+   "top5": [
+    283,
+    284,
+    170,
+    249,
+    256
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1397",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 1142.7324999967823,
+   "top5": [
+    221,
+    218,
+    217,
+    212,
+    232
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.14285714285714285,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1419",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 2989.098699996248,
+   "top5": [
+    279,
+    300,
+    278,
+    280,
+    266
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1619",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 471.26659999776166,
+   "top5": [
+    257,
+    316,
+    266,
+    315,
+    308
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1623",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 7768.059599999106,
+   "top5": [
+    239,
+    262,
+    47,
+    45,
+    51
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.125,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1631",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 2339.154699999199,
+   "top5": [
+    314,
+    267,
+    268,
+    279,
+    23
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.6666666666666666,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1643",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 2023.0119000043487,
+   "top5": [
+    247,
+    268,
+    309,
+    295,
+    294
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1682",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 1408.1595999959973,
+   "top5": [
+    288,
+    274,
+    242,
+    243,
+    244
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1744",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 554.0502000003471,
+   "top5": [
+    314,
+    274,
+    24,
+    279,
+    25
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1780",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 2978.7818000040716,
+   "top5": [
+    266,
+    316,
+    315,
+    257,
+    308
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1804",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 2422.841999999946,
+   "top5": [
+    283,
+    142,
+    284,
+    270,
+    181
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-1826",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 4019.7521000009147,
+   "top5": [
+    284,
+    266,
+    37,
+    268,
+    36
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.125,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2063",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 904.1263999970397,
+   "top5": [
+    279,
+    241,
+    300,
+    280,
+    266
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2083",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 2173.893200000748,
+   "top5": [
+    257,
+    316,
+    315,
+    266,
+    241
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.25,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2094",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 432.8442999976687,
+   "top5": [
+    268,
+    273,
+    267,
+    279,
+    274
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2104",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1353.4440000003087,
+   "top5": [
+    268,
+    247,
+    289,
+    216,
+    267
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2106",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 895.3889999975218,
+   "top5": [
+    268,
+    267,
+    262,
+    301,
+    23
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2116",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 1193.5283999991952,
+   "top5": [
+    231,
+    230,
+    239,
+    257,
+    266
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.25,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2159",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 6494.573700001638,
+   "top5": [
+    239,
+    218,
+    216,
+    217,
+    221
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2161",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 818.328900000779,
+   "top5": [
+    288,
+    278,
+    280,
+    279,
+    274
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2165",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 901.2583999938215,
+   "top5": [
+    217,
+    324,
+    225,
+    218,
+    221
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2179",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1526.212900003884,
+   "top5": [
+    256,
+    255,
+    253,
+    239,
+    216
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2226",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1125.7159000015236,
+   "top5": [
+    269,
+    262,
+    266,
+    284,
+    267
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2227",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1599.591899997904,
+   "top5": [
+    284,
+    269,
+    268,
+    262,
+    285
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2233",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 3651.6839000032633,
+   "top5": [
+    218,
+    225,
+    217,
+    231,
+    230
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2252",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1849.3803999954253,
+   "top5": [
+    249,
+    255,
+    251,
+    250,
+    259
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2277",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 848.0771000031382,
+   "top5": [
+    217,
+    218,
+    99,
+    239,
+    219
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.75,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2284",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1633.4548000013456,
+   "top5": [
+    40,
+    272,
+    270,
+    291,
+    41
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2294",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1352.8921000033733,
+   "top5": [
+    270,
+    315,
+    291,
+    316,
+    272
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2320",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 1092.612200001895,
+   "top5": [
+    233,
+    180,
+    172,
+    321,
+    181
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.6666666666666666,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2356",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 737.0032999970135,
+   "top5": [
+    217,
+    218,
+    221,
+    230,
+    231
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2361",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 3554.508600005647,
+   "top5": [
+    217,
+    218,
+    221,
+    230,
+    231
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2395",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 378.4086000014213,
+   "top5": [
+    284,
+    286,
+    285,
+    36,
+    136
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-24",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 359.08500000368804,
+   "top5": [
+    220,
+    292,
+    219,
+    215,
+    216
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "express-2402",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 840.1258000012604,
+   "top5": [
+    284,
+    283,
+    287,
+    285,
+    268
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.25,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2467",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 711.0528999983217,
+   "top5": [
+    266,
+    284,
+    257,
+    270,
+    286
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2481",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 1524.1920999978902,
+   "top5": [
+    291,
+    292,
+    272,
+    40,
+    270
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.5,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2489",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 5174.843600005261,
+   "top5": [
+    270,
+    291,
+    272,
+    295,
+    292
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.3333333333333333,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2521",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1162.7397000047495,
+   "top5": [
+    257,
+    284,
+    291,
+    292,
+    266
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2546",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 1947.7726999975857,
+   "top5": [
+    315,
+    257,
+    266,
+    316,
+    308
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2550",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 4337.754200001655,
+   "top5": [
+    251,
+    224,
+    215,
+    255,
+    214
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2561",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 4302.22550000326,
+   "top5": [
+    238,
+    218,
+    217,
+    212,
+    220
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2571",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 3343.742099998053,
+   "top5": [
+    291,
+    270,
+    293,
+    292,
+    41
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.14285714285714285,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2665",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 4746.638600001461,
+   "top5": [
+    274,
+    305,
+    273,
+    24,
+    266
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2668",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 2016.7537000015727,
+   "top5": [
+    289,
+    233,
+    321,
+    236,
+    43
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2675",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 5485.6827999974485,
+   "top5": [
+    319,
+    180,
+    172,
+    233,
+    98
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.02040816326530612,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2729",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 3708.501699999033,
+   "top5": [
+    263,
+    264,
+    265,
+    289,
+    232
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2795",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 4514.765499996429,
+   "top5": [
+    262,
+    269,
+    284,
+    45,
+    266
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2897",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 7883.27500000014,
+   "top5": [
+    283,
+    270,
+    284,
+    301,
+    136
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.6666666666666666,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2900",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 1212.399700001697,
+   "top5": [
+    301,
+    268,
+    267,
+    243,
+    321
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.6666666666666666,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2939",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 387.199500000861,
+   "top5": [
+    267,
+    262,
+    268,
+    269,
+    31
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2940",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 393.8434999945457,
+   "top5": [
+    268,
+    269,
+    262,
+    284,
+    274
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2941",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 375.23190000501927,
+   "top5": [
+    284,
+    283,
+    269,
+    262,
+    80
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2942",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 381.5720999991754,
+   "top5": [
+    269,
+    284,
+    266,
+    285,
+    286
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2943",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1267.7563999968697,
+   "top5": [
+    288,
+    270,
+    279,
+    280,
+    278
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-2993",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 889.6509999976843,
+   "top5": [
+    304,
+    247,
+    241,
+    230,
+    212
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-3158",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 859.8364999998012,
+   "top5": [
+    222,
+    319,
+    176,
+    321,
+    174
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-3191",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 1092.5471000009566,
+   "top5": [
+    47,
+    258,
+    255,
+    254,
+    250
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-3215",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 2671.580599999288,
+   "top5": [
+    285,
+    269,
+    284,
+    286,
+    262
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-3268",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 4191.014000003634,
+   "top5": [
+    267,
+    301,
+    268,
+    31,
+    266
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-3303",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 2609.8343999983626,
+   "top5": [
+    273,
+    279,
+    274,
+    314,
+    266
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-3327",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 981.6161999988253,
+   "top5": [
+    272,
+    40,
+    270,
+    39,
+    291
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-3361",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 4903.991599996516,
+   "top5": [
+    317,
+    309,
+    247,
+    301,
+    224
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.1111111111111111,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-3403",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 6817.931700003101,
+   "top5": [
+    239,
+    218,
+    181,
+    319,
+    238
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.25,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-3445",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 2811.6158000048017,
+   "top5": [
+    266,
+    316,
+    315,
+    270,
+    308
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-3494",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 2403.155899999547,
+   "top5": [
+    255,
+    256,
+    170,
+    253,
+    249
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-3582",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 781.9799999997485,
+   "top5": [
+    270,
+    41,
+    291,
+    40,
+    272
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-3587",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 4178.272500001185,
+   "top5": [
+    267,
+    274,
+    18,
+    268,
+    24
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-3935",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1866.1148999963189,
+   "top5": [
+    282,
+    281,
+    37,
+    36,
+    262
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-3968",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 3030.3019999992102,
+   "top5": [
+    262,
+    269,
+    284,
+    285,
+    204
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-4155",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 624.964300004649,
+   "top5": [
+    268,
+    287,
+    276,
+    295,
+    294
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-4212",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 5877.773699998215,
+   "top5": [
+    262,
+    58,
+    269,
+    45,
+    284
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.75,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-4223",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 4876.178699996672,
+   "top5": [
+    262,
+    269,
+    284,
+    285,
+    209
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-4587",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 455.6804000021657,
+   "top5": [
+    302,
+    124,
+    309,
+    304,
+    14
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.5,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-4592",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 8195.302499996615,
+   "top5": [
+    266,
+    269,
+    284,
+    273,
+    262
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-4744",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1417.5241000048118,
+   "top5": [
+    267,
+    301,
+    268,
+    31,
+    23
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-4802",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 1547.8174000018043,
+   "top5": [
+    224,
+    214,
+    212,
+    215,
+    238
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-4834",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 4384.1806999989785,
+   "top5": [
+    270,
+    40,
+    272,
+    39,
+    41
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-4835",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 783.0970999930287,
+   "top5": [
+    214,
+    212,
+    215,
+    224,
+    238
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.25,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-4851",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 3912.076699998579,
+   "top5": [
+    281,
+    282,
+    37,
+    36,
+    33
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-4893",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1273.1473000021651,
+   "top5": [
+    266,
+    300,
+    279,
+    273,
+    291
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-5058",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 6987.263000002713,
+   "top5": [
+    286,
+    284,
+    285,
+    269,
+    283
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-5119",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 633.4606000018539,
+   "top5": [
+    307,
+    111,
+    305,
+    107,
+    242
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-5554",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 1847.6411000010557,
+   "top5": [
+    284,
+    283,
+    304,
+    241,
+    136
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-5640",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 5467.242699996859,
+   "top5": [
+    281,
+    282,
+    37,
+    36,
+    33
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-5677",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 2198.9653000055114,
+   "top5": [
+    217,
+    248,
+    278,
+    264,
+    218
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-584",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 2163.0854999966687,
+   "top5": [
+    266,
+    267,
+    268,
+    269,
+    316
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-5933",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 1425.7207000046037,
+   "top5": [
+    127,
+    129,
+    170,
+    239,
+    284
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.041666666666666664,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-600",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1680.7130000015604,
+   "top5": [
+    269,
+    270,
+    266,
+    290,
+    284
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-6081",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 1206.229400006123,
+   "top5": [
+    220,
+    215,
+    238,
+    219,
+    218
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-6088",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 2964.051800001471,
+   "top5": [
+    244,
+    314,
+    243,
+    242,
+    279
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-6091",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 1222.390599999926,
+   "top5": [
+    313,
+    304,
+    306,
+    217,
+    215
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-6097",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1731.998900002509,
+   "top5": [
+    248,
+    306,
+    217,
+    274,
+    232
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-6137",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1227.484299997741,
+   "top5": [
+    245,
+    242,
+    243,
+    244,
+    274
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-6285",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 7506.3836999979685,
+   "top5": [
+    266,
+    316,
+    270,
+    315,
+    291
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-632",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 1196.8245999960345,
+   "top5": [
+    268,
+    314,
+    267,
+    266,
+    279
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.25,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-6391",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1484.716600003594,
+   "top5": [
+    270,
+    136,
+    7,
+    221,
+    254
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.05555555555555555,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-6462",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 7111.986600000819,
+   "top5": [
+    45,
+    235,
+    58,
+    79,
+    46
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-6705",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 1398.3078000019304,
+   "top5": [
+    249,
+    255,
+    250,
+    252,
+    218
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-6896",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 4412.794000003487,
+   "top5": [
+    234,
+    217,
+    232,
+    230,
+    231
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-6991",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 7740.440800000215,
+   "top5": [
+    273,
+    314,
+    279,
+    266,
+    277
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.25,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-701",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 2856.3776000009966,
+   "top5": [
+    266,
+    273,
+    257,
+    277,
+    274
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-7265",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 3089.8794000022463,
+   "top5": [
+    255,
+    313,
+    256,
+    249,
+    257
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-731",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 2377.5797999987844,
+   "top5": [
+    281,
+    36,
+    282,
+    37,
+    33
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-737",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1135.7757000005222,
+   "top5": [
+    268,
+    267,
+    31,
+    23,
+    18
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-7459",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1964.0064999985043,
+   "top5": [
+    266,
+    316,
+    315,
+    270,
+    257
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-788",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 2094.6068999983254,
+   "top5": [
+    194,
+    184,
+    185,
+    189,
+    196
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.16666666666666666,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-808",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 2963.731200004986,
+   "top5": [
+    284,
+    170,
+    136,
+    283,
+    36
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-832",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 701.9488000005367,
+   "top5": [
+    284,
+    269,
+    283,
+    136,
+    54
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-842",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 693.9371999978903,
+   "top5": [
+    231,
+    230,
+    224,
+    124,
+    99
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.5,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-879",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 307.199099996069,
+   "top5": [
+    282,
+    281,
+    267,
+    37,
+    36
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-887",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 919.4991999975173,
+   "top5": [
+    124,
+    230,
+    320,
+    231,
+    217
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.02040816326530612,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-920",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 1052.3259999972652,
+   "top5": [
+    136,
+    7,
+    150,
+    126,
+    36
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.038461538461538464,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "express-927",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": true,
+   "ms": 3090.5889999994542,
+   "top5": [
+    249,
+    255,
+    284,
+    283,
+    238
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "express-996",
+   "source": "pr",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 721.1841000025743,
+   "top5": [
+    267,
+    235,
+    23,
+    214,
+    301
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  }
+ ]
+}

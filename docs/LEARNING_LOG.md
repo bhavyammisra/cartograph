@@ -188,3 +188,69 @@ Median time per question: 0.1 ms.
 - "I auto-mined 127 questions from Express's history: issue text as the question, functions changed by the fix as the answer, and I hand-checked a sample for a 10% noise rate."
 - "I split results by whether the question was written by a user (issue) or the fixer (PR); PR questions were almost twice as easy, so headline numbers use issues only."
 - "BM25 handled usage questions well but only got 20% at rank 1 on structural questions, which motivated the call-graph tools."
+
+---
+
+## Phase 3: Meaning search + hybrid search (20 October 2026)
+
+### What we built
+- `cartograph embed <repo> --model coderank|jina`: turns every searchable function into a vector and stores it in Postgres with pgvector (`engine/src/cartograph/embed.py`, `store.py`).
+- Two new search methods (`search.py`): **Dense** (embed the question, return the closest function vectors with pgvector's `<=>` cosine distance) and **Hybrid** (BM25 + Dense merged with Reciprocal Rank Fusion).
+- `cartograph eval ... --retriever bm25|dense|hybrid --model coderank|jina`.
+
+### How it works
+1. **Embedding a function:** the text `// lib/response.js: res.send` + the function's code goes through the model. Because the function's own text starts at `function send(...)` and misses the `res.send =` part, the file and full name are put in front.
+2. **Pooling:** the model outputs one vector per token; we need one per function. CodeRankEmbed uses the first token's vector (**CLS pooling**), jina the last token's (**last-token pooling**). Both settings were read from each model's own config, not guessed. Vectors are normalized to length 1 so cosine similarity is a plain dot product.
+3. **Questions get a prefix** the model was trained with ("Represent this query for searching relevant code: ").
+4. **RRF:** each function gets `1/(60 + rank)` from every list it appears in; highest total wins. Ranks, not scores, because BM25 scores and cosine scores are on different scales. 60 is the constant from the original RRF paper (Cormack et al., 2009).
+
+### Results (Express)
+**Mined questions, issues only (n=74), the headline set:**
+| Method | Acc@1 | Acc@5 | Acc@10 | MRR | p50 time/question |
+|---|---|---|---|---|---|
+| BM25 | 0.311 | 0.703 | 0.811 | 0.492 | 0.1 ms |
+| Dense, CodeRankEmbed | 0.392 | 0.743 | 0.824 | 0.550 | 147 ms |
+| Hybrid, CodeRankEmbed | 0.405 | 0.784 | 0.838 | 0.579 | 147 ms |
+| Dense, jina | 0.405 | **0.878** | **0.919** | **0.604** | 2,085 ms |
+| Hybrid, jina | **0.432** | 0.811 | 0.905 | 0.603 | 2,179 ms |
+
+**Hand-drafted questions, by type (Acc@1 / Acc@5):**
+| Method | Meaning (27) | Usage (8) | Structural (10) |
+|---|---|---|---|
+| BM25 | 0.444 / 0.741 | **0.625 / 0.875** | 0.200 / 0.700 |
+| Dense, CodeRankEmbed | 0.704 / **0.926** | 0.500 / 0.750 | 0.200 / 0.500 |
+| Hybrid, CodeRankEmbed | 0.556 / 0.852 | **0.625 / 0.875** | 0.100 / 0.700 |
+| Dense, jina | **0.815 / 0.926** | 0.500 / 0.750 | 0.100 / 0.700 |
+| Hybrid, jina | 0.593 / 0.815 | 0.500 / 0.750 | 0.200 / 0.700 |
+
+**Cost:** embedding 275 functions on CPU took 55 s with CodeRankEmbed (about 18 s is model loading) vs 932 s with jina (17x slower). Per question: about 40 to 150 ms vs 400 to 2,100 ms.
+
+### What the numbers say
+- **Meaning search beats keywords on real user questions** (Acc@5 0.70 to 0.74 with CodeRankEmbed, 0.88 with jina).
+- **Hybrid helps the small model** (0.74 to 0.78) but **hurts the big one** (0.88 to 0.81): when one list is much better, averaging in a worse one drags it down. RRF is not automatically better.
+- **Keywords still win usage questions** (exact strings like `'etag fn'`).
+- **Nobody solves structural questions** ("what does res.redirect call?", Acc@1 0.1 to 0.2). That needs the call graph, which is the agent's job in Phase 4.
+- **jina is the most accurate but can't be our default:** 17x slower, and licensed CC-BY-NC-4.0 (non-commercial) while Cartograph is MIT. CodeRankEmbed (MIT) stays the default; jina is the "what a bigger model buys you" reference.
+
+### Problems we hit
+| Problem | Fix |
+|---|---|
+| CodeRankEmbed ships custom Python code to execute | This `transformers` version has the same model built in, so we load it **without** running downloaded code, and pin the exact model commit |
+| sentence-transformers 6.1 crashed with the built-in NomicBert (`safe_serialization` argument) | Dropped the wrapper; load with `transformers` directly and do pooling ourselves (~30 lines) |
+| My first RRF test expected the wrong winner | 1st + 3rd (1/61 + 1/63) beats 2nd + 2nd (2/62); fixed the test, RRF was right |
+| jina's license is non-commercial | Comparison only, documented in `embed.py` |
+
+### Known limits
+- Code past 512 tokens is cut off when embedding (CPU speed).
+- No HNSW index yet: vector search is an exact scan, fine for thousands of functions; the index comes when a repo needs it.
+
+### New tools
+- **PyTorch:** runs the neural network on CPU.
+- **transformers (Hugging Face):** loads the model and its tokenizer (the part that splits text into tokens).
+- **pgvector Python adapter:** sends NumPy vectors straight into Postgres.
+- **Hugging Face Hub:** where the models are downloaded from (cached in `~/.cache/huggingface`).
+
+### Interview lines
+- "Dense retrieval with a 137M code model raised Acc@5 on real GitHub issues from 0.70 to 0.74, and hybrid RRF to 0.78. A 494M model reached 0.88 but was 17x slower and non-commercially licensed, so I kept the small one as default."
+- "RRF isn't free accuracy: it helped the weaker retriever and hurt the stronger one, because fusion averages in the worse list."
+- "I avoided `trust_remote_code` by loading the model through the library's built-in architecture, with the model revision pinned."

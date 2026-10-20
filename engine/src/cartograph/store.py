@@ -14,6 +14,7 @@ SKIP_DIRS = {"node_modules", ".git", "dist", "build", "coverage", ".next", "vend
 TEST_MARKERS = ("/test/", "/tests/", "/__tests__/", ".test.", ".spec.")
 
 SCHEMA = """
+CREATE EXTENSION IF NOT EXISTS vector;
 CREATE TABLE IF NOT EXISTS repos (
   id serial PRIMARY KEY,
   root text UNIQUE NOT NULL
@@ -53,6 +54,14 @@ CREATE TABLE IF NOT EXISTS imports (
   local text NOT NULL,
   source text NOT NULL,
   imported text
+);
+-- shortcut: no HNSW index (vector size differs per model, so the column is untyped and search
+-- is an exact scan); add a per-model HNSW index once a repo has tens of thousands of functions
+CREATE TABLE IF NOT EXISTS embeddings (
+  function_id int NOT NULL REFERENCES functions ON DELETE CASCADE,
+  model text NOT NULL,
+  embedding vector NOT NULL,
+  PRIMARY KEY (function_id, model)
 );
 CREATE INDEX IF NOT EXISTS functions_file_idx ON functions (file_id);
 CREATE INDEX IF NOT EXISTS calls_caller_idx ON calls (caller_id);
@@ -134,6 +143,32 @@ def index_repo(conn: psycopg.Connection, root: Path) -> dict[str, int]:
                        WHERE f.repo_id = %s GROUP BY 1""", (repo_id,))
         stats.update({f"calls:{r}": n for r, n in cur.fetchall()})
     return stats
+
+
+def embed_repo(conn: psycopg.Connection, root: Path, model: str, batch: int = 64) -> int:
+    """Embed every searchable function that has no vector for `model` yet. Returns how many."""
+    from pgvector.psycopg import register_vector
+
+    from .embed import Embedder
+
+    register_vector(conn)
+    rows = conn.execute(
+        """SELECT fn.id, f.path, fn.qualname, fn.code FROM functions fn
+           JOIN files f ON f.id = fn.file_id JOIN repos r ON r.id = f.repo_id
+           WHERE r.root = %s AND NOT f.is_test AND fn.kind <> 'module'
+           AND NOT EXISTS (SELECT 1 FROM embeddings e WHERE e.function_id = fn.id
+                           AND e.model = %s)""", (root.resolve().as_posix(), model)).fetchall()
+    if not rows:
+        return 0
+    embedder = Embedder(model)
+    for start in range(0, len(rows), batch):  # commit per batch so an interrupted run keeps work
+        chunk = rows[start:start + batch]
+        # The function's own text omits `res.send =`, so put file and full name in front.
+        vecs = embedder.encode([f"// {p}: {q}\n{code}" for _, p, q, code in chunk])
+        with conn.transaction(), conn.cursor() as cur:
+            cur.executemany("INSERT INTO embeddings (function_id, model, embedding) "
+                            "VALUES (%s, %s, %s)", [(r[0], model, v) for r, v in zip(chunk, vecs)])
+    return len(rows)
 
 
 def resolve_repo(cur: psycopg.Cursor, repo_id: int) -> None:
