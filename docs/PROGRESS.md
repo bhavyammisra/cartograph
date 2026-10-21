@@ -5,8 +5,8 @@ Read this first when starting a new session. It says where the project stands ri
 **Last updated:** 20 October 2026
 
 ## Current state
-- **Phase:** 8 done (agent route replay + "why this result"). Deferred from Phase 5: switching the headline eval to Prettier.
-- **Next step:** Phase 9: impact analysis validated against git co-change. Re-run the agent eval (the text-recovery rule postdates the Phase 4 numbers). Before publishing numbers: index Prettier and mine its questions for the headline eval. Optional any time: strong-model comparison on the Groq free tier (needs Bhavyam's `GROQ_API_KEY` in `.env`).
+- **Phase:** 9 done (impact analysis checked against git co-change, see `eval/express/IMPACT.md`). Deferred from Phase 5: switching the headline eval to Prettier.
+- **Next step:** Phase 10: "X before Y" ordering queries + mini benchmark. Re-run the agent eval (the text-recovery rule postdates the Phase 4 numbers). Before publishing numbers: index Prettier and mine its questions for the headline eval. Optional any time: strong-model comparison on the Groq free tier (needs Bhavyam's `GROQ_API_KEY` in `.env`).
 - **Blocked on:** Bhavyam: review `eval/express/handwritten.jsonl` and set `"reviewed": true`.
 
 ## Phases
@@ -22,7 +22,7 @@ Read this first when starting a new session. It says where the project stands ri
 | 6 | FastAPI server + SSE stream | Done (search, graph, function, impact, live agent stream; 32 tests) |
 | 7 | Map: Sigma.js, communities, semantic zoom | Done (transit map + yellow route on selection; search, station-sign panel, lines key, deep links, desktop + phone, light + dark) |
 | 8 | Trace replay + "why this result" | Done (live route with numbered stops, follow camera, replay, provenance on search and answers, `#ask=` links; 33 engine + 5 web tests) |
-| 9 | Impact analysis validated against git co-change | Not started |
+| 9 | Impact analysis validated against git co-change | Done (Express, 245 cases, rolling: recall@5 call graph 0.048, history 0.294, both 0.311, same-file baseline 0.266; "Often changed with" in the panel) |
 | 10 | "X before Y" ordering queries + mini benchmark | Not started |
 | 11 | MCP server, measured with Claude Code | Not started |
 | 12 | Industry polish: tests, CI, packaging, Docker, docs | Not started |
@@ -59,6 +59,8 @@ Read this first when starting a new session. It says where the project stands ri
 | 2026-10-20 | Map design: Transit Diagram (chosen by Bhavyam); rules in DESIGN.md | Functions as stations, calls as track; line colours never used for controls. |
 | 2026-10-20 | Hybrid design: transit colours for exploring; picking a function greys the map and lights its route in reserved yellow | Bhavyam's call after the Terminal Wayfinding mockup; amber line swapped for raspberry. |
 | 2026-10-20 | Agent answers written as prose are recovered only by exact names of functions it was shown, and labelled in the UI | The 4B model sometimes never calls submit; guessing from partial words would invent answers. |
+| 2026-10-21 | Impact is checked by rolling evaluation: each commit predicted from older commits only | A fixed 80/20 split left 21 test commits; rolling gives 82 with no peeking. |
+| 2026-10-21 | Panel shows "Often changed with" (history) beside callers (call graph); no red ripple on the map | History predicts edits 6x better; red would break the yellow-route rule and clash with the red line. |
 | 2026-10-20 | Sigma.js 3.0.3 (not 4) | Sigma 4's new styling API was too new to verify. |
 | 2026-10-20 | Screenshots via scripts/capture.py (DevTools protocol) | Headless Edge can't emulate phones (min 496 px) and doesn't wait for data. |
 | 2026-10-20 | MIT license, public repo | Standard for portfolio tools. |

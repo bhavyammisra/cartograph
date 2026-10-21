@@ -519,3 +519,42 @@ Note: the Phase 4 eval numbers were measured before the recovery rule existed; a
 ### Interview lines
 - "You can watch the agent work: each tool call becomes a numbered stop on the map, and every answer comes with the exact steps that produced it."
 - "Small local models don't always follow the tool protocol. I recover answers from their text only when they name a function they were actually shown, and I label that in the UI so it's transparent."
+
+## Phase 9: impact analysis, checked against git history
+
+### What we built (plain words)
+"If I change this function, what else needs to change?" Most tools answer this and never check whether they're right. We checked ours.
+- **The answer key:** Express's git history. When a commit changed function A and also B and C, those functions really did have to change together ("co-change"). We mined all 2,321 commits that touched `lib/` and kept the 102 that changed 2 to 30 functions that still exist today.
+- **The test:** each changed function takes a turn as "the one you're editing". Four methods guess the rest: the call graph (who calls it, up to 3 hops), history (what changed with it before), both, and a dumb baseline (the rest of the same file, nearest lines first).
+- **No peeking:** each commit is predicted only from commits *before* it ("rolling evaluation"), like studying past papers and sitting this year's exam.
+- **In the app:** the function panel has a new **Often changed with** list, with how many commits each pair shared.
+
+### What we found (82 commits, 245 cases)
+| Method | Recall@5 | Precision | Guesses |
+|---|---|---|---|
+| Call graph | 0.048 | 0.033 | 19 |
+| History | 0.294 | 0.254 | 5 |
+| Both | 0.311 | 0.134 | 24 |
+| Same file (baseline) | 0.266 | 0.113 | 30 |
+
+- **Recall@5:** of the functions that really changed, how many were in the method's top 5 guesses.
+- **Precision:** of all its guesses, how many were right.
+
+The surprise: **the call graph is bad at predicting what you'll edit.** Most changes keep a function's contract, so its callers don't need editing. The call graph tells you who *depends* on a function (what to re-test). History tells you what you'll probably *edit*. So the app shows both, each labelled for what it means. The same-file baseline is strong here only because Express is six files. Full write-up: `eval/express/IMPACT.md`.
+
+### Problems we hit
+| Problem | Fix |
+|---|---|
+| Express's first commit has no parent, so `git diff` failed | treat it as changing nothing |
+| A fixed 80/20 split left only 21 test commits | rolling evaluation: 82 test commits, still no peeking |
+| "Same file" won on total recall by guessing ~30 functions every time | compare top-5 and top-10 recall, so every method gets the same number of guesses |
+| Database tests hung after the laptop restarted | Docker wasn't running; started it |
+
+### New ideas and tools
+- **Co-change mining:** reading git history to see which pieces of code are edited together (also called "logical coupling").
+- **Rolling (time-ordered) evaluation:** never train on the future.
+- **Recall@k:** fair comparison when methods guess different amounts.
+
+### Interview lines
+- "I validated impact analysis against git history instead of trusting it. The call graph found 5% of co-changed functions in its top 5; mined history found 29%. So the product shows both and says what each one means."
+- "I used a rolling evaluation so the history model never saw the commit it was predicting, and a same-file baseline to keep myself honest."

@@ -1,0 +1,44 @@
+{
+ "commits": {
+  "with_2_plus_functions": 102,
+  "warm_up": 20,
+  "tested": 82,
+  "tested_from": 1322172277
+ },
+ "seeds": 245,
+ "depth": 3,
+ "methods": {
+  "call graph": {
+   "recall@5": 0.048,
+   "recall@10": 0.073,
+   "recall": 0.123,
+   "precision": 0.033,
+   "predicts_something": 0.755,
+   "mean_size": 19.098
+  },
+  "co-change history": {
+   "recall@5": 0.294,
+   "recall@10": 0.38,
+   "recall": 0.4,
+   "precision": 0.254,
+   "predicts_something": 0.804,
+   "mean_size": 5.322
+  },
+  "both": {
+   "recall@5": 0.311,
+   "recall@10": 0.411,
+   "recall": 0.452,
+   "precision": 0.134,
+   "predicts_something": 0.922,
+   "mean_size": 23.845
+  },
+  "same file (baseline)": {
+   "recall@5": 0.266,
+   "recall@10": 0.427,
+   "recall": 0.782,
+   "precision": 0.113,
+   "predicts_something": 1.0,
+   "mean_size": 29.918
+  }
+ }
+}

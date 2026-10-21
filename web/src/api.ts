@@ -42,6 +42,8 @@ export type FunctionDetail = FunctionRef & {
   code: string
   callers: FunctionRef[]
   callees: FunctionRef[]
+  /** From git history: functions edited in the same commits, and in how many. */
+  changed_with: (FunctionRef & { times: number })[]
 }
 export type Health = { ok: boolean; root: string; functions: number }
 

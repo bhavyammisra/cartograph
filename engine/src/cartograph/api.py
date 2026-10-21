@@ -15,6 +15,7 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
+from .cochange import changed_together
 from .graph import impact
 from .search import BM25, Dense, load_corpus, rrf
 
@@ -40,10 +41,15 @@ class Graph(BaseModel):
     edges: list[Edge]
 
 
+class CoChanged(Function):
+    times: int  # commits that changed both functions
+
+
 class FunctionDetail(Function):
     code: str
     callers: list[Function]
     callees: list[Function]
+    changed_with: list[CoChanged]  # from git history; empty when it wasn't mined
 
 
 class Hit(Function):
@@ -61,8 +67,36 @@ SCOPE = "JOIN files f ON f.id = fn.file_id JOIN repos r ON r.id = f.repo_id " \
         "WHERE r.root = %s AND NOT f.is_test"
 
 
-def create_app(root: str, db_url: str, llm: str = "qwen3-4b") -> FastAPI:
-    """root: the indexed repo folder (posix path, as stored by `cartograph index`)."""
+def call_edges(conn, root: str) -> list[Edge]:
+    """Every known call link: our resolved calls plus Jelly's extra edges."""
+    rows = conn.execute(
+        f"""SELECT DISTINCT ON (c.caller_id, c.callee_id) c.caller_id, c.callee_id,
+                   c.resolution FROM calls c JOIN functions fn ON fn.id = c.caller_id {SCOPE}
+                   AND c.callee_id IS NOT NULL
+            UNION SELECT e.caller_id, e.callee_id, 'jelly' FROM extra_edges e
+                   JOIN functions fn ON fn.id = e.caller_id {SCOPE}""", (root, root))
+    ours = {}
+    for s, t, via in rows:  # a link found by both keeps our label
+        if (s, t) not in ours or ours[(s, t)] == "jelly":
+            ours[(s, t)] = via
+    return [Edge(source=s, target=t, via=v) for (s, t), v in ours.items()]
+
+
+def function_places(conn, root: str) -> tuple[dict[tuple[str, str], int], dict[int, tuple[str, int]]]:
+    """(path, qualname) -> id, and id -> (path, start line), for today's named functions."""
+    ids, place = {}, {}
+    for fid, path, qualname, line in conn.execute(
+            f"SELECT fn.id, f.path, fn.qualname, fn.start_line FROM functions fn {SCOPE}"
+            " AND fn.kind <> 'module' ORDER BY fn.id", (root,)):
+        ids.setdefault((path, qualname), fid)  # shortcut: a repeated name maps to its first function
+        place[fid] = (path, line)
+    return ids, place
+
+
+def create_app(root: str, db_url: str, llm: str = "qwen3-4b",
+               history: list[dict] | None = None) -> FastAPI:
+    """root: the indexed repo folder (posix path, as stored by `cartograph index`).
+    history: mined commits (`cartograph impact-eval` caches them) for "often changed with"."""
     app = FastAPI(title="Cartograph", version="0.1.0")
 
     def connect() -> psycopg.Connection:
@@ -70,6 +104,7 @@ def create_app(root: str, db_url: str, llm: str = "qwen3-4b") -> FastAPI:
 
     with connect() as conn:
         docs = load_corpus(conn, root)
+        together = changed_together(history or [], function_places(conn, root)[0])
     bm25 = BM25(docs)
     embedder_lock, embedder = threading.Lock(), []  # load the ~18 s model on first use only
 
@@ -89,19 +124,6 @@ def create_app(root: str, db_url: str, llm: str = "qwen3-4b") -> FastAPI:
                             (root, ids)).fetchall()
         by_id = {r[0]: Function(**dict(zip(Function.model_fields, r))) for r in rows}
         return [by_id[i] for i in ids if i in by_id]  # keep the caller's order
-
-    def edges(conn) -> list[Edge]:
-        rows = conn.execute(
-            f"""SELECT DISTINCT ON (c.caller_id, c.callee_id) c.caller_id, c.callee_id,
-                       c.resolution FROM calls c JOIN functions fn ON fn.id = c.caller_id {SCOPE}
-                       AND c.callee_id IS NOT NULL
-                UNION SELECT e.caller_id, e.callee_id, 'jelly' FROM extra_edges e
-                       JOIN functions fn ON fn.id = e.caller_id {SCOPE}""", (root, root))
-        ours = {}
-        for s, t, via in rows:  # a link found by both keeps our label
-            if (s, t) not in ours or ours[(s, t)] == "jelly":
-                ours[(s, t)] = via
-        return [Edge(source=s, target=t, via=v) for (s, t), v in ours.items()]
 
     @app.get("/api/health")
     def health() -> dict:
@@ -129,7 +151,7 @@ def create_app(root: str, db_url: str, llm: str = "qwen3-4b") -> FastAPI:
                                 (root,)).fetchall()
             nodes = [Function(**dict(zip(Function.model_fields, r))) for r in rows]
             ids = {n.id for n in nodes}
-            return Graph(nodes=nodes, edges=[e for e in edges(conn)
+            return Graph(nodes=nodes, edges=[e for e in call_edges(conn, root)
                                              if e.source in ids and e.target in ids])
 
     @app.get("/api/functions/{fid}")
@@ -139,11 +161,15 @@ def create_app(root: str, db_url: str, llm: str = "qwen3-4b") -> FastAPI:
             if not found:
                 raise HTTPException(404, f"no function {fid} in {root}")
             code = conn.execute("SELECT code FROM functions WHERE id = %s", (fid,)).fetchone()[0]
-            links = edges(conn)
+            links = call_edges(conn, root)
             callers = functions(conn, sorted({e.source for e in links if e.target == fid}))
             callees = functions(conn, sorted({e.target for e in links if e.source == fid}))
+            often = dict(together[fid].most_common(8)) if fid in together else {}
+            changed_with = [CoChanged(**f.model_dump(), times=often[f.id])
+                            for f in functions(conn, list(often))]
             return FunctionDetail(**found[0].model_dump(), code=code, callers=callers,
-                                  callees=callees)
+                                  callees=callees,
+                                  changed_with=sorted(changed_with, key=lambda f: (-f.times, f.id)))
 
     @app.get("/api/impact/{fid}")
     def impact_of(fid: int, depth: int = Query(3, ge=1, le=10)) -> list[Impacted]:
@@ -151,7 +177,7 @@ def create_app(root: str, db_url: str, llm: str = "qwen3-4b") -> FastAPI:
             if not functions(conn, [fid]):
                 raise HTTPException(404, f"no function {fid} in {root}")
             callers_of = defaultdict(set)
-            for e in edges(conn):
+            for e in call_edges(conn, root):
                 callers_of[e.target].add(e.source)
             dist = impact(callers_of, fid, depth)
             ordered = sorted(dist, key=lambda i: (dist[i], i))

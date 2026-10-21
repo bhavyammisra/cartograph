@@ -14,20 +14,24 @@ type Props = {
 // Token colours come from CSS (.token.keyword etc.), so the code follows the theme.
 const CLASS_ONLY_THEME = { plain: {}, styles: [] }
 
-function Connections({ title, items, colorOf, onPick }: {
-  title: string; items: FunctionRef[]; colorOf: (id: number) => string; onPick: (id: number) => void
+function Connections({ title, items, colorOf, onPick, none = 'None found' }: {
+  title: string; items: (FunctionRef & { times?: number })[]; colorOf: (id: number) => string
+  onPick: (id: number) => void; none?: string
 }) {
   return (
     <section className="connections" aria-label={title}>
       <h3>{title} <span className="count">{items.length}</span></h3>
-      {items.length === 0 ? <p className="none">None found</p> : (
+      {items.length === 0 ? <p className="none">{none}</p> : (
         <ul>
           {items.map((f) => (
             <li key={f.id}>
               <button type="button" onClick={() => onPick(f.id)}>
                 <span className="bullet" style={{ background: colorOf(f.id) }} aria-hidden />
                 <span className="conn-name">{displayName(f)}</span>
-                <span className="conn-path">{f.path}:{f.start_line}</span>
+                <span className="conn-path">
+                  {f.path}:{f.start_line}
+                  {f.times && <>, {f.times} commit{f.times === 1 ? '' : 's'}</>}
+                </span>
               </button>
             </li>
           ))}
@@ -92,6 +96,8 @@ export default function FunctionPanel({ id, colorOf, onPick, onClose, onBack }: 
           </Highlight>
           <Connections title="Called by" items={fn.callers} colorOf={colorOf} onPick={onPick} />
           <Connections title="Calls" items={fn.callees} colorOf={colorOf} onPick={onPick} />
+          <Connections title="Often changed with" items={fn.changed_with} colorOf={colorOf} onPick={onPick}
+                       none="No shared commits in the mined history" />
         </div>
       )}
     </aside>

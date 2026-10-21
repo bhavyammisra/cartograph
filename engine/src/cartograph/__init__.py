@@ -47,6 +47,11 @@ def main(argv: list[str] | None = None) -> None:
     srv.add_argument("repo", type=Path)
     srv.add_argument("--port", type=int, default=8000)
     srv.add_argument("--llm", default="qwen3-4b")
+    imp = sub.add_parser("impact-eval", help="check impact analysis against git co-change")
+    imp.add_argument("repo", type=Path, help="indexed repo (a git checkout)")
+    imp.add_argument("--prefix", default="lib/", help="only count functions under this path")
+    imp.add_argument("--depth", type=int, default=3, help="call-graph hops to walk")
+    imp.add_argument("--out", type=Path, help="save the report as JSON")
     ask = sub.add_parser("ask", help="ask one question and print every agent step")
     ask.add_argument("repo", type=Path)
     ask.add_argument("question")
@@ -121,10 +126,34 @@ def main(argv: list[str] | None = None) -> None:
         from .store import DEFAULT_DB
 
         connect().close()  # fail early with the friendly message if Postgres is down
+        import json
+
+        from .cochange import history_cache
+
+        cache = history_cache(args.repo)  # written by `cartograph impact-eval`
         app = create_app(args.repo.resolve().as_posix(),
-                         os.environ.get("DATABASE_URL", DEFAULT_DB), args.llm)
+                         os.environ.get("DATABASE_URL", DEFAULT_DB), args.llm,
+                         json.loads(cache.read_text()) if cache.exists() else None)
         print(f"Cartograph API on http://127.0.0.1:{args.port}  (docs: /docs)")
         uvicorn.run(app, host="127.0.0.1", port=args.port, log_level="warning")
+    elif args.command == "impact-eval":
+        import json
+        from collections import defaultdict
+
+        from .api import call_edges, function_places
+        from .cochange import history, history_cache, validate
+
+        root = args.repo.resolve().as_posix()
+        commits = history(args.repo, args.prefix, history_cache(args.repo))
+        with connect() as conn:
+            ids, place = function_places(conn, root)
+            callers_of = defaultdict(set)
+            for e in call_edges(conn, root):
+                callers_of[e.target].add(e.source)
+        report = validate(commits, ids, callers_of, place, depth=args.depth)
+        print(json.dumps(report, indent=1))
+        if args.out:
+            args.out.write_text(json.dumps(report, indent=1) + "\n", encoding="utf-8")
     elif args.command == "jelly":
         import json
 

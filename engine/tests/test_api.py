@@ -37,7 +37,10 @@ def client(tmp_path):
     with psycopg.connect(URL, autocommit=True) as conn:
         index_repo(conn, tmp_path)
     try:
-        yield TestClient(create_app(tmp_path.resolve().as_posix(), URL))
+        # Mined history: setCookie changed twice with serialize, once with clearCookie.
+        history = [{"time": t, "changed": [["lib/a.js", "setCookie"], ["lib/a.js", other]]}
+                   for t, other in [(1, "serialize"), (2, "serialize"), (3, "clearCookie")]]
+        yield TestClient(create_app(tmp_path.resolve().as_posix(), URL, history=history))
     finally:  # the real database: remove this test repo again
         with psycopg.connect(URL, autocommit=True) as conn:
             conn.execute("DELETE FROM repos WHERE root = %s", (tmp_path.resolve().as_posix(),))
@@ -59,6 +62,8 @@ def test_search_graph_function_impact(client):
     assert "serialize(name)" in detail["code"]
     assert [c["qualname"] for c in detail["callers"]] == ["clearCookie"]
     assert [c["qualname"] for c in detail["callees"]] == ["serialize"]
+    assert [(c["qualname"], c["times"]) for c in detail["changed_with"]] == [
+        ("serialize", 2), ("clearCookie", 1)]
 
     hit = client.get(f"/api/impact/{by_name['serialize']}").json()
     assert [(h["qualname"], h["distance"]) for h in hit] == [("setCookie", 1), ("clearCookie", 2)]
