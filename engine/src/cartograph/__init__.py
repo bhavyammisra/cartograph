@@ -52,6 +52,15 @@ def main(argv: list[str] | None = None) -> None:
     imp.add_argument("--prefix", default="lib/", help="only count functions under this path")
     imp.add_argument("--depth", type=int, default=3, help="call-graph hops to walk")
     imp.add_argument("--out", type=Path, help="save the report as JSON")
+    order_p = sub.add_parser("order", help="is X always called before Y? (with a counterexample)")
+    order_p.add_argument("repo", type=Path)
+    order_p.add_argument("x", help="function full name (res.status) or called name (this.end)")
+    order_p.add_argument("y")
+    order_p.add_argument("--start", help="function to start from (default: every entry point)")
+    order_ev = sub.add_parser("order-eval", help="score the ordering engine on a question set")
+    order_ev.add_argument("repo", type=Path)
+    order_ev.add_argument("--questions", type=Path, required=True)
+    order_ev.add_argument("--out", type=Path, help="save the results as JSON")
     ask = sub.add_parser("ask", help="ask one question and print every agent step")
     ask.add_argument("repo", type=Path)
     ask.add_argument("question")
@@ -154,6 +163,50 @@ def main(argv: list[str] | None = None) -> None:
         print(json.dumps(report, indent=1))
         if args.out:
             args.out.write_text(json.dumps(report, indent=1) + "\n", encoding="utf-8")
+    elif args.command in ("order", "order-eval"):
+        import json
+
+        from .order import Order
+
+        with connect() as conn:
+            order = Order.load(conn, args.repo.resolve().as_posix())
+        by_name = {}
+        for fid, name in order.names.items():
+            by_name.setdefault(name, []).append(fid)
+
+        def starts(name):
+            if name is None:
+                return order.entries()
+            if len(by_name.get(name, [])) != 1:
+                parser.exit(1, f"{name!r} names {len(by_name.get(name, []))} functions; need exactly 1\n")
+            return by_name[name]
+
+        if args.command == "order":
+            print(json.dumps(order.ask(args.x, args.y, starts(args.start)), indent=1))
+        else:
+            rows = []
+            for q in map(json.loads, filter(str.strip, args.questions.read_text(encoding="utf-8").splitlines())):
+                within = starts(q["start"])
+                got = order.ask(q["x"], q["y"], within)
+                naive = [order.naive(q["x"], q["y"], f) for f in within]
+                # Baseline over many starts: "not always" if any start says so; unreachable if all do.
+                base = ("not always" if "not always" in naive else
+                        "always" if "always" in naive else "unreachable")
+                rows.append({"id": q["id"], "level": q["level"], "gold": q["answer"],
+                             "cartograph": got["answer"], "naive": base,
+                             "counterexample": next(iter(got["counterexamples"].items()), None)})
+                mark = "ok " if got["answer"] == q["answer"] else "XX "
+                print(f"{mark}{q['id']} L{q['level']} gold={q['answer']:<11} got={got['answer']:<11} "
+                      f"naive={base:<11} {q['question']}")
+            summary = {}
+            for level in ("all", 1, 2, 3):
+                part = [r for r in rows if level == "all" or r["level"] == level]
+                summary[str(level)] = {"questions": len(part), **{
+                    m: round(sum(r[m] == r["gold"] for r in part) / len(part), 3) for m in ("cartograph", "naive")}}
+            print(json.dumps(summary, indent=1))
+            if args.out:
+                args.out.write_text(json.dumps({"summary": summary, "rows": rows}, indent=1) + "\n",
+                                    encoding="utf-8")
     elif args.command == "jelly":
         import json
 

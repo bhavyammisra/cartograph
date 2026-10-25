@@ -5,9 +5,9 @@ Read this first when starting a new session. It says where the project stands ri
 **Last updated:** 20 October 2026
 
 ## Current state
-- **Phase:** 9 done (impact analysis checked against git co-change, see `eval/express/IMPACT.md`). Deferred from Phase 5: switching the headline eval to Prettier.
-- **Next step:** Phase 10: "X before Y" ordering queries + mini benchmark. Re-run the agent eval (the text-recovery rule postdates the Phase 4 numbers). Before publishing numbers: index Prettier and mine its questions for the headline eval. Optional any time: strong-model comparison on the Groq free tier (needs Bhavyam's `GROQ_API_KEY` in `.env`).
-- **Blocked on:** Bhavyam: review `eval/express/handwritten.jsonl` and set `"reviewed": true`.
+- **Phase:** 10 done ("X before Y" ordering engine + 35-question benchmark, see `eval/express/ORDER.md`). Deferred from Phase 5: switching the headline eval to Prettier.
+- **Next step:** Phase 11: MCP server, measured with Claude Code. Fix the two resolver errors found in Phase 10 (`send` module linked to `res.send`; path `resolve` linked to `View.prototype.resolve`). Re-run the agent eval (the text-recovery rule postdates the Phase 4 numbers). Before publishing numbers: index Prettier and mine its questions for the headline eval. Optional any time: strong-model comparison on the Groq free tier (needs Bhavyam's `GROQ_API_KEY` in `.env`).
+- **Blocked on:** Bhavyam: review `eval/express/handwritten.jsonl` and `eval/express/order.jsonl`, and set `"reviewed": true`.
 
 ## Phases
 
@@ -23,7 +23,7 @@ Read this first when starting a new session. It says where the project stands ri
 | 7 | Map: Sigma.js, communities, semantic zoom | Done (transit map + yellow route on selection; search, station-sign panel, lines key, deep links, desktop + phone, light + dark) |
 | 8 | Trace replay + "why this result" | Done (live route with numbered stops, follow camera, replay, provenance on search and answers, `#ask=` links; 33 engine + 5 web tests) |
 | 9 | Impact analysis validated against git co-change | Done (Express, 245 cases, rolling: recall@5 call graph 0.048, history 0.294, both 0.311, same-file baseline 0.266; "Often changed with" in the panel) |
-| 10 | "X before Y" ordering queries + mini benchmark | Not started |
+| 10 | "X before Y" ordering queries + mini benchmark | Done (35 questions on Express: engine 33/35 = 0.943, naive line-order baseline 12/35 = 0.343; counterexample paths with file:line) |
 | 11 | MCP server, measured with Claude Code | Not started |
 | 12 | Industry polish: tests, CI, packaging, Docker, docs | Not started |
 | 13 | Publish: PyPI, demo site (launch checklist), video, write-up | Not started |
@@ -61,6 +61,7 @@ Read this first when starting a new session. It says where the project stands ri
 | 2026-10-20 | Agent answers written as prose are recovered only by exact names of functions it was shown, and labelled in the UI | The 4B model sometimes never calls submit; guessing from partial words would invent answers. |
 | 2026-10-21 | Impact is checked by rolling evaluation: each commit predicted from older commits only | A fixed 80/20 split left 21 test commits; rolling gives 82 with no peeking. |
 | 2026-10-21 | Panel shows "Often changed with" (history) beside callers (call graph); no red ripple on the map | History predicts edits 6x better; red would break the yellow-route rule and clash with the red line. |
+| 2026-10-25 | Ordering = call order + an "always runs / sometimes runs" flag per call, followed through the call graph | Branch-blind line order scored 0.343 on the benchmark; every "not always" answer needs a proof path. |
 | 2026-10-20 | Sigma.js 3.0.3 (not 4) | Sigma 4's new styling API was too new to verify. |
 | 2026-10-20 | Screenshots via scripts/capture.py (DevTools protocol) | Headless Edge can't emulate phones (min 496 px) and doesn't wait for data. |
 | 2026-10-20 | MIT license, public repo | Standard for portfolio tools. |

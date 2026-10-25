@@ -13,7 +13,7 @@ PARSERS = {
 }
 # Bump when parse() output changes: it is part of each file's fingerprint, so every file is
 # re-parsed on the next index run instead of keeping stale rows.
-PARSER_VERSION = "2"
+PARSER_VERSION = "3"
 EXTENSIONS = {
     ".js": "javascript", ".mjs": "javascript", ".cjs": "javascript", ".jsx": "javascript",
     ".ts": "typescript", ".mts": "typescript", ".cts": "typescript", ".tsx": "tsx",
@@ -30,6 +30,7 @@ class Call:
     line: int
     name: str | None  # called name: `foo` in foo(), `send` in res.send(); None if dynamic
     receiver: str | None  # `res` in res.send(), `this` in this.set(); None for plain foo()
+    conditional: bool = False  # inside a branch: an if/else arm, case, loop body, `a && f()`...
 
 
 @dataclass
@@ -49,6 +50,35 @@ class Import:
     local: str  # name used in this file; "module.exports" marks what this file exports
     source: str  # module string, e.g. './router' or 'debug'; "" = defined in this file
     imported: str | None  # exported name it refers to; None = whole module, 'default' = default
+
+
+# Parts of a node that run only sometimes, by node type. Conditions themselves always run.
+BRANCH_FIELDS = {
+    "if_statement": {"consequence", "alternative"},
+    "ternary_expression": {"consequence", "alternative"},
+    "for_statement": {"body", "increment"},
+    "for_in_statement": {"body"},
+    "while_statement": {"body"},
+}
+SHORT_CIRCUIT = {"&&", "||", "??", "&&=", "||=", "??="}
+
+
+def is_conditional(node: Node, stop: Node | None) -> bool:
+    """Does this call run only on some paths through its function (up to `stop`, the function)?
+    shortcut: optional calls (a?.b()) and early-exit `try` paths count as always running."""
+    child, parent = node, node.parent
+    while parent is not None and (stop is None or parent.id != stop.id):
+        if parent.type in ("switch_case", "switch_default", "catch_clause"):
+            return True
+        field = next(parent.field_name_for_child(i) for i, c in enumerate(parent.children)
+                     if c.id == child.id)
+        if field in BRANCH_FIELDS.get(parent.type, ()):
+            return True
+        if (parent.type in ("binary_expression", "augmented_assignment_expression")
+                and field == "right" and text(parent.child_by_field_name("operator")) in SHORT_CIRCUIT):
+            return True
+        child, parent = parent, parent.parent
+    return False
 
 
 def text(node: Node | None) -> str:
@@ -157,13 +187,14 @@ def parse(source: bytes, lang: str, module_name: str) -> tuple[list[Function], l
     functions, imports = [module], []
 
     # Explicit stack instead of recursion: deep expressions can exceed Python's recursion limit.
-    stack: list[tuple[Node, Function, bool]] = [(root, module, False)]
+    stack: list[tuple[Node, Function, Node | None, bool]] = [(root, module, None, False)]
     while stack:
-        node, owner, done = stack.pop()
+        node, owner, owner_node, done = stack.pop()
         if done:
             # Calls are recorded after their arguments (post-order): in foo(bar()), bar runs first.
             name, receiver = call_target(node)
-            owner.calls.append(Call(len(owner.calls), node.start_point[0] + 1, name, receiver))
+            owner.calls.append(Call(len(owner.calls), node.start_point[0] + 1, name, receiver,
+                                    is_conditional(node, owner_node)))
             continue
         collect_imports(node, imports)
         if node.type in FUNCTION_TYPES:
@@ -171,7 +202,8 @@ def parse(source: bytes, lang: str, module_name: str) -> tuple[list[Function], l
             owner = Function(name, qualname, node.type, node.start_point[0] + 1,
                              node.end_point[0] + 1, text(node), aliases=chained_names(node))
             functions.append(owner)
+            owner_node = node
         elif node.type in ("call_expression", "new_expression") and require_source(node) is None:
-            stack.append((node, owner, True))
-        stack.extend((child, owner, False) for child in reversed(node.children))
+            stack.append((node, owner, owner_node, True))
+        stack.extend((child, owner, owner_node, False) for child in reversed(node.children))
     return functions, list(dict.fromkeys(imports))  # `a = b = x` would record x twice

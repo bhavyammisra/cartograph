@@ -1,0 +1,385 @@
+{
+ "summary": {
+  "all": {
+   "questions": 35,
+   "cartograph": 0.943,
+   "naive": 0.343
+  },
+  "1": {
+   "questions": 18,
+   "cartograph": 1.0,
+   "naive": 0.556
+  },
+  "2": {
+   "questions": 10,
+   "cartograph": 0.8,
+   "naive": 0.1
+  },
+  "3": {
+   "questions": 7,
+   "cartograph": 1.0,
+   "naive": 0.143
+  }
+ },
+ "rows": [
+  {
+   "id": "order-01",
+   "level": 1,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "always",
+   "counterexample": null
+  },
+  {
+   "id": "order-02",
+   "level": 1,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "always",
+   "counterexample": null
+  },
+  {
+   "id": "order-03",
+   "level": 1,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "always",
+   "counterexample": null
+  },
+  {
+   "id": "order-04",
+   "level": 1,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "always",
+   "counterexample": null
+  },
+  {
+   "id": "order-05",
+   "level": 1,
+   "gold": "not always",
+   "cartograph": "not always",
+   "naive": "always",
+   "counterexample": [
+    "res.send (lib/response.js)",
+    [
+     "res.send (lib/response.js:215)"
+    ]
+   ]
+  },
+  {
+   "id": "order-06",
+   "level": 1,
+   "gold": "not always",
+   "cartograph": "not always",
+   "naive": "always",
+   "counterexample": [
+    "res.send (lib/response.js)",
+    [
+     "res.send (lib/response.js:215)"
+    ]
+   ]
+  },
+  {
+   "id": "order-07",
+   "level": 1,
+   "gold": "not always",
+   "cartograph": "not always",
+   "naive": "always",
+   "counterexample": [
+    "res.json (lib/response.js)",
+    [
+     "res.json (lib/response.js:249)"
+    ]
+   ]
+  },
+  {
+   "id": "order-08",
+   "level": 1,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "always",
+   "counterexample": null
+  },
+  {
+   "id": "order-09",
+   "level": 1,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "always",
+   "counterexample": null
+  },
+  {
+   "id": "order-10",
+   "level": 1,
+   "gold": "not always",
+   "cartograph": "not always",
+   "naive": "always",
+   "counterexample": [
+    "res.format (lib/response.js)",
+    [
+     "res.format (lib/response.js:593)"
+    ]
+   ]
+  },
+  {
+   "id": "order-11",
+   "level": 1,
+   "gold": "not always",
+   "cartograph": "not always",
+   "naive": "always",
+   "counterexample": [
+    "res.attachment (lib/response.js)",
+    [
+     "res.attachment (lib/response.js:615)"
+    ]
+   ]
+  },
+  {
+   "id": "order-12",
+   "level": 1,
+   "gold": "not always",
+   "cartograph": "not always",
+   "naive": "always",
+   "counterexample": [
+    "res.sendFile (lib/response.js)",
+    [
+     "res.sendFile (lib/response.js:408)"
+    ]
+   ]
+  },
+  {
+   "id": "order-13",
+   "level": 1,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "always",
+   "counterexample": null
+  },
+  {
+   "id": "order-14",
+   "level": 1,
+   "gold": "not always",
+   "cartograph": "not always",
+   "naive": "always",
+   "counterexample": [
+    "app.handle (lib/application.js)",
+    [
+     "app.handle (lib/application.js:177)"
+    ]
+   ]
+  },
+  {
+   "id": "order-15",
+   "level": 1,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "always",
+   "counterexample": null
+  },
+  {
+   "id": "order-16",
+   "level": 1,
+   "gold": "not always",
+   "cartograph": "not always",
+   "naive": "always",
+   "counterexample": [
+    "app.render (lib/application.js)",
+    [
+     "app.render (lib/application.js:574)"
+    ]
+   ]
+  },
+  {
+   "id": "order-17",
+   "level": 1,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "always",
+   "counterexample": null
+  },
+  {
+   "id": "order-18",
+   "level": 2,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "unreachable",
+   "counterexample": null
+  },
+  {
+   "id": "order-19",
+   "level": 2,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "unreachable",
+   "counterexample": null
+  },
+  {
+   "id": "order-20",
+   "level": 2,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "unreachable",
+   "counterexample": null
+  },
+  {
+   "id": "order-21",
+   "level": 2,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "unreachable",
+   "counterexample": null
+  },
+  {
+   "id": "order-22",
+   "level": 2,
+   "gold": "not always",
+   "cartograph": "not always",
+   "naive": "unreachable",
+   "counterexample": [
+    "res.jsonp (lib/response.js)",
+    [
+     "res.jsonp (lib/response.js:307)",
+     "res.send (lib/response.js:215)"
+    ]
+   ]
+  },
+  {
+   "id": "order-23",
+   "level": 2,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "unreachable",
+   "counterexample": null
+  },
+  {
+   "id": "order-24",
+   "level": 2,
+   "gold": "always",
+   "cartograph": "unreachable",
+   "naive": "unreachable",
+   "counterexample": null
+  },
+  {
+   "id": "order-25",
+   "level": 2,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "unreachable",
+   "counterexample": null
+  },
+  {
+   "id": "order-26",
+   "level": 2,
+   "gold": "always",
+   "cartograph": "not always",
+   "naive": "unreachable",
+   "counterexample": [
+    "app.defaultConfiguration (lib/application.js)",
+    [
+     "app.defaultConfiguration (lib/application.js:94)",
+     "app.enable (lib/application.js:452)",
+     "app.set (lib/application.js:371)"
+    ]
+   ]
+  },
+  {
+   "id": "order-27",
+   "level": 3,
+   "gold": "not always",
+   "cartograph": "not always",
+   "naive": "unreachable",
+   "counterexample": [
+    "<anonymous> (examples/auth/index.js)",
+    [
+     "<anonymous> (examples/auth/index.js:89)",
+     "res.send (lib/response.js:215)"
+    ]
+   ]
+  },
+  {
+   "id": "order-28",
+   "level": 3,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "unreachable",
+   "counterexample": null
+  },
+  {
+   "id": "order-29",
+   "level": 3,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "unreachable",
+   "counterexample": null
+  },
+  {
+   "id": "order-30",
+   "level": 3,
+   "gold": "not always",
+   "cartograph": "not always",
+   "naive": "not always",
+   "counterexample": [
+    "restrict (examples/auth/index.js)",
+    [
+     "restrict (examples/auth/index.js:80)",
+     "res.redirect (lib/response.js:839)",
+     "res.location (lib/response.js:798)"
+    ]
+   ]
+  },
+  {
+   "id": "order-31",
+   "level": 3,
+   "gold": "not always",
+   "cartograph": "not always",
+   "naive": "unreachable",
+   "counterexample": [
+    "<anonymous> (examples/search/index.js)",
+    [
+     "<anonymous> (examples/search/index.js:70)",
+     "res.sendFile (lib/response.js:408)"
+    ]
+   ]
+  },
+  {
+   "id": "order-32",
+   "level": 3,
+   "gold": "always",
+   "cartograph": "always",
+   "naive": "unreachable",
+   "counterexample": null
+  },
+  {
+   "id": "order-33",
+   "level": 3,
+   "gold": "not always",
+   "cartograph": "not always",
+   "naive": "unreachable",
+   "counterexample": [
+    "<anonymous> (examples/auth/index.js)",
+    [
+     "<anonymous> (examples/auth/index.js:101)",
+     "res.render (lib/response.js:920)",
+     "app.render (lib/application.js:574)"
+    ]
+   ]
+  },
+  {
+   "id": "order-34",
+   "level": 1,
+   "gold": "unreachable",
+   "cartograph": "unreachable",
+   "naive": "unreachable",
+   "counterexample": null
+  },
+  {
+   "id": "order-35",
+   "level": 2,
+   "gold": "unreachable",
+   "cartograph": "unreachable",
+   "naive": "unreachable",
+   "counterexample": null
+  }
+ ]
+}

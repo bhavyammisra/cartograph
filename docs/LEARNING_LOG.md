@@ -558,3 +558,44 @@ The surprise: **the call graph is bad at predicting what you'll edit.** Most cha
 ### Interview lines
 - "I validated impact analysis against git history instead of trusting it. The call graph found 5% of co-changed functions in its top 5; mined history found 29%. So the product shows both and says what each one means."
 - "I used a rolling evaluation so the history model never saw the commit it was predicting, and a same-file baseline to keep myself honest."
+
+## Phase 10: "is X always called before Y?"
+
+### What we built (plain words)
+A new kind of question: not "where is it?" but "does this always happen before that?" For example: "is the status code always set before the response ends?" These catch real bugs, and search can't answer them.
+- **Branch flag:** the parser now marks every call as "always runs" or "only sometimes runs". Sometimes means inside an `if`/`else` arm, a `case`, a `catch`, a loop body, the right side of `&&`/`||`/`??`, or one side of `a ? b : c`. Calls were already stored in the order they run.
+- **The ordering engine** (`order.py`) answers at three levels:
+  1. **Inside one function:** is some always-running X before every Y?
+  2. **Across calls:** if F calls G and G always calls X, F reaches X through G.
+  3. **From every entry point:** every function nothing else calls (public API, example apps).
+- **Proof:** "not always" comes with the exact path, for example `restrict (examples/auth/index.js:80) → res.redirect (lib/response.js:839) → res.location (lib/response.js:798)`. You can open each step and check it.
+- **CLI:** `cartograph order <repo> X Y [--start F]` asks one question; `cartograph order-eval` scores the benchmark.
+- **Benchmark:** 35 questions about Express in `eval/express/order.jsonl`. I worked out each answer by reading the code and gave a one-line reason. They wait for your review.
+
+### Results
+| | All 35 | Level 1 | Level 2 | Level 3 |
+|---|---|---|---|---|
+| Cartograph | 0.943 | 1.000 | 0.800 | 1.000 |
+| Naive "compare line numbers" | 0.343 | 0.556 | 0.100 | 0.143 |
+
+The naive baseline said "always" for all 8 one-function questions where the real answer is "not always": it can't see the `if`. The two misses are the known limits:
+- a call made through a callback (the engine can't see that call);
+- a `switch` whose branch depends on a value.
+
+### Problems we hit
+| Problem | Fix |
+|---|---|
+| `res.set` is stored under its other name `res.header` | targets match every alias of a function |
+| A proof path went through `res.redirect`, which does set the status first: the engine rejected a conditional call even when the called function itself does X before Y | judge such a call by what happens inside it; added a test |
+| Proofs said `<anonymous> line 89` with no file | every step now shows `file:line` |
+| A function that only calls itself didn't count as an entry point | ignore self-calls when finding entry points |
+| While writing questions: `send(...)` from the npm `send` module is linked to `res.send`, and Node's `resolve(...)` to `View.prototype.resolve` | written down as a resolver bug to fix next |
+
+### New ideas and tools
+- **Control flow, simplified:** instead of building a full control-flow graph, mark each call as always or sometimes running. It's cheap, and enough for most ordering questions.
+- **Must vs may:** "must reach" (on every path) proves the "before" side; "may reach" (on some path) finds every place the "after" side can happen.
+- **Counterexamples:** a "no" answer you can check yourself, step by step.
+
+### Interview lines
+- "Ordering questions need branch awareness. Comparing line numbers got 34% on my benchmark; tracking whether each call always runs, and following it through the call graph, got 94%. Every 'no' comes with a file:line proof."
+- "The two misses are documented limits, callbacks and value-dependent switches, and I found and fixed a soundness bug by reading one of the engine's own proofs."

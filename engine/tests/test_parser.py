@@ -81,3 +81,17 @@ def test_typescript_parses():
     src = b"export function total(xs: number[]): number { return sum(xs); }"
     functions, _ = parse(src, "typescript", "t.ts")
     assert [(f.name, [c.name for c in f.calls]) for f in functions[1:]] == [("total", ["sum"])]
+
+
+def test_calls_know_whether_they_always_run():
+    src = (b"function f() {\n  if (c()) a(); else b();\n  x = p() ? q() : r();\n  u() && v();\n"
+           b"  for (i(); j(); k()) l();\n  switch (s()) { case 1: t(); }\n  try { y(); } catch (e) { z(); }\n"
+           b"  w ||= o();\n  list.forEach(() => cb());\n  done();\n}\n")
+    functions, _ = parse(src, "javascript", "m")
+    f = next(fn for fn in functions if fn.name == "f")
+    sometimes = {c.name for c in f.calls if c.conditional}
+    assert sometimes == {"a", "b", "q", "r", "v", "k", "l", "t", "z", "o"}
+    always = {c.name for c in f.calls if not c.conditional}
+    assert always == {"c", "p", "u", "i", "j", "s", "y", "forEach", "done"}
+    inner = next(fn for fn in functions if fn.kind == "arrow_function")
+    assert [(c.name, c.conditional) for c in inner.calls] == [("cb", False)]  # its own function

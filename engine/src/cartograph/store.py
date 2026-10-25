@@ -72,6 +72,7 @@ CREATE TABLE IF NOT EXISTS extra_edges (
   PRIMARY KEY (caller_id, callee_id, source)
 );
 CREATE INDEX IF NOT EXISTS functions_file_idx ON functions (file_id);
+ALTER TABLE calls ADD COLUMN IF NOT EXISTS conditional boolean NOT NULL DEFAULT false;
 CREATE INDEX IF NOT EXISTS calls_caller_idx ON calls (caller_id);
 CREATE INDEX IF NOT EXISTS calls_callee_idx ON calls (callee_id);
 """
@@ -129,10 +130,10 @@ def index_repo(conn: psycopg.Connection, root: Path) -> dict[str, int]:
                 for fid, f in zip(ids, functions, strict=True):
                     cp.write_row((fid, file_id, f.name, f.qualname, f.aliases, f.kind,
                                   f.start_line, f.end_line, clean(f.code)))
-            with cur.copy("COPY calls (caller_id, seq, line, name, receiver) FROM STDIN") as cp:
+            with cur.copy("COPY calls (caller_id, seq, line, name, receiver, conditional) FROM STDIN") as cp:
                 for fid, f in zip(ids, functions, strict=True):
                     for c in f.calls:
-                        cp.write_row((fid, c.seq, c.line, c.name, c.receiver))
+                        cp.write_row((fid, c.seq, c.line, c.name, c.receiver, c.conditional))
             with cur.copy("COPY imports (file_id, local, source, imported) FROM STDIN") as cp:
                 for i in imports:
                     cp.write_row((file_id, i.local, i.source, i.imported))
