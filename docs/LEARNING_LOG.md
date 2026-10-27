@@ -611,3 +611,37 @@ The naive baseline said "always" for all 8 one-function questions where the real
 **Effect on Express.** 7 calls moved from wrong same-file links to the right npm or Node module (`send`, `accepts` four times, `vary`, `resolve`), and every name-match guess turned into a proper import. Against Jelly, our edges went from 291 to 283 with the same 62 shared, so all 8 removed edges were wrong ones. The ordering benchmark scores did not change; impact numbers moved by a few thousandths (call graph recall@5 0.048 to 0.050).
 
 **Technologies.** tree-sitter (reading `var x = a.b` declarations), Postgres (re-index and the `calls` table check), pytest.
+
+## Phase 11 (part 1): Cartograph as an MCP server
+
+### What we built (plain words)
+**MCP (Model Context Protocol)** is a standard plug for AI tools, like USB for assistants. Any app that speaks it (Claude Code, Cursor, VS Code) can use tools from any MCP server. `cartograph mcp <repo>` now starts one, so a coding assistant can use Cartograph directly. There is no AI inside Cartograph here: the assistant is the agent, and Cartograph is its map.
+
+Four tools, each answering in short plain text with `name (file:line)`, because every line an agent reads costs tokens:
+- **search_code:** keyword + meaning search, best first.
+- **get_function:** the code with line numbers, who calls it, what it calls, and what usually changes with it.
+- **impact:** everything that calls it, up to 3 hops, nearest first.
+- **check_order:** "is X always called before Y?", with the proof path.
+
+To add it to Claude Code, a `.mcp.json` like:
+```json
+{"mcpServers": {"cartograph": {"command": "uv", "args": ["run", "--project", "<cartograph>/engine", "--directory", "<cartograph>", "cartograph", "mcp", "<repo>"]}}}
+```
+
+### How it's built
+- The tools call the website API's own Python functions inside the same process. The map and the assistant always get the same answers, and there's one place to fix bugs.
+- If a repo was indexed but never embedded, search falls back to keywords instead of failing.
+- Checked two ways: a test against a tiny indexed repo, and the real command started over stdio (the way Claude Code starts it). It was ready in 3.8 s and all 4 tools answered on Express.
+
+### The measurement (waiting)
+`scripts/claude_eval.py` asks Claude Code the same 20 issue questions twice: with only its file tools (Read, Grep, Glob) and with Cartograph's tools added. Both runs use no shell (so no `git log` to find the fix commit), no web, the same model (Sonnet) and the same prompt. It scores the named functions against the gold answers and records tokens, cost, turns and time. It can't run yet: the `claude` command-line tool on this computer is signed out (`claude auth login`).
+
+### Problems we hit
+| Problem | Fix |
+|---|---|
+| The MCP Python SDK is now version 2, where `FastMCP` became `MCPServer` | read the installed library's own signatures before writing code |
+| The Phase 10 parser upgrade re-parsed every file, so every function got a new id and lost its meaning vector. Meaning search had been silently off since then | re-embedded Express, and `cartograph index` now says how many functions have no meaning vector |
+| A signed-out CLI answered "Failed to authenticate", which the harness would have scored as a wrong answer | the harness stops and records nothing when Claude Code itself fails |
+
+### Interview line
+"I exposed the engine over MCP so any coding agent can use it, reusing the HTTP API's handlers so there's one source of truth, and built a with/without harness for Claude Code that blocks the shell so the agent can't read the answer out of git history."

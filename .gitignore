@@ -35,3 +35,4 @@ eval/**/run.log
 
 # Design review screenshots (regenerate with scripts/capture.py)
 .impeccable/review/
+eval/**/*.mcp.json

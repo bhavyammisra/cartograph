@@ -5,9 +5,9 @@ Read this first when starting a new session. It says where the project stands ri
 **Last updated:** 27 October 2026
 
 ## Current state
-- **Phase:** 10 done ("X before Y" ordering engine + 35-question benchmark, see `eval/express/ORDER.md`). The two resolver errors it found are fixed (imported names now win over same-file and name-match guesses). Deferred from Phase 5: switching the headline eval to Prettier.
-- **Next step:** Phase 11: MCP server, measured with Claude Code. Re-run the agent eval (the text-recovery rule postdates the Phase 4 numbers). Before publishing numbers: index Prettier and mine its questions for the headline eval. Optional any time: strong-model comparison on the Groq free tier (needs Bhavyam's `GROQ_API_KEY` in `.env`).
-- **Blocked on:** Bhavyam: review `eval/express/handwritten.jsonl` and `eval/express/order.jsonl`, and set `"reviewed": true`.
+- **Phase:** 11 in progress: MCP server built and tested (`cartograph mcp <repo>`); the Claude Code measurement is waiting for Bhavyam to sign the `claude` CLI in (`claude auth login`). The two resolver errors found in Phase 10 are fixed (imported names now win over same-file and name-match guesses). Deferred from Phase 5: switching the headline eval to Prettier.
+- **Next step:** after `claude auth login`, run `uv run --project engine python scripts/claude_eval.py --repo targets/express --questions eval/express/mined.jsonl --sample 20 --model sonnet` and write `eval/express/MCP.md`; then Phase 12. Re-run the agent eval (the text-recovery rule postdates the Phase 4 numbers). Before publishing numbers: index Prettier and mine its questions for the headline eval. Optional any time: strong-model comparison on the Groq free tier (needs Bhavyam's `GROQ_API_KEY` in `.env`).
+- **Blocked on:** Bhavyam: sign the Claude Code CLI in (`claude auth login`) for the Phase 11 measurement; review `eval/express/handwritten.jsonl` and `eval/express/order.jsonl`, and set `"reviewed": true`.
 
 ## Phases
 
@@ -24,7 +24,7 @@ Read this first when starting a new session. It says where the project stands ri
 | 8 | Trace replay + "why this result" | Done (live route with numbered stops, follow camera, replay, provenance on search and answers, `#ask=` links; 33 engine + 5 web tests) |
 | 9 | Impact analysis validated against git co-change | Done (Express, 245 cases, rolling: recall@5 call graph 0.050, history 0.294, both 0.313, same-file baseline 0.266; "Often changed with" in the panel) |
 | 10 | "X before Y" ordering queries + mini benchmark | Done (35 questions on Express: engine 33/35 = 0.943, naive line-order baseline 12/35 = 0.343; counterexample paths with file:line) |
-| 11 | MCP server, measured with Claude Code | Not started |
+| 11 | MCP server, measured with Claude Code | Server done (4 tools, tested over stdio); measurement waiting for CLI sign-in |
 | 12 | Industry polish: tests, CI, packaging, Docker, docs | Not started |
 | 13 | Publish: PyPI, demo site (launch checklist), video, write-up | Not started |
 
@@ -62,6 +62,8 @@ Read this first when starting a new session. It says where the project stands ri
 | 2026-10-21 | Impact is checked by rolling evaluation: each commit predicted from older commits only | A fixed 80/20 split left 21 test commits; rolling gives 82 with no peeking. |
 | 2026-10-21 | Panel shows "Often changed with" (history) beside callers (call graph); no red ripple on the map | History predicts edits 6x better; red would break the yellow-route rule and clash with the red line. |
 | 2026-10-25 | Ordering = call order + an "always runs / sometimes runs" flag per call, followed through the call graph | Branch-blind line order scored 0.343 on the benchmark; every "not always" answer needs a proof path. |
+| 2026-10-27 | MCP tools call the HTTP API's own endpoint functions in-process | One source of truth: the website and Claude get the same answers. |
+| 2026-10-27 | Claude Code eval: Sonnet, Read/Grep/Glob only (no shell, no web), 20 issue questions, with vs without Cartograph | Saves Bhavyam's allowance; no shell stops `git log` from revealing the fix commit. |
 | 2026-10-20 | Sigma.js 3.0.3 (not 4) | Sigma 4's new styling API was too new to verify. |
 | 2026-10-20 | Screenshots via scripts/capture.py (DevTools protocol) | Headless Edge can't emulate phones (min 496 px) and doesn't wait for data. |
 | 2026-10-20 | MIT license, public repo | Standard for portfolio tools. |

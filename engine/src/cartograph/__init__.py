@@ -61,6 +61,8 @@ def main(argv: list[str] | None = None) -> None:
     order_ev.add_argument("repo", type=Path)
     order_ev.add_argument("--questions", type=Path, required=True)
     order_ev.add_argument("--out", type=Path, help="save the results as JSON")
+    mcp_p = sub.add_parser("mcp", help="run the MCP server (stdio) for Claude Code and other agents")
+    mcp_p.add_argument("repo", type=Path)
     ask = sub.add_parser("ask", help="ask one question and print every agent step")
     ask.add_argument("repo", type=Path)
     ask.add_argument("question")
@@ -145,6 +147,17 @@ def main(argv: list[str] | None = None) -> None:
                          json.loads(cache.read_text()) if cache.exists() else None)
         print(f"Cartograph API on http://127.0.0.1:{args.port}  (docs: /docs)")
         uvicorn.run(app, host="127.0.0.1", port=args.port, log_level="warning")
+    elif args.command == "mcp":
+        import json
+
+        from .cochange import history_cache
+        from .mcp_server import build
+        from .store import DEFAULT_DB
+
+        connect().close()  # fail early with the friendly message if Postgres is down
+        cache = history_cache(args.repo)
+        build(args.repo.resolve().as_posix(), os.environ.get("DATABASE_URL", DEFAULT_DB),
+              json.loads(cache.read_text()) if cache.exists() else None).run("stdio")
     elif args.command == "impact-eval":
         import json
         from collections import defaultdict
@@ -242,6 +255,15 @@ def main(argv: list[str] | None = None) -> None:
         with connect() as conn:
             if args.command == "index":
                 stats = index_repo(conn, args.path)
+                # Re-parsed functions get new ids and lose their vectors: say so, or meaning
+                # search quietly finds nothing.
+                missing = conn.execute(
+                    """SELECT count(*) FROM functions fn JOIN files f ON f.id = fn.file_id
+                       JOIN repos r ON r.id = f.repo_id WHERE r.root = %s AND NOT f.is_test
+                       AND fn.kind <> 'module' AND NOT EXISTS (SELECT 1 FROM embeddings e
+                       WHERE e.function_id = fn.id)""", (args.path.resolve().as_posix(),)).fetchone()[0]
+                if missing:
+                    stats["no meaning vector"] = f"{missing} (run: cartograph embed {args.path})"
             else:
                 stats = {f"embedded ({args.model})": embed_repo(conn, args.path, args.model)}
         for key, value in stats.items():

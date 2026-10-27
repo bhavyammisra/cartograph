@@ -10,6 +10,7 @@ requires-python = ">=3.12"
 dependencies = [
     "bm25s>=0.3.14",
     "fastapi>=0.153.0",
+    "mcp>=2.3.0",
     "openai>=3.35.1",
     "pgvector>=0.5.1",
     "psycopg[binary]>=3.3.6",
