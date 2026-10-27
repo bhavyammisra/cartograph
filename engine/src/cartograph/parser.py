@@ -13,7 +13,7 @@ PARSERS = {
 }
 # Bump when parse() output changes: it is part of each file's fingerprint, so every file is
 # re-parsed on the next index run instead of keeping stale rows.
-PARSER_VERSION = "3"
+PARSER_VERSION = "4"
 EXTENSIONS = {
     ".js": "javascript", ".mjs": "javascript", ".cjs": "javascript", ".jsx": "javascript",
     ".ts": "typescript", ".mts": "typescript", ".cts": "typescript", ".tsx": "tsx",
@@ -165,9 +165,16 @@ def collect_imports(node: Node, out: list[Import]) -> None:
         elif (source := require_source(value)) is not None:
             out.append(Import("module.exports", source, None))
     elif node.type == "variable_declarator":
-        source = require_source(node.child_by_field_name("value"))
-        target = node.child_by_field_name("name")
-        if source is not None and target is not None:
+        value, target = node.child_by_field_name("value"), node.child_by_field_name("name")
+        source = require_source(value)
+        if value is not None and value.type == "member_expression" and target is not None:
+            # `var resolve = path.resolve` or `var isAbs = require('node:path').isAbsolute`
+            obj, prop = value.child_by_field_name("object"), text(value.child_by_field_name("property"))
+            whole = {i.local: i.source for i in out if i.imported is None}
+            src = require_source(obj) if obj.type == "call_expression" else whole.get(text(obj))
+            if src is not None:
+                out.append(Import(text(target), src, prop))
+        elif source is not None and target is not None:
             if target.type == "identifier":
                 out.append(Import(text(target), source, None))
             elif target.type == "object_pattern":

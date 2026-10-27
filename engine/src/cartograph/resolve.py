@@ -84,11 +84,9 @@ def resolve(files: dict[str, FileInfo], calls: list[CallRef]) -> list[tuple[int,
         if c.receiver in BUILTIN_GLOBALS or (c.receiver is None and c.name in BUILTIN_GLOBALS):
             out.append((c.id, None, "builtin"))
             continue
-        local = by_file[c.path]
-        if c.receiver in (None, "this") and (hit := unique(local.get(c.name, []))):
-            out.append((c.id, hit, "same-file"))
-            continue
         # Plain call of an imported name (foo()), or a call on an imported module (utils.foo()).
+        # Checked before same-file: `var send = require('send')` must beat a nearby
+        # `res.send = function send() {}`, whose name is only visible inside its own body.
         imp = imports[c.path].get(c.name if c.receiver is None else c.receiver)
         if imp:
             if not imp.source.startswith("."):
@@ -104,6 +102,10 @@ def resolve(files: dict[str, FileInfo], calls: list[CallRef]) -> list[tuple[int,
                     and (hit := default_export(target))):
                 out.append((c.id, hit, "import"))
                 continue
+        local = by_file[c.path]
+        if c.receiver in (None, "this") and (hit := unique(local.get(c.name, []))):
+            out.append((c.id, hit, "same-file"))
+            continue
         if c.receiver and (hit := unique(global_quals.get(f"{c.receiver}.{c.name}", []))):
             out.append((c.id, hit, "qualname"))
         # Short-name match only for plain foo(): x.foo() could be any object's foo (too many

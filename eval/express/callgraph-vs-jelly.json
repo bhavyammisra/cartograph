@@ -1,20 +1,15 @@
 {
  "jelly_functions_unmatched": 0,
- "our_edges": 291,
+ "our_edges": 283,
  "jelly_edges": 79,
  "agree": 62,
- "precision": 0.213,
+ "precision": 0.219,
  "recall": 0.785,
  "by_label": {
   "import": {
-   "edges": 34,
-   "also_in_jelly": 33,
-   "precision": 0.971
-  },
-  "name-match": {
-   "edges": 8,
-   "also_in_jelly": 6,
-   "precision": 0.75
+   "edges": 40,
+   "also_in_jelly": 39,
+   "precision": 0.975
   },
   "qualname": {
    "edges": 169,
@@ -22,9 +17,9 @@
    "precision": 0.018
   },
   "same-file": {
-   "edges": 80,
+   "edges": 74,
    "also_in_jelly": 20,
-   "precision": 0.25
+   "precision": 0.27
   }
  }
 }

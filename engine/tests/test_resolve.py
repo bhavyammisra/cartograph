@@ -64,3 +64,19 @@ def test_alias_entries_count_as_one_function():
     calls = [CallRef(1, "r.js", "set", "this"), CallRef(2, "r.js", "set", "res")]
     assert [r[1:] for r in resolve(files, calls)] == [(1, "same-file"), (1, "qualname")]
     assert run("lib/app.js", None, "fns[i]") == (None, "dynamic")
+
+
+def test_imported_binding_beats_same_file_and_name_match():
+    # response.js: `var send = require('send')` next to `res.send = function send(body) {}`,
+    # and `var resolve = path.resolve` while View.prototype.resolve exists elsewhere.
+    files = {
+        "lib/response.js": FileInfo([(1, "send", "res.send")],
+                                    [Import("send", "send", None),
+                                     Import("resolve", "node:path", "resolve")]),
+        "lib/view.js": FileInfo([(2, "resolve", "View.prototype.resolve")], []),
+    }
+    calls = [CallRef(1, "lib/response.js", "send", None),
+             CallRef(2, "lib/response.js", "resolve", None),
+             CallRef(3, "lib/response.js", "send", "this")]
+    assert [r[1:] for r in resolve(files, calls)] == [
+        (None, "external"), (None, "external"), (1, "same-file")]

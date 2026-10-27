@@ -18,17 +18,17 @@ Reproduce: `uv run --project engine cartograph impact-eval targets/express --out
 
 | Method | Recall@5 | Recall@10 | Recall (all guesses) | Precision | Guesses (mean) | Has a guess |
 |---|---|---|---|---|---|---|
-| Call graph (3 hops) | 0.048 | 0.073 | 0.123 | 0.033 | 19.1 | 76% |
+| Call graph (3 hops) | 0.050 | 0.073 | 0.120 | 0.034 | 17.9 | 76% |
 | Co-change history | 0.294 | 0.380 | 0.400 | 0.254 | 5.3 | 80% |
-| Both | **0.311** | 0.411 | 0.452 | 0.134 | 23.8 | 92% |
+| Both | **0.313** | 0.411 | 0.449 | 0.135 | 22.7 | 92% |
 | Same file, nearest first | 0.266 | **0.427** | 0.782 | 0.113 | 29.9 | 100% |
 
 Recall: share of the functions that really changed that the method found. Precision: share of its guesses that really changed (averaged over cases where it guessed anything). Depth 1 call graph: recall@5 0.045, precision 0.098.
 
 ## What it means
-1. **The call graph does not predict what gets edited together.** Recall@5 is 0.048. Changing a function rarely forces its callers to change: most edits keep the function's contract. The call graph answers a different question, "who depends on this", which is what you re-test, not what you edit.
+1. **The call graph does not predict what gets edited together.** Recall@5 is 0.050. Changing a function rarely forces its callers to change: most edits keep the function's contract. The call graph answers a different question, "who depends on this", which is what you re-test, not what you edit.
 2. **History is the best single predictor for what you'll edit next:** about 6x the call graph's recall@5 with a quarter of the guesses, and the most precise method (0.254).
-3. **Both combined is best in the top 5** (0.311), narrowly ahead of the same-file baseline (0.266).
+3. **Both combined is best in the top 5** (0.313), narrowly ahead of the same-file baseline (0.266).
 4. **The baseline is strong on Express** because the library is six files: `lib/` has 109 named functions, 41 of them in `response.js`, so "same file" covers a large share of the codebase. Expect it to be weaker on a repo with many small files; Prettier will tell.
 
 ## What the product does with it

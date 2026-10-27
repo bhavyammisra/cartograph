@@ -45,7 +45,7 @@ uv run --project engine cartograph order targets/express res.status this.end --s
 
 ## Also limited
 - An `if/else` where both arms call X still counts as "sometimes" (no question here depends on it).
-- "Always" means "on every path the call graph can see". Wrong call links mislead it. While writing these questions we found two resolver errors: in `res.sendFile`, `send(...)` (the npm module) is linked to `res.send`, and in `res.download`, `resolve(...)` (Node's path module) is linked to `View.prototype.resolve`. No question here depends on those links.
+- "Always" means "on every path the call graph can see". Wrong call links mislead it. While writing these questions we found two resolver errors: in `res.sendFile`, `send(...)` (the npm module) was linked to `res.send`, and in `res.download`, `resolve(...)` (Node's path module) was linked to `View.prototype.resolve`. Both are fixed (an imported name now beats any same-file or name-match guess); re-running this benchmark gave the same scores, since no question depended on those links.
 
 ## Fair warning about the numbers
 I wrote the questions after designing the engine, so they may favour what it handles. One engine bug was found and fixed while checking a counterexample during this run: a conditional call to a function that does X before Y was wrongly treated as a counterexample. The fix didn't change any answer, only a proof (order-27). The score is from 35 questions on one repo; treat it as a smoke test, not a headline number, until the questions are reviewed and extended to Prettier.

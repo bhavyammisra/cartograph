@@ -95,3 +95,11 @@ def test_calls_know_whether_they_always_run():
     assert always == {"c", "p", "u", "i", "j", "s", "y", "forEach", "done"}
     inner = next(fn for fn in functions if fn.kind == "arrow_function")
     assert [(c.name, c.conditional) for c in inner.calls] == [("cb", False)]  # its own function
+
+
+def test_member_of_a_required_module_is_an_import():
+    src = (b"var path = require('node:path');\nvar resolve = path.resolve;\n"
+           b"var isAbs = require('node:path').isAbsolute;\nvar x = other.y;")
+    assert parse(src, "javascript", "r.js")[1] == [
+        Import("path", "node:path", None), Import("resolve", "node:path", "resolve"),
+        Import("isAbs", "node:path", "isAbsolute")]

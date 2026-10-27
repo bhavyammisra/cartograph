@@ -2,11 +2,11 @@
 
 Read this first when starting a new session. It says where the project stands right now. Rules for working live in `CLAUDE.md`; the full plan is `docs/PROJECT_GUIDE.md`; per-phase lessons are `docs/LEARNING_LOG.md`; background research is in `reports/`.
 
-**Last updated:** 20 October 2026
+**Last updated:** 27 October 2026
 
 ## Current state
-- **Phase:** 10 done ("X before Y" ordering engine + 35-question benchmark, see `eval/express/ORDER.md`). Deferred from Phase 5: switching the headline eval to Prettier.
-- **Next step:** Phase 11: MCP server, measured with Claude Code. Fix the two resolver errors found in Phase 10 (`send` module linked to `res.send`; path `resolve` linked to `View.prototype.resolve`). Re-run the agent eval (the text-recovery rule postdates the Phase 4 numbers). Before publishing numbers: index Prettier and mine its questions for the headline eval. Optional any time: strong-model comparison on the Groq free tier (needs Bhavyam's `GROQ_API_KEY` in `.env`).
+- **Phase:** 10 done ("X before Y" ordering engine + 35-question benchmark, see `eval/express/ORDER.md`). The two resolver errors it found are fixed (imported names now win over same-file and name-match guesses). Deferred from Phase 5: switching the headline eval to Prettier.
+- **Next step:** Phase 11: MCP server, measured with Claude Code. Re-run the agent eval (the text-recovery rule postdates the Phase 4 numbers). Before publishing numbers: index Prettier and mine its questions for the headline eval. Optional any time: strong-model comparison on the Groq free tier (needs Bhavyam's `GROQ_API_KEY` in `.env`).
 - **Blocked on:** Bhavyam: review `eval/express/handwritten.jsonl` and `eval/express/order.jsonl`, and set `"reviewed": true`.
 
 ## Phases
@@ -22,7 +22,7 @@ Read this first when starting a new session. It says where the project stands ri
 | 6 | FastAPI server + SSE stream | Done (search, graph, function, impact, live agent stream; 32 tests) |
 | 7 | Map: Sigma.js, communities, semantic zoom | Done (transit map + yellow route on selection; search, station-sign panel, lines key, deep links, desktop + phone, light + dark) |
 | 8 | Trace replay + "why this result" | Done (live route with numbered stops, follow camera, replay, provenance on search and answers, `#ask=` links; 33 engine + 5 web tests) |
-| 9 | Impact analysis validated against git co-change | Done (Express, 245 cases, rolling: recall@5 call graph 0.048, history 0.294, both 0.311, same-file baseline 0.266; "Often changed with" in the panel) |
+| 9 | Impact analysis validated against git co-change | Done (Express, 245 cases, rolling: recall@5 call graph 0.050, history 0.294, both 0.313, same-file baseline 0.266; "Often changed with" in the panel) |
 | 10 | "X before Y" ordering queries + mini benchmark | Done (35 questions on Express: engine 33/35 = 0.943, naive line-order baseline 12/35 = 0.343; counterexample paths with file:line) |
 | 11 | MCP server, measured with Claude Code | Not started |
 | 12 | Industry polish: tests, CI, packaging, Docker, docs | Not started |

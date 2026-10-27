@@ -589,7 +589,7 @@ The naive baseline said "always" for all 8 one-function questions where the real
 | A proof path went through `res.redirect`, which does set the status first: the engine rejected a conditional call even when the called function itself does X before Y | judge such a call by what happens inside it; added a test |
 | Proofs said `<anonymous> line 89` with no file | every step now shows `file:line` |
 | A function that only calls itself didn't count as an entry point | ignore self-calls when finding entry points |
-| While writing questions: `send(...)` from the npm `send` module is linked to `res.send`, and Node's `resolve(...)` to `View.prototype.resolve` | written down as a resolver bug to fix next |
+| While writing questions: `send(...)` from the npm `send` module is linked to `res.send`, and Node's `resolve(...)` to `View.prototype.resolve` | written down as a resolver bug, fixed on 27 October (see below) |
 
 ### New ideas and tools
 - **Control flow, simplified:** instead of building a full control-flow graph, mark each call as always or sometimes running. It's cheap, and enough for most ordering questions.
@@ -599,3 +599,15 @@ The naive baseline said "always" for all 8 one-function questions where the real
 ### Interview lines
 - "Ordering questions need branch awareness. Comparing line numbers got 34% on my benchmark; tracking whether each call always runs, and following it through the call graph, got 94%. Every 'no' comes with a file:line proof."
 - "The two misses are documented limits, callbacks and value-dependent switches, and I found and fixed a soundness bug by reading one of the engine's own proofs."
+
+## Resolver fix: imported names win (27 October 2026)
+
+**What was wrong.** In Express's `lib/response.js`, `send(req, path, opts)` calls the npm `send` module, but Cartograph linked it to Express's own `res.send`. The file has `res.send = function send(body) {...}`, and the resolver treated that `send` as a name the whole file can see. In JavaScript, the name of a function expression is only visible inside that function. Meanwhile `var send = require('send')` is the real file-level name. A second bug: `var resolve = path.resolve` was not recorded as an import at all, so `resolve(path)` was guessed by name to be `View.prototype.resolve`.
+
+**What changed.**
+- The resolver now checks imports before the same-file guess: if a name was imported (from the repo, an npm package or Node itself), that wins.
+- The parser records `var x = mod.y` (where `mod` was required) and `var x = require('m').y` as imports, so they resolve properly too. `PARSER_VERSION` went to 4 so every file re-parses.
+
+**Effect on Express.** 7 calls moved from wrong same-file links to the right npm or Node module (`send`, `accepts` four times, `vary`, `resolve`), and every name-match guess turned into a proper import. Against Jelly, our edges went from 291 to 283 with the same 62 shared, so all 8 removed edges were wrong ones. The ordering benchmark scores did not change; impact numbers moved by a few thousandths (call graph recall@5 0.048 to 0.050).
+
+**Technologies.** tree-sitter (reading `var x = a.b` declarations), Postgres (re-index and the `calls` table check), pytest.

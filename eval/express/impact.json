@@ -9,12 +9,12 @@
  "depth": 3,
  "methods": {
   "call graph": {
-   "recall@5": 0.048,
+   "recall@5": 0.05,
    "recall@10": 0.073,
-   "recall": 0.123,
-   "precision": 0.033,
+   "recall": 0.12,
+   "precision": 0.034,
    "predicts_something": 0.755,
-   "mean_size": 19.098
+   "mean_size": 17.91
   },
   "co-change history": {
    "recall@5": 0.294,
@@ -25,12 +25,12 @@
    "mean_size": 5.322
   },
   "both": {
-   "recall@5": 0.311,
+   "recall@5": 0.313,
    "recall@10": 0.411,
-   "recall": 0.452,
-   "precision": 0.134,
+   "recall": 0.449,
+   "precision": 0.135,
    "predicts_something": 0.922,
-   "mean_size": 23.845
+   "mean_size": 22.682
   },
   "same file (baseline)": {
    "recall@5": 0.266,
