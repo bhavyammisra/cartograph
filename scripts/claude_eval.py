@@ -34,30 +34,42 @@ PROMPT = """A user reported this about the code in the current directory:
 Find the function(s) in this repository's source that would have to change to fix or implement it.
 End your reply with up to 5 lines, best first, each exactly `path:line` (the line where the function \
 starts, path relative to the repository root), and nothing after them."""
+# --nudge: the one line a user would put in CLAUDE.md. Without it, Claude Code ignored Cartograph's
+# tools in 20 of 20 runs on Express and used Grep instead.
+NUDGE = "\n\nThis repository is indexed by Cartograph: prefer its MCP tools (search_code first)."
 
 
-def run(question: str, repo: Path, with_cartograph: bool, model: str, cfg: Path) -> dict:
+def run(question: str, repo: Path, with_cartograph: bool, model: str, cfg: Path,
+        nudge: bool = False) -> dict:
     tools = ["Read", "Grep", "Glob"]
-    cmd = ["claude", "-p", PROMPT.format(question=question), "--output-format", "json",
-           "--model", model, "--no-session-persistence", "--setting-sources", "project",
+    # stream-json (needs --verbose) shows every tool call, so we can check Cartograph was used.
+    prompt = PROMPT.format(question=question) + (NUDGE if nudge else "")
+    cmd = ["claude", "-p", prompt, "--output-format", "stream-json", "--verbose", "--model", model, "--no-session-persistence", "--setting-sources", "project",
            "--strict-mcp-config", "--tools", ",".join(tools)]
     allowed = tools + (["mcp__cartograph"] if with_cartograph else [])
     if with_cartograph:
-        cmd += ["--mcp-config", str(cfg)]
+        cmd += ["--mcp-config", str(cfg.resolve())]
     cmd += ["--allowedTools", *allowed]
     start = time.perf_counter()
     out = subprocess.run(cmd, cwd=repo, capture_output=True, check=False, encoding="utf-8", errors="replace",
                          timeout=900)
     seconds = time.perf_counter() - start
-    try:
-        data = json.loads(out.stdout)
-    except json.JSONDecodeError:
+    events = []
+    for line in out.stdout.splitlines():
+        try:
+            events.append(json.loads(line))
+        except json.JSONDecodeError:
+            pass
+    data = next((e for e in events if e.get("type") == "result"), None)
+    if data is None:
         return {"error": (out.stderr or out.stdout)[-500:], "seconds": seconds}
     if data.get("is_error"):  # e.g. not signed in: not an answer, so don't score it
         return {"error": str(data.get("result"))[-500:], "seconds": seconds}
+    used = [c["name"] for e in events if e.get("type") == "assistant"
+            for c in e.get("message", {}).get("content", []) if c.get("type") == "tool_use"]
     return {"result": data.get("result", ""), "usage": data.get("usage", {}),
             "cost_usd": data.get("total_cost_usd"), "turns": data.get("num_turns"),
-            "is_error": data.get("is_error"), "seconds": round(seconds, 1)}
+            "tools_used": used, "seconds": round(seconds, 1)}
 
 
 def located(text: str, functions: list[tuple[str, str, int, int]]) -> list[tuple[str, str]]:
@@ -80,6 +92,8 @@ def main() -> None:
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--model", default="sonnet")
     p.add_argument("--out", type=Path, default=Path("eval/express/results/claude-code-mcp.jsonl"))
+    p.add_argument("--nudge", action="store_true",
+                   help="only the Cartograph runs, with a prompt line pointing at its tools")
     a = p.parse_args()
 
     repo = a.repo.resolve()
@@ -101,14 +115,14 @@ def main() -> None:
         done = {(r["id"], r["cartograph"]) for r in map(json.loads, a.out.read_text().splitlines())}
     for q in questions:
         gold = {(g["path"], g["qualname"]) for g in q["gold"]}
-        for with_cartograph in (False, True):
+        for with_cartograph in ((True,) if a.nudge else (False, True)):
             if (q["id"], with_cartograph) in done:
                 continue
-            r = run(q["question"], repo, with_cartograph, a.model, cfg)
+            r = run(q["question"], repo, with_cartograph, a.model, cfg, a.nudge)
             if "error" in r:
                 sys.exit(f"{q['id']}: Claude Code failed, nothing recorded: {r['error']}")
             answer = located(r.get("result", ""), functions)
-            row = {"id": q["id"], "cartograph": with_cartograph, "model": a.model,
+            row = {"id": q["id"], "cartograph": with_cartograph, "nudge": a.nudge, "model": a.model,
                    "answer": answer, "hit@1": bool(answer[:1] and answer[0] in gold),
                    "hit@5": any(f in gold for f in answer),
                    "file@5": any(f[0] in {g[0] for g in gold} for f in answer), **r}

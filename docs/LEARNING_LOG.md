@@ -645,3 +645,37 @@ To add it to Claude Code, a `.mcp.json` like:
 
 ### Interview line
 "I exposed the engine over MCP so any coding agent can use it, reusing the HTTP API's handlers so there's one source of truth, and built a with/without harness for Claude Code that blocks the shell so the agent can't read the answer out of git history."
+
+## Phase 11 (part 2): does Cartograph help Claude Code?
+
+### What we measured (plain words)
+Same 20 bug-report questions about Express, asked to Claude Code (Sonnet) three ways:
+1. **Alone:** read, grep and list files only.
+2. **Plus Cartograph's tools**, with no mention of them.
+3. **Plus Cartograph's tools, nudged:** one sentence telling it Cartograph is there (what a user would put in CLAUDE.md).
+
+No shell and no web in any run, so it couldn't read the answer from git history. We recorded which tools it actually called, plus tokens and time. Full report: `eval/express/MCP.md`.
+
+### What we found
+| | Top-1 right | Top-5 right | Input tokens | Time |
+|---|---|---|---|---|
+| Alone | 15/20 | 18/20 | 23.8k | 18 s |
+| + Cartograph | 16/20 | 18/20 | 26.4k | 22 s |
+| + Cartograph, nudged | 12/20 | 19/20 | 26.1k | 26 s |
+
+- **Unprompted, Claude Code never used Cartograph** (0 of 20 runs). It reached for grep, which it knows well. The extra tokens are the tool descriptions.
+- **Nudged, it used Cartograph in every run, but got no better.** In 4 questions the right function slipped from first to second place.
+- **Why:** Express is six library files. Grep finds the right function in one or two tries, so an index has nothing to save. An index should matter on a repo where grep returns too much to read; that's the next test (Prettier).
+
+This is a negative result, and it's kept as one. It's more useful than a cherry-picked win: we know exactly when Cartograph isn't worth it, and what to test next.
+
+### Problems we hit
+| Problem | Fix |
+|---|---|
+| The CLI was signed out | Bhavyam signed in (`claude auth login`) |
+| The config path was relative, but Claude Code runs inside the Express folder | pass the absolute path |
+| Claude Code's normal output doesn't say which tools it called | switch to its event stream; the first 12 untracked Cartograph runs were deleted and run again |
+| A usage limit stopped the run halfway, and Docker had stopped | the harness saves after every run, so it resumed where it stopped |
+
+### Interview line
+"I measured my MCP server inside Claude Code against grep alone. On a small repo it didn't help: unprompted, Claude ignored it, and nudged, accuracy was flat with 10% more tokens. I published that, with the tool-call logs to prove it, and it tells me where an index pays off: large repos where grep floods the context."
