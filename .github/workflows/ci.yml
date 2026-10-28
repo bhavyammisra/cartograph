@@ -20,7 +20,7 @@ jobs:
         ports: ["5432:5432"]
         options: --health-cmd "pg_isready -U cartograph" --health-interval 5s --health-retries 10
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v7
       - run: uv run ruff check .
       - run: uv run mypy
@@ -50,7 +50,7 @@ jobs:
       run:
         working-directory: web
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v5
         with:
           node-version: 24
