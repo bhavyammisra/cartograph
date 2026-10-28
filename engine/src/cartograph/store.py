@@ -100,9 +100,9 @@ def index_repo(conn: psycopg.Connection, root: Path) -> dict[str, int]:
         cur.execute(SCHEMA)
         cur.execute("INSERT INTO repos (root) VALUES (%s) ON CONFLICT (root) DO UPDATE "
                     "SET root = EXCLUDED.root RETURNING id", (root.as_posix(),))
-        repo_id = cur.fetchone()[0]
+        repo_id = one(cur)[0]
         cur.execute("SELECT path, hash FROM files WHERE repo_id = %s", (repo_id,))
-        known = dict(cur.fetchall())
+        known: dict[str, str] = dict(cur.fetchall())
 
         seen = set()
         for rel, full, lang in source_files(root):
@@ -118,7 +118,7 @@ def index_repo(conn: psycopg.Connection, root: Path) -> dict[str, int]:
             cur.execute("INSERT INTO files (repo_id, path, hash, lang, is_test) "
                         "VALUES (%s, %s, %s, %s, %s) RETURNING id",
                         (repo_id, rel, digest, lang, is_test))
-            file_id = cur.fetchone()[0]
+            file_id = one(cur)[0]
             functions, imports = parse(data, lang, rel)
             # Bulk-load with COPY (row-by-row INSERTs took ~10x longer). Reserve ids first so
             # calls can point at their function.
@@ -146,7 +146,7 @@ def index_repo(conn: psycopg.Connection, root: Path) -> dict[str, int]:
         resolve_repo(cur, repo_id)
         cur.execute("""SELECT count(*) FILTER (WHERE kind <> 'module') FROM functions fn
                        JOIN files f ON f.id = fn.file_id WHERE f.repo_id = %s""", (repo_id,))
-        stats["functions"] = cur.fetchone()[0]
+        stats["functions"] = one(cur)[0]
         cur.execute("""SELECT c.resolution, count(*) FROM calls c
                        JOIN functions fn ON fn.id = c.caller_id JOIN files f ON f.id = fn.file_id
                        WHERE f.repo_id = %s GROUP BY 1""", (repo_id,))
@@ -180,9 +180,17 @@ def embed_repo(conn: psycopg.Connection, root: Path, model: str, batch: int = 64
     return len(rows)
 
 
+def one(cur) -> tuple:
+    """The single row a query must return (an id from RETURNING, a count, a known function)."""
+    row = cur.fetchone()
+    if row is None:
+        raise LookupError("query returned no row")
+    return row
+
+
 def resolve_repo(cur: psycopg.Cursor, repo_id: int) -> None:
     cur.execute("SELECT id, path FROM files WHERE repo_id = %s", (repo_id,))
-    paths = dict(cur.fetchall())
+    paths: dict[int, str] = dict(cur.fetchall())
     files = {p: FileInfo([], []) for p in paths.values()}
     cur.execute("""SELECT fn.file_id, fn.id, fn.name, fn.qualname, fn.aliases FROM functions fn
                    JOIN files f ON f.id = fn.file_id WHERE f.repo_id = %s AND fn.kind <> 'module'

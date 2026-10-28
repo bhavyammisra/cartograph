@@ -82,7 +82,7 @@ def is_conditional(node: Node, stop: Node | None) -> bool:
 
 
 def text(node: Node | None) -> str:
-    return node.text.decode("utf-8", "replace") if node else ""
+    return (node.text or b"").decode("utf-8", "replace") if node else ""
 
 
 def chained_names(node: Node) -> list[str]:
@@ -135,24 +135,25 @@ def require_source(node: Node | None) -> str | None:
         return None
     if text(node.child_by_field_name("function")) != "require":
         return None
-    args = [a for a in node.child_by_field_name("arguments").named_children]
+    arguments = node.child_by_field_name("arguments")
+    args = arguments.named_children if arguments is not None else []
     return text(args[0])[1:-1] if args and args[0].type == "string" else None
 
 
 def collect_imports(node: Node, out: list[Import]) -> None:
     if node.type == "import_statement":
-        source = text(node.child_by_field_name("source"))[1:-1]
+        module = text(node.child_by_field_name("source"))[1:-1]
         for clause in (c for c in node.named_children if c.type == "import_clause"):
             for part in clause.named_children:
                 if part.type == "identifier":
-                    out.append(Import(text(part), source, "default"))
+                    out.append(Import(text(part), module, "default"))
                 elif part.type == "namespace_import":
-                    out.append(Import(text(part.named_children[-1]), source, None))
+                    out.append(Import(text(part.named_children[-1]), module, None))
                 elif part.type == "named_imports":
                     for spec in part.named_children:
                         name = text(spec.child_by_field_name("name"))
                         alias = text(spec.child_by_field_name("alias")) or name
-                        out.append(Import(alias, source, name))
+                        out.append(Import(alias, module, name))
     elif node.type == "assignment_expression" and text(node.child_by_field_name("left")) in (
             "module.exports", "exports"):
         # What this file exports: `module.exports = fn`, `exports = module.exports = fn`,
@@ -171,7 +172,7 @@ def collect_imports(node: Node, out: list[Import]) -> None:
             # `var resolve = path.resolve` or `var isAbs = require('node:path').isAbsolute`
             obj, prop = value.child_by_field_name("object"), text(value.child_by_field_name("property"))
             whole = {i.local: i.source for i in out if i.imported is None}
-            src = require_source(obj) if obj.type == "call_expression" else whole.get(text(obj))
+            src = require_source(obj) if obj is not None and obj.type == "call_expression"                 else whole.get(text(obj))
             if src is not None:
                 out.append(Import(text(target), src, prop))
         elif source is not None and target is not None:
@@ -191,7 +192,8 @@ def parse(source: bytes, lang: str, module_name: str) -> tuple[list[Function], l
     root = tree.root_node
     # Top-level code (outside any function) becomes a "module" pseudo-function so its calls count.
     module = Function(module_name, module_name, "module", 1, root.end_point[0] + 1, "")
-    functions, imports = [module], []
+    functions: list[Function] = [module]
+    imports: list[Import] = []
 
     # Explicit stack instead of recursion: deep expressions can exceed Python's recursion limit.
     stack: list[tuple[Node, Function, Node | None, bool]] = [(root, module, None, False)]

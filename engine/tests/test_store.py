@@ -6,7 +6,8 @@ import pytest
 from cartograph.store import DEFAULT_DB, index_repo
 
 try:
-    CONN = psycopg.connect(os.environ.get("DATABASE_URL", DEFAULT_DB), autocommit=True)
+    CONN = psycopg.connect(os.environ.get("DATABASE_URL", DEFAULT_DB), autocommit=True,
+                           connect_timeout=2)
 except psycopg.OperationalError:
     CONN = None
 

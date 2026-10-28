@@ -1,5 +1,8 @@
-# Starts Postgres with the pgvector add-on for local development.
-# Run: docker compose up -d   Stop: docker compose down
+# Everything:      docker compose up --build     -> map on http://localhost:8080
+#   Indexes REPO (default: targets/express), adds meaning vectors (first run: a few minutes
+#   on CPU), then serves the API. The agent uses Ollama on your machine, if it is running.
+# Database only:   docker compose up -d db      (for local development)
+# Stop:            docker compose down
 services:
   db:
     image: pgvector/pgvector:pg17
@@ -8,7 +11,7 @@ services:
       POSTGRES_PASSWORD: cartograph # local-only dev password, never used for a hosted database
       POSTGRES_DB: cartograph
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -16,5 +19,30 @@ services:
       interval: 5s
       retries: 10
 
+  api:
+    build: ./engine
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://cartograph:cartograph@db:5432/cartograph
+      OLLAMA_URL: http://host.docker.internal:11434
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ${REPO:-./targets/express}:/repo:ro # read only: Cartograph never changes or runs your code
+      - models:/models
+    entrypoint: ["sh", "-c"]
+    command: ["cartograph index /repo && cartograph embed /repo && cartograph serve /repo --host 0.0.0.0"]
+    ports:
+      - "127.0.0.1:8000:8000" # localhost only: the API serves your source code
+
+  web:
+    build: ./web
+    depends_on: [api]
+    ports:
+      - "127.0.0.1:8080:80"
+
 volumes:
   pgdata:
+  models:

@@ -18,6 +18,7 @@ from pydantic import BaseModel
 from .cochange import changed_together
 from .graph import impact
 from .search import BM25, Dense, load_corpus, rrf
+from .store import one
 
 
 class Function(BaseModel):
@@ -75,7 +76,7 @@ def call_edges(conn, root: str) -> list[Edge]:
                    AND c.callee_id IS NOT NULL
             UNION SELECT e.caller_id, e.callee_id, 'jelly' FROM extra_edges e
                    JOIN functions fn ON fn.id = e.caller_id {SCOPE}""", (root, root))
-    ours = {}
+    ours: dict[tuple[int, int], str] = {}
     for s, t, via in rows:  # a link found by both keeps our label
         if (s, t) not in ours or ours[(s, t)] == "jelly":
             ours[(s, t)] = via
@@ -84,7 +85,8 @@ def call_edges(conn, root: str) -> list[Edge]:
 
 def function_places(conn, root: str) -> tuple[dict[tuple[str, str], int], dict[int, tuple[str, int]]]:
     """(path, qualname) -> id, and id -> (path, start line), for today's named functions."""
-    ids, place = {}, {}
+    ids: dict[tuple[str, str], int] = {}
+    place: dict[int, tuple[str, int]] = {}
     for fid, path, qualname, line in conn.execute(
             f"SELECT fn.id, f.path, fn.qualname, fn.start_line FROM functions fn {SCOPE}"
             " AND fn.kind <> 'module' ORDER BY fn.id", (root,)):
@@ -106,7 +108,8 @@ def create_app(root: str, db_url: str, llm: str = "qwen3-4b",
         docs = load_corpus(conn, root)
         together = changed_together(history or [], function_places(conn, root)[0])
     bm25 = BM25(docs)
-    embedder_lock, embedder = threading.Lock(), []  # load the ~18 s model on first use only
+    embedder_lock = threading.Lock()
+    embedder: list = []  # load the ~18 s model on first use only
 
     def get_embedder():
         with embedder_lock:
@@ -160,7 +163,7 @@ def create_app(root: str, db_url: str, llm: str = "qwen3-4b",
             found = functions(conn, [fid])
             if not found:
                 raise HTTPException(404, f"no function {fid} in {root}")
-            code = conn.execute("SELECT code FROM functions WHERE id = %s", (fid,)).fetchone()[0]
+            code = one(conn.execute("SELECT code FROM functions WHERE id = %s", (fid,)))[0]
             links = call_edges(conn, root)
             callers = functions(conn, sorted({e.source for e in links if e.target == fid}))
             callees = functions(conn, sorted({e.target for e in links if e.source == fid}))

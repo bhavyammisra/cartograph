@@ -3,6 +3,7 @@ import os
 import time
 from importlib.metadata import version
 from pathlib import Path
+from typing import Any
 
 
 def load_dotenv(path: Path = Path(__file__).parents[3] / ".env") -> None:
@@ -46,6 +47,8 @@ def main(argv: list[str] | None = None) -> None:
     srv = sub.add_parser("serve", help="run the API server for the map website")
     srv.add_argument("repo", type=Path)
     srv.add_argument("--port", type=int, default=8000)
+    srv.add_argument("--host", default="127.0.0.1",
+                     help="0.0.0.0 only inside a container: the API serves your source code")
     srv.add_argument("--llm", default="qwen3-4b")
     imp = sub.add_parser("impact-eval", help="check impact analysis against git co-change")
     imp.add_argument("repo", type=Path, help="indexed repo (a git checkout)")
@@ -94,6 +97,7 @@ def main(argv: list[str] | None = None) -> None:
         root = args.repo.resolve().as_posix()
         with connect() as conn:
             docs = load_corpus(conn, root)
+            retriever: Any
             if args.retriever == "bm25":
                 retriever, name = BM25(docs), "bm25"
             elif args.retriever in ("agent", "grep-agent"):
@@ -145,8 +149,8 @@ def main(argv: list[str] | None = None) -> None:
         app = create_app(args.repo.resolve().as_posix(),
                          os.environ.get("DATABASE_URL", DEFAULT_DB), args.llm,
                          json.loads(cache.read_text()) if cache.exists() else None)
-        print(f"Cartograph API on http://127.0.0.1:{args.port}  (docs: /docs)")
-        uvicorn.run(app, host="127.0.0.1", port=args.port, log_level="warning")
+        print(f"Cartograph API on http://{args.host}:{args.port}  (docs: /docs)")
+        uvicorn.run(app, host=args.host, port=args.port, log_level="warning")
     elif args.command == "mcp":
         import json
 
@@ -172,10 +176,10 @@ def main(argv: list[str] | None = None) -> None:
             callers_of = defaultdict(set)
             for e in call_edges(conn, root):
                 callers_of[e.target].add(e.source)
-        report = validate(commits, ids, callers_of, place, depth=args.depth)
-        print(json.dumps(report, indent=1))
+        checked = validate(commits, ids, callers_of, place, depth=args.depth)
+        print(json.dumps(checked, indent=1))
         if args.out:
-            args.out.write_text(json.dumps(report, indent=1) + "\n", encoding="utf-8")
+            args.out.write_text(json.dumps(checked, indent=1) + "\n", encoding="utf-8")
     elif args.command in ("order", "order-eval"):
         import json
 
@@ -183,7 +187,7 @@ def main(argv: list[str] | None = None) -> None:
 
         with connect() as conn:
             order = Order.load(conn, args.repo.resolve().as_posix())
-        by_name = {}
+        by_name: dict[str, list[int]] = {}
         for fid, name in order.names.items():
             by_name.setdefault(name, []).append(fid)
 
@@ -226,13 +230,13 @@ def main(argv: list[str] | None = None) -> None:
         from .jelly import compare, store_edges
 
         with connect() as conn:
-            report = compare(conn, args.path, args.entries,
-                             Path(".cache/jelly") / f"{args.path.resolve().name}.json")
-            store_edges(conn, args.path, report.pop("_theirs"))
-            report.pop("_ours")
-        print(json.dumps(report, indent=1))
+            compared = compare(conn, args.path, args.entries,
+                               Path(".cache/jelly") / f"{args.path.resolve().name}.json")
+            store_edges(conn, args.path, compared.pop("_theirs"))
+            compared.pop("_ours")
+        print(json.dumps(compared, indent=1))
         if args.out:
-            args.out.write_text(json.dumps(report, indent=1) + "\n", encoding="utf-8",
+            args.out.write_text(json.dumps(compared, indent=1) + "\n", encoding="utf-8",
                                 newline="\n")
     elif args.command == "mine":
         import json
@@ -254,7 +258,7 @@ def main(argv: list[str] | None = None) -> None:
         start = time.perf_counter()
         with connect() as conn:
             if args.command == "index":
-                stats = index_repo(conn, args.path)
+                stats: dict[str, object] = dict(index_repo(conn, args.path))
                 # Re-parsed functions get new ids and lose their vectors: say so, or meaning
                 # search quietly finds nothing.
                 missing = conn.execute(

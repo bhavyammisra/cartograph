@@ -7,7 +7,7 @@ from cartograph.agent import MAX_STEPS, Agent
 
 
 def reply(*calls, text=None):
-    tool_calls = [NS(id=f"c{i}", function=NS(name=n, arguments=json.dumps(a)))
+    tool_calls = [NS(id=f"c{i}", type="function", function=NS(name=n, arguments=json.dumps(a)))
                   for i, (n, a) in enumerate(calls)] or None
     msg = NS(tool_calls=tool_calls, content=text,
              model_dump=lambda **_: {"role": "assistant", "content": text})

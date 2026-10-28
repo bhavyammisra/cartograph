@@ -11,14 +11,16 @@ import os
 import re
 import time
 from pathlib import Path
+from typing import Any
 
 import psycopg
 
 from .search import BM25, Dense, Doc
+from .store import one
 
 # Any OpenAI-compatible endpoint. Local Ollama is free and unlimited; Groq has a free tier.
-OLLAMA = "http://localhost:11434"
-LLMS = {
+OLLAMA = os.environ.get("OLLAMA_URL", "http://localhost:11434")
+LLMS: dict[str, dict[str, Any]] = {
     # The non-thinking "instruct" edition: the default qwen3:4b writes ~1,000 tokens of hidden
     # reasoning per step (60-90 s on a 4 GB laptop GPU) and ignores /no_think via this API.
     # num_ctx: Ollama's default 4,096-token window silently cut off longer agent conversations.
@@ -148,8 +150,8 @@ class Agent:
     # ---- helpers -------------------------------------------------------------------------
     def label(self, fid: int) -> str:
         d = self.docs[fid]
-        start, end = self.conn.execute("SELECT start_line, end_line FROM functions WHERE id = %s",
-                                       (fid,)).fetchone()
+        start, end = one(self.conn.execute(
+            "SELECT start_line, end_line FROM functions WHERE id = %s", (fid,)))
         return f"F{fid} {d.qualname} ({d.path}:{start}-{end})"
 
     def fid(self, handle) -> int | None:
@@ -200,8 +202,8 @@ class Agent:
         fid = self.fid(handle)
         if fid is None:
             return f"unknown function {handle}", []
-        start, code = self.conn.execute("SELECT start_line, code FROM functions WHERE id = %s",
-                                        (fid,)).fetchone()
+        start, code = one(self.conn.execute(
+            "SELECT start_line, code FROM functions WHERE id = %s", (fid,)))
         lines = code.splitlines()[:80]
         return self.label(fid) + "\n" + "\n".join(f"{start + i}: {t}" for i, t in
                                                   enumerate(lines)), [fid]
@@ -287,9 +289,9 @@ class Agent:
         return [fid for _, fid in sorted(hits)]
 
     def __call__(self, question: str, k: int = 50) -> list[int]:
-        messages = [{"role": "system", "content": SYSTEM[self.mode]},
+        messages: list[Any] = [{"role": "system", "content": SYSTEM[self.mode]},
                     {"role": "user", "content": question}]
-        tools = INDEX_TOOLS if self.mode == "index" else GREP_TOOLS
+        tools: list[Any] = INDEX_TOOLS if self.mode == "index" else GREP_TOOLS
         submit_only = False  # after a text reply, offer nothing but submit_answer
         seen: list[int] = []  # every function the agent was shown, in order
         events, answer, tokens, not_found = EventLog(self.on_event), None, 0, False
@@ -324,6 +326,8 @@ class Agent:
                 submit_only = True
                 continue
             for call in msg.tool_calls:
+                if call.type != "function":  # only function tools are offered
+                    continue
                 name = call.function.name
                 try:
                     args = json.loads(call.function.arguments or "{}")
@@ -334,6 +338,7 @@ class Agent:
                     events.append({"step": step, "type": "answer", "args": args,
                                    "ids": answer, "ms": round((time.perf_counter() - start) * 1000)})
                     break
+                ids: list[int]
                 if step == MAX_STEPS:  # out of budget: no more tools, only an answer
                     result, ids = "Tool budget used up. Call submit_answer now.", []
                 else:

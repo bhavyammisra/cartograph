@@ -72,11 +72,11 @@ def resolve(files: dict[str, FileInfo], calls: list[CallRef]) -> list[tuple[int,
         if exp is None or hops > 5:
             return None
         if exp.source == "":
-            return unique(by_file[path].get(exp.imported, []))
+            return unique(by_file[path].get(exp.imported or "", []))
         nxt = import_target(path, exp.source, files) if exp.source.startswith(".") else None
         return default_export(nxt, hops + 1) if nxt else None
 
-    out = []
+    out: list[tuple[int, int | None, str]] = []
     for c in calls:
         if c.name is None:
             out.append((c.id, None, "dynamic"))

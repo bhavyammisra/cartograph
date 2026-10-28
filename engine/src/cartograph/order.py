@@ -120,6 +120,7 @@ class Order:
         """Baseline: first x line before first y line in f's own calls, ignoring branches and calls."""
         lines = {t: min((s.line for s in self.sites.get(f, ()) if self.hits(s, t)), default=None)
                  for t in (x, y)}
-        if lines[y] is None:
+        first_x, first_y = lines[x], lines[y]
+        if first_y is None:
             return "unreachable"
-        return "always" if lines[x] is not None and lines[x] <= lines[y] else "not always"
+        return "always" if first_x is not None and first_x <= first_y else "not always"

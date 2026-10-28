@@ -103,7 +103,7 @@ def validate(commits: list[dict], ids: dict[tuple[str, str], int], callers_of: d
         "same file (baseline)": nearby,
     }
     counts: dict[int, Counter] = defaultdict(Counter)
-    rows = {m: defaultdict(list) for m in methods}
+    rows: dict[str, defaultdict[str, list[float]]] = {m: defaultdict(list) for m in methods}
     warm, seeds = int(len(kept) * warm_up), 0
     for i, (_, found) in enumerate(kept):
         if i >= warm:

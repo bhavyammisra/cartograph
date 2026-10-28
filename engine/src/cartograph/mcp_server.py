@@ -6,6 +6,7 @@ always get the same answers. Results are short plain text: every line an agent r
 """
 
 import psycopg
+from fastapi.routing import APIRoute
 from mcp.server.mcpserver import MCPServer
 
 from .api import SCOPE, create_app
@@ -22,7 +23,7 @@ def build(root: str, db_url: str, history: list[dict] | None = None) -> MCPServe
     app = create_app(root, db_url, history=history)
     # FastAPI keeps each route's plain Python function; call those, passing every argument
     # (their defaults are FastAPI Query markers, not values).
-    endpoint = {r.path: r.endpoint for r in app.routes if hasattr(r, "endpoint")}
+    endpoint = {r.path: r.endpoint for r in app.routes if isinstance(r, APIRoute)}
     nodes = endpoint["/api/graph"]().nodes
     by_name: dict[str, list] = {}
     for n in nodes:

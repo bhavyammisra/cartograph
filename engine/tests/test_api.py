@@ -11,7 +11,7 @@ from cartograph.store import DEFAULT_DB, index_repo
 
 URL = os.environ.get("DATABASE_URL", DEFAULT_DB)
 try:
-    psycopg.connect(URL).close()
+    psycopg.connect(URL, connect_timeout=2).close()  # skip fast, not hang, without Postgres
     HAVE_DB = True
 except psycopg.OperationalError:
     HAVE_DB = False

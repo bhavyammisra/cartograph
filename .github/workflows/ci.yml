@@ -23,7 +23,26 @@ jobs:
       - uses: actions/checkout@v5
       - uses: astral-sh/setup-uv@v7
       - run: uv run ruff check .
+      - run: uv run mypy
       - run: uv run pytest -q
+      # Regression eval: the answers must stay as good as the published numbers, not just run.
+      - name: Fetch Express at the evaluated commit
+        run: |
+          git init -q ../targets/express
+          git -C ../targets/express fetch -q --depth 1 https://github.com/expressjs/express 0dee2c52c7c873498f8ed7d8ee4ddd0a04d3ada8
+          git -C ../targets/express checkout -q FETCH_HEAD
+      - run: uv run cartograph index ../targets/express
+      - run: uv run cartograph eval ../targets/express --questions ../eval/express/mined.jsonl --retriever bm25 --out /tmp/eval
+      - run: uv run cartograph order-eval ../targets/express --questions ../eval/express/order.jsonl --out /tmp/eval/order.json
+      - name: Scores must not drop below the published ones
+        shell: python
+        run: |
+          import json
+          bm25 = json.load(open("/tmp/eval/mined-bm25.json"))["summary"]["source=issue"]
+          order = json.load(open("/tmp/eval/order.json"))["summary"]["all"]["cartograph"]
+          print("bm25 issues acc@5", bm25["acc@5"], "| ordering", order)
+          assert bm25["acc@5"] >= 0.703, "BM25 top-5 on Express issues dropped below 0.703"
+          assert order >= 0.943, "ordering benchmark dropped below 33/35"
 
   web:
     runs-on: ubuntu-latest
