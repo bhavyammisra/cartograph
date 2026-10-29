@@ -26,6 +26,7 @@ export type AgentEvent =
 
 /** Opens the agent stream; returns a function that stops it. */
 export function ask(q: string, onEvent: (e: AgentEvent) => void): () => void {
+  if (DEMO) return replayDemo(q, onEvent)
   const source = new EventSource(`/api/ask?q=${encodeURIComponent(q)}`)
   source.onmessage = (m) => {
     const e = JSON.parse(m.data) as AgentEvent
@@ -53,12 +54,51 @@ async function get<T>(path: string, signal?: AbortSignal): Promise<T> {
   return res.json() as Promise<T>
 }
 
-export const api = {
+/** The demo site (`VITE_DEMO=1 npm run build`) reads files from `cartograph export` instead of
+ * the engine: name search only, and the agent replays recorded questions. */
+export const DEMO = import.meta.env.VITE_DEMO === '1'
+let demoGraph: Promise<GraphData> | null = null
+let demoTraces: Promise<Record<string, AgentEvent[]>> | null = null
+export const demoQuestions = () => (demoTraces ??= get('/demo/traces.json')).then(Object.keys)
+
+function demoSearch(q: string): Promise<Hit[]> {
+  const words = q.toLowerCase().split(/\s+/).filter(Boolean)
+  return (demoGraph ??= get<GraphData>('/demo/graph.json')).then((g) => g.nodes
+    .filter((n) => n.kind !== 'module' && words.every((w) => `${n.qualname} ${n.path}`.toLowerCase().includes(w)))
+    .slice(0, 10)
+    .map((n, i) => ({ ...n, rank: i + 1, keyword_rank: null, meaning_rank: null })))
+}
+
+export const api = DEMO ? {
+  health: () => get<Health>('/demo/health.json'),
+  graph: () => (demoGraph ??= get<GraphData>('/demo/graph.json')),
+  fn: (id: number, signal?: AbortSignal) => get<FunctionDetail>(`/demo/functions/${id}.json`, signal),
+  search: (q: string) => demoSearch(q),
+} : {
   health: () => get<Health>('/api/health'),
   graph: () => get<GraphData>('/api/graph'),
   fn: (id: number, signal?: AbortSignal) => get<FunctionDetail>(`/api/functions/${id}`, signal),
   search: (q: string, signal?: AbortSignal) =>
     get<Hit[]>(`/api/search?mode=hybrid&k=10&q=${encodeURIComponent(q)}`, signal),
+}
+
+/** Plays a recorded run at its own pace (each step capped at 1.5 s). */
+function replayDemo(q: string, onEvent: (e: AgentEvent) => void): () => void {
+  let stopped = false
+  const timers: number[] = []
+  ;(demoTraces ??= get('/demo/traces.json')).then((traces) => {
+    const events = traces[q]
+    if (!events) {
+      onEvent({ type: 'error', text: 'This demo replays recorded questions only. Pick one from the list.' })
+      return
+    }
+    let at = 0
+    for (const e of events) {
+      at += Math.min('ms' in e && e.ms ? e.ms : 400, 1500)
+      timers.push(window.setTimeout(() => !stopped && onEvent(e), at))
+    }
+  })
+  return () => { stopped = true; timers.forEach(clearTimeout) }
 }
 
 /** How a function is shown to people: anonymous functions get their line instead. */

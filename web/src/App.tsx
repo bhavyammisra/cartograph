@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { api, ask, type AgentEvent, type Health } from './api'
+import { api, ask, DEMO, demoQuestions, type AgentEvent, type Health } from './api'
 import { buildMap, OTHER_LINE, type CodeMap } from './buildGraph'
 import FunctionPanel from './FunctionPanel'
 import { buildJourney } from './journey'
@@ -18,6 +18,8 @@ type Run = {
 }
 
 const REPLAY_MS = 900 // pause between steps when replaying
+const recordedSeconds = (events: AgentEvent[]) =>
+  events.reduce((t, e) => t + ('ms' in e && e.ms ? e.ms : 0), 0) / 1000
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 export default function App() {
@@ -28,6 +30,8 @@ export default function App() {
   const [run, setRun] = useState<Run | null>(null)
   const [shown, setShown] = useState(Infinity) // how many steps are visible (replay)
   const stopStream = useRef<(() => void) | null>(null)
+  const [demoQs, setDemoQs] = useState<string[]>([])
+  useEffect(() => { if (DEMO) demoQuestions().then(setDemoQs).catch(() => setDemoQs([])) }, [])
 
   const startAsk = useCallback((question: string) => {
     stopStream.current?.()
@@ -39,7 +43,9 @@ export default function App() {
       if (!r) return r
       const end = e.type === 'done' || e.type === 'error'
       return { ...r, events: [...r.events, e], status: e.type === 'done' ? 'done' : e.type === 'error' ? 'error' : r.status,
-               seconds: end ? (performance.now() - r.started) / 1000 : r.seconds }
+               // A demo replay is sped up: report the time the recorded run really took.
+               seconds: !end ? r.seconds : DEMO ? recordedSeconds([...r.events, e])
+                 : (performance.now() - r.started) / 1000 }
     }))
   }, [])
 
@@ -145,7 +151,7 @@ export default function App() {
   const repo = load.health.root.split('/').pop()
   const done = run?.events.find((e) => e.type === 'done')
   return (
-    <div className="app">
+    <div className={DEMO ? 'app demo' : 'app'}>
       <header className="bar">
         <div className="brand">
           <img src="/favicon.svg" alt="" width={22} height={22} />
@@ -161,6 +167,19 @@ export default function App() {
         )}
         <SearchBox onPick={go} onAsk={startAsk} asking={run?.status === 'running'} colorOf={colorOf} />
       </header>
+      {DEMO && (
+        <nav className="demo-bar" aria-label="About this demo">
+          <span>Demo: name search and recorded agent runs. Try</span>
+          {demoQs.map((q) => (
+            <button type="button" className="text-button" key={q} onClick={() => startAsk(q)}>{q}</button>
+          ))}
+          <span className="demo-links">
+            <a href="https://github.com/bhavyammisra/cartograph">Source</a>
+            <a href="/privacy.html">Privacy</a>
+            <a href="/terms.html">Terms</a>
+          </span>
+        </nav>
+      )}
       <main className={selected || run ? 'stage with-panel' : 'stage'}>
         <MapView map={load.map} selected={selected} focusLine={focusLine} journey={selected ? null : journey}
                  onSelect={setSelected} flyTo={flyTo} follow={lastStop} />

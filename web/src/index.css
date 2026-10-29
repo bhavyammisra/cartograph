@@ -84,6 +84,16 @@ code { font-family: var(--mono); font-size: 0.92em; }
 
 /* ---------- shell ---------- */
 .app { display: grid; grid-template-rows: auto 1fr; height: 100%; }
+.app.demo { grid-template-rows: auto auto 1fr; }
+.demo-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px;
+  padding: 6px 16px; border-bottom: 1px solid var(--rule); background: var(--panel);
+  font-size: var(--t-small); color: var(--ink-muted);
+}
+.demo-bar .text-button { color: var(--ink); text-align: left; }
+.demo-links { display: flex; gap: 12px; margin-left: auto; }
+.demo-links a { color: var(--ink-muted); }
+.demo-links a:hover { color: var(--ink); }
 .bar {
   display: flex; align-items: center; gap: 24px;
   padding: 10px 16px;

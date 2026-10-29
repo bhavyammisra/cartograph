@@ -8,6 +8,7 @@ import json
 import re
 import subprocess
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from .parser import EXTENSIONS, parse
@@ -62,6 +63,9 @@ def github_item(slug: str, number: int) -> dict | None:
     r = subprocess.run(["gh", "api", f"repos/{slug}/issues/{number}"], check=False,
                        capture_output=True,
                        encoding="utf-8", errors="replace")
+    if r.returncode != 0 and "Not Found" not in r.stderr:
+        # Rate limit or network: stop rather than cache "no such issue" for a real one.
+        raise SystemExit(f"GitHub lookup of #{number} failed, re-run to resume: {r.stderr.strip()}")
     item = json.loads(r.stdout) if r.returncode == 0 else None
     cached.parent.mkdir(parents=True, exist_ok=True)
     cached.write_text(json.dumps(item), encoding="utf-8")
@@ -82,32 +86,44 @@ def question_source(slug: str, number: int) -> tuple[dict, str] | None:
     return item, "pr"
 
 
-def mine(repo: Path, slug: str, prefix: str) -> list[dict]:
+def commit_question(repo: Path, slug: str, prefix: str, sha: str, text: str):
+    """(issue or PR, its kind, functions the commit changed) for the first #number that is one."""
+    for number in dict.fromkeys(int(n) for n in re.findall(r"#(\d+)", text)):
+        found = question_source(slug, number)
+        if not found:
+            continue
+        changed = changed_functions(repo, sha, prefix)
+        return (*found, changed) if changed else None
+    return None
+
+
+def mine(repo: Path, slug: str, prefix: str, since: str | None = None) -> list[dict]:
     head_files = {}
     for path in git(repo, "ls-files", prefix).split():
         if Path(path).suffix in EXTENSIONS:
             fns, _ = parse((repo / path).read_bytes(), EXTENSIONS[Path(path).suffix], path)
             head_files[path] = {f.qualname for f in fns[1:]}
 
-    log = git(repo, "log", "--no-merges", "--format=%H%x00%s%x00%b%x1e", "--", prefix)
-    by_issue: dict[int, dict] = {}
-    gold: dict[int, set] = defaultdict(set)
+    log = git(repo, "log", "--no-merges", *([f"--since={since}"] if since else []),
+              "--format=%H%x00%s%x00%b%x1e", "--", prefix)
+    commits = []
     for entry in filter(str.strip, log.split("\x1e")):
         sha, subject, body = entry.strip().split("\x00")
-        if SKIP_SUBJECT.match(subject):
+        if not SKIP_SUBJECT.match(subject):
+            commits.append((sha, subject + " " + body))
+    # Each commit waits on git and GitHub, not on Python, so threads overlap the waiting.
+    # map() keeps log order, so the result matches a one-at-a-time run.
+    with ThreadPoolExecutor(8) as pool:
+        results = list(pool.map(lambda c: commit_question(repo, slug, prefix, *c), commits))
+    by_issue: dict[int, dict] = {}
+    gold: dict[int, set] = defaultdict(set)
+    for (sha, _), result in zip(commits, results):
+        if result is None:
             continue
-        for number in dict.fromkeys(int(n) for n in re.findall(r"#(\d+)", subject + " " + body)):
-            found = question_source(slug, number)
-            if not found:
-                continue
-            item, kind = found
-            changed = changed_functions(repo, sha, prefix)
-            if not changed:
-                continue
-            n = item["number"]
-            gold[n] |= changed
-            by_issue.setdefault(n, {"item": item, "kind": kind, "commits": []})["commits"].append(sha)
-            break
+        item, kind, changed = result
+        n = item["number"]
+        gold[n] |= changed
+        by_issue.setdefault(n, {"item": item, "kind": kind, "commits": []})["commits"].append(sha)
 
     questions = []
     for n, info in by_issue.items():

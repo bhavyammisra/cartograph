@@ -7,6 +7,17 @@ authors = [
     { name = "Bhavyam Misra", email = "misrabhavyam@gmail.com" }
 ]
 requires-python = ">=3.12"
+readme = "README.md"
+keywords = ["code search", "javascript", "typescript", "call graph", "mcp", "agent"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: JavaScript",
+    "Topic :: Software Development",
+]
+
 dependencies = [
     "bm25s>=0.3.14",
     "fastapi>=0.153.0",
@@ -21,6 +32,12 @@ dependencies = [
     "tree-sitter-typescript>=0.23.2",
     "uvicorn>=0.54.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/bhavyammisra/cartograph"
+Source = "https://github.com/bhavyammisra/cartograph"
+Issues = "https://github.com/bhavyammisra/cartograph/issues"
+Changelog = "https://github.com/bhavyammisra/cartograph/blob/main/CHANGELOG.md"
 
 [project.scripts]
 cartograph = "cartograph:main"

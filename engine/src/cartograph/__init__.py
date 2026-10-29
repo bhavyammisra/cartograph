@@ -34,6 +34,7 @@ def main(argv: list[str] | None = None) -> None:
     mine_p.add_argument("--github", required=True, help="owner/name, e.g. expressjs/express")
     mine_p.add_argument("--prefix", default="lib/", help="only count functions under this path")
     mine_p.add_argument("--out", type=Path, required=True)
+    mine_p.add_argument("--since", help="only commits after this date, e.g. 2022-01-01")
     ev = sub.add_parser("eval", help="score a retriever on a question set")
     ev.add_argument("repo", type=Path, help="repo folder that was indexed")
     ev.add_argument("--questions", type=Path, required=True)
@@ -64,6 +65,11 @@ def main(argv: list[str] | None = None) -> None:
     order_ev.add_argument("repo", type=Path)
     order_ev.add_argument("--questions", type=Path, required=True)
     order_ev.add_argument("--out", type=Path, help="save the results as JSON")
+    exp = sub.add_parser("export", help="write a static demo (map, panels, recorded questions)")
+    exp.add_argument("repo", type=Path)
+    exp.add_argument("--out", type=Path, required=True, help="e.g. web/public/demo")
+    exp.add_argument("--questions", type=Path, help="text file, one question per line, to record")
+    exp.add_argument("--llm", default="qwen3-4b")
     mcp_p = sub.add_parser("mcp", help="run the MCP server (stdio) for Claude Code and other agents")
     mcp_p.add_argument("repo", type=Path)
     ask = sub.add_parser("ask", help="ask one question and print every agent step")
@@ -151,6 +157,20 @@ def main(argv: list[str] | None = None) -> None:
                          json.loads(cache.read_text()) if cache.exists() else None)
         print(f"Cartograph API on http://{args.host}:{args.port}  (docs: /docs)")
         uvicorn.run(app, host=args.host, port=args.port, log_level="warning")
+    elif args.command == "export":
+        import json
+
+        from .cochange import history_cache
+        from .export import export
+        from .store import DEFAULT_DB
+
+        connect().close()
+        cache = history_cache(args.repo)
+        questions = ([q.strip() for q in args.questions.read_text(encoding="utf-8").splitlines()
+                      if q.strip()] if args.questions else [])
+        print(export(args.repo.resolve().as_posix(), os.environ.get("DATABASE_URL", DEFAULT_DB),
+                     args.out, questions, args.llm,
+                     json.loads(cache.read_text()) if cache.exists() else None))
     elif args.command == "mcp":
         import json
 
@@ -243,7 +263,7 @@ def main(argv: list[str] | None = None) -> None:
 
         from .mine import mine
 
-        questions = mine(args.repo, args.github, args.prefix)
+        questions = mine(args.repo, args.github, args.prefix, args.since)
         args.out.parent.mkdir(parents=True, exist_ok=True)
         args.out.write_text("".join(json.dumps(q) + "\n" for q in questions), encoding="utf-8",
                             newline="\n")
