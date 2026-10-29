@@ -9,7 +9,8 @@ import psycopg
 from .parser import EXTENSIONS, PARSER_VERSION, Import, parse
 from .resolve import CallRef, FileInfo, resolve
 
-DEFAULT_DB = "postgresql://cartograph:cartograph@localhost:5432/cartograph"
+# 127.0.0.1, not localhost: Windows tries IPv6 (::1) first, where Docker's port isn't bound.
+DEFAULT_DB = "postgresql://cartograph:cartograph@127.0.0.1:5432/cartograph"
 SKIP_DIRS = {"node_modules", ".git", "dist", "build", "coverage", ".next", "vendor"}
 TEST_MARKERS = ("/test/", "/tests/", "/__tests__/", ".test.", ".spec.")
 
@@ -142,8 +143,10 @@ def index_repo(conn: psycopg.Connection, root: Path) -> dict[str, int]:
         cur.execute("DELETE FROM files WHERE repo_id = %s AND path = ANY(%s)", (repo_id, gone))
         stats["removed"] = len(gone)
 
-        # Any file change can change what other files' calls point to, so resolve everything again.
-        resolve_repo(cur, repo_id)
+        # Any file change can change what other files' calls point to, so resolve everything again;
+        # with no change, the stored links are already right (parse and resolve commit together).
+        if stats["parsed"] or stats["removed"]:
+            resolve_repo(cur, repo_id)
         cur.execute("""SELECT count(*) FILTER (WHERE kind <> 'module') FROM functions fn
                        JOIN files f ON f.id = fn.file_id WHERE f.repo_id = %s""", (repo_id,))
         stats["functions"] = one(cur)[0]
@@ -208,5 +211,11 @@ def resolve_repo(cur: psycopg.Cursor, repo_id: int) -> None:
                    JOIN functions fn ON fn.id = c.caller_id JOIN files f ON f.id = fn.file_id
                    WHERE f.repo_id = %s""", (repo_id,))
     calls = [CallRef(cid, paths[file_id], name, recv) for cid, file_id, name, recv in cur]
-    cur.executemany("UPDATE calls SET callee_id = %s, resolution = %s WHERE id = %s",
-                    [(callee, label, cid) for cid, callee, label in resolve(files, calls)])
+    # One bulk UPDATE from a COPY-loaded table: row-by-row updates took ~2 minutes on Prettier.
+    cur.execute("DROP TABLE IF EXISTS resolved")  # a caller's outer transaction may still hold one
+    cur.execute("CREATE TEMP TABLE resolved (id int, callee int, label text) ON COMMIT DROP")
+    with cur.copy("COPY resolved (id, callee, label) FROM STDIN") as cp:
+        for row in resolve(files, calls):
+            cp.write_row(row)
+    cur.execute("""UPDATE calls c SET callee_id = r.callee, resolution = r.label
+                   FROM resolved r WHERE c.id = r.id""")

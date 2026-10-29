@@ -679,3 +679,40 @@ This is a negative result, and it's kept as one. It's more useful than a cherry-
 
 ### Interview line
 "I measured my MCP server inside Claude Code against grep alone. On a small repo it didn't help: unprompted, Claude ignored it, and nudged, accuracy was flat with 10% more tokens. I published that, with the tool-call logs to prove it, and it tells me where an index pays off: large repos where grep floods the context."
+
+## Phase 12: making it a real tool
+
+### What we built (plain words)
+Cartograph worked; this phase makes a stranger able to install it, trust it and contribute.
+- **Type checking (mypy).** A program that reads the Python code and catches "wrong kind of value" mistakes before running it. It found 32 problems. Most were missing labels, but a few were real: a variable used before it existed in a command I'd edited, agent code that would crash on an unexpected tool-call type, and parser lookups that assumed a code element was always there. Now it runs on every push.
+- **A score check in CI.** On every push, GitHub downloads Express at a fixed commit, indexes it and runs two benchmarks. If keyword search on the bug-report questions drops below 0.703 top-5, or the ordering benchmark below 33/35, the build fails. Tests check the code runs; this checks the answers stay good.
+- **Docker for everything.** `docker compose up --build` starts the database, the API (it indexes your repo and builds meaning vectors on first start) and the map, served by nginx. Checked end to end: the map loads, search works, and the agent's steps stream live from the container to the browser, with the agent using Ollama on your own computer.
+- **Dependabot.** GitHub opens pull requests when a dependency gets a security fix.
+- **Docs.** A README with measured results first, an architecture page with a diagram, how each evaluation works, CONTRIBUTING and a CHANGELOG.
+
+### Performance (measured on Prettier, 5,804 files)
+| | Before | After |
+|---|---|---|
+| First index | 225 s | 33 s |
+| Re-index, nothing changed | 132 s | 1.5 s |
+| Peak memory | 103 MB | 93 MB |
+
+The slow part was re-linking every call to its function (about 28,000 calls) one database row at a time, even when no file had changed. Two fixes: skip it when nothing changed, and write all links with one bulk update. The link counts were identical before and after, so nothing changed except speed. Express now takes 1.6 s from scratch and 0.07 s unchanged.
+
+### Problems we hit
+| Problem | Fix |
+|---|---|
+| Tests hung forever when Postgres was down | a 2-second connection timeout, so they skip instead |
+| After binding the database to 127.0.0.1 (security), connections to `localhost` hung: Windows tries IPv6 first | the default URL uses 127.0.0.1 |
+| On Linux, the default torch download brings ~3 GB of GPU libraries | the image installs the CPU build of torch; every other package keeps its locked version |
+| The bulk update's temporary table clashed when indexing ran twice in one transaction | drop any leftover first |
+| Docker Desktop kept stopping between sessions | restarted it each time (nothing to fix in the code) |
+
+### New tools and ideas
+- **mypy** (static type checking), **Dependabot** (automatic dependency updates), **nginx** (serves the built website and forwards `/api` to the engine).
+- **Regression evaluation:** fail the build when answer quality drops, not just when code breaks.
+- **Measure, then optimise:** the first Prettier run showed where the time went; the fix was found by reading that, not by guessing.
+
+### Interview lines
+- "CI doesn't just run tests: it re-runs my benchmarks on a pinned repository and fails if accuracy drops."
+- "Measuring on a 5,800-file repo exposed row-by-row database updates; switching to one bulk update took indexing from 225 s to 33 s, and a no-change re-index from 132 s to 1.5 s, with identical results."
