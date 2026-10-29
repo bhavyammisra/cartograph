@@ -1,0 +1,1250 @@
+{
+ "summary": {
+  "all": {
+   "n": 60,
+   "acc@1": 0.05,
+   "acc@5": 0.15,
+   "acc@10": 0.233,
+   "recall@10": 0.191,
+   "mrr": 0.107,
+   "file_acc@5": 0.283,
+   "p50_ms": 446.3,
+   "p95_ms": 475.5
+  },
+  "source=issue": {
+   "n": 60,
+   "acc@1": 0.05,
+   "acc@5": 0.15,
+   "acc@10": 0.233,
+   "recall@10": 0.191,
+   "mrr": 0.107,
+   "file_acc@5": 0.283,
+   "p50_ms": 446.3,
+   "p95_ms": 475.5
+  },
+  "type=mined": {
+   "n": 60,
+   "acc@1": 0.05,
+   "acc@5": 0.15,
+   "acc@10": 0.233,
+   "recall@10": 0.191,
+   "mrr": 0.107,
+   "file_acc@5": 0.283,
+   "p50_ms": 446.3,
+   "p95_ms": 475.5
+  },
+  "answer not named": {
+   "n": 60,
+   "acc@1": 0.05,
+   "acc@5": 0.15,
+   "acc@10": 0.233,
+   "recall@10": 0.191,
+   "mrr": 0.107,
+   "file_acc@5": 0.283,
+   "p50_ms": 446.3,
+   "p95_ms": 475.5
+  }
+ },
+ "questions": [
+  {
+   "id": "prettier-10291",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 360.46990000068035,
+   "top5": [
+    32706,
+    32150,
+    46792,
+    46769,
+    32833
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.047619047619047616,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-10879",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 308.1622999998217,
+   "top5": [
+    34726,
+    32237,
+    34695,
+    32529,
+    34727
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.020833333333333332,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "prettier-11400",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 380.9945000002699,
+   "top5": [
+    33227,
+    34727,
+    32857,
+    32331,
+    46900
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-1197",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 461.7852999999741,
+   "top5": [
+    33401,
+    33636,
+    33362,
+    32194,
+    34525
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "prettier-12080",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 423.5428000001775,
+   "top5": [
+    31822,
+    32013,
+    32303,
+    31824,
+    31958
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "prettier-12516",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 320.2499999997599,
+   "top5": [
+    32336,
+    31822,
+    32302,
+    32013,
+    32303
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-12787",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 119.30609999944863,
+   "top5": [
+    33312,
+    33097,
+    33105,
+    33179,
+    33303
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.027777777777777776,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-12888",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 281.36110000014014,
+   "top5": [
+    34726,
+    32960,
+    33258,
+    32231,
+    32857
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.047619047619047616,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-13202",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 397.70560000033583,
+   "top5": [
+    32743,
+    32694,
+    31822,
+    32790,
+    46788
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-13620",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 446.609300000091,
+   "top5": [
+    33258,
+    34726,
+    32232,
+    34441,
+    34288
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-14811",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 459.9613999998837,
+   "top5": [
+    46940,
+    34785,
+    31793,
+    32331,
+    34793
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.025,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-15193",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 470.51289999944856,
+   "top5": [
+    32857,
+    34726,
+    34288,
+    32743,
+    32331
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.25,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "prettier-15698",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 468.1485999999495,
+   "top5": [
+    33668,
+    46707,
+    46770,
+    46771,
+    46755
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.1111111111111111,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "prettier-15707",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 470.62780000032944,
+   "top5": [
+    32231,
+    32237,
+    46787,
+    33783,
+    33636
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-15897",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 464.8886000004495,
+   "top5": [
+    32269,
+    33317,
+    33258,
+    33035,
+    33227
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.05263157894736842,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-16074",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 464.7565000004761,
+   "top5": [
+    34726,
+    34538,
+    46710,
+    34760,
+    31962
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.25,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "prettier-16146",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 449.26029999987804,
+   "top5": [
+    32013,
+    32008,
+    31822,
+    32023,
+    32330
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 1.0,
+   "recall@10": 0.5,
+   "mrr": 0.1,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "prettier-16165",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 469.9725000000399,
+   "top5": [
+    32763,
+    34441,
+    32960,
+    32331,
+    32333
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-16340",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 471.2233999998716,
+   "top5": [
+    32527,
+    32524,
+    32526,
+    32528,
+    34394
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-16889",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 546.3988000001336,
+   "top5": [
+    32238,
+    32236,
+    32231,
+    32237,
+    34407
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.05263157894736842,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-16895",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 487.67080000015994,
+   "top5": [
+    32961,
+    32857,
+    34445,
+    34727,
+    33257
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-17407",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 426.1108000000604,
+   "top5": [
+    33354,
+    32232,
+    32090,
+    33337,
+    33342
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-17467",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 333.28739999979007,
+   "top5": [
+    32236,
+    32108,
+    32231,
+    32234,
+    32233
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-17479",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 475.49739999976737,
+   "top5": [
+    34726,
+    34288,
+    33258,
+    32857,
+    33227
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-17699",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 116.37950000022101,
+   "top5": [
+    34367,
+    32249,
+    33573,
+    46800,
+    33572
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-17784",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 466.9140999994852,
+   "top5": [
+    46918,
+    32269,
+    33258,
+    32857,
+    34727
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-17910",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 213.93040000020846,
+   "top5": [
+    33317,
+    33315,
+    33314,
+    33004,
+    33316
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "prettier-18143",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 391.50580000023183,
+   "top5": [
+    46769,
+    34654,
+    32206,
+    33952,
+    32234
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-18160",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 352.2052000007534,
+   "top5": [
+    34288,
+    32857,
+    33258,
+    34726,
+    34441
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-18246",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 356.8816999995761,
+   "top5": [
+    32235,
+    32231,
+    32230,
+    32238,
+    32234
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-18278",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 465.88900000006106,
+   "top5": [
+    46800,
+    32236,
+    32231,
+    32238,
+    34164
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-18357",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 216.96830000018963,
+   "top5": [
+    34288,
+    34726,
+    34441,
+    33371,
+    32960
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-18359",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 440.20309999996243,
+   "top5": [
+    33306,
+    33230,
+    33227,
+    33229,
+    33231
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-18394",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 466.2735000001703,
+   "top5": [
+    34365,
+    33389,
+    34165,
+    33362,
+    34361
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.045454545454545456,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-18465",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 411.2033999999767,
+   "top5": [
+    32743,
+    34441,
+    34726,
+    33227,
+    33258
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.14285714285714285,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-18539",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 307.7552000004289,
+   "top5": [
+    34288,
+    34726,
+    32857,
+    33258,
+    34441
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-18563",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 151.74740000020392,
+   "top5": [
+    33186,
+    33188,
+    33374,
+    34069,
+    33187
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.16666666666666666,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "prettier-18604",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 280.6393000000753,
+   "top5": [
+    34288,
+    34726,
+    32857,
+    34441,
+    33227
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-18778",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 412.2897999995985,
+   "top5": [
+    34365,
+    34164,
+    33362,
+    33400,
+    33375
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.2,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "prettier-18834",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 463.63190000010945,
+   "top5": [
+    33362,
+    33400,
+    33378,
+    33368,
+    34365
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "prettier-18858",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 467.9598000002443,
+   "top5": [
+    46769,
+    46770,
+    46890,
+    46755,
+    32236
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.034482758620689655,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-18872",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 456.5390000007028,
+   "top5": [
+    32507,
+    32494,
+    32504,
+    32506,
+    32508
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0625,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-18939",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 458.21559999967576,
+   "top5": [
+    32961,
+    33258,
+    33257,
+    32695,
+    33665
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-18974",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 104.63829999935115,
+   "top5": [
+    33035,
+    33167,
+    33039,
+    33645,
+    33168
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.2,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "prettier-19339",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 470.8210999997391,
+   "top5": [
+    34551,
+    34434,
+    34445,
+    34441,
+    34502
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.07142857142857142,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-19430",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 454.7688000002381,
+   "top5": [
+    33042,
+    33184,
+    33189,
+    33185,
+    33146
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "prettier-19518",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 470.8999999993466,
+   "top5": [
+    33430,
+    46896,
+    32976,
+    33200,
+    34563
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.25,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "prettier-19570",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 141.61760000024515,
+   "top5": [
+    33187,
+    46787,
+    46784,
+    46766,
+    46777
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.14285714285714285,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "prettier-19588",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 456.9652000000133,
+   "top5": [
+    32231,
+    46710,
+    32237,
+    32235,
+    32236
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-19735",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 272.0915999998397,
+   "top5": [
+    34445,
+    46710,
+    34441,
+    33258,
+    34726
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.04,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-19736",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 415.6696000000011,
+   "top5": [
+    34441,
+    33411,
+    32684,
+    32763,
+    32960
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-20029",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 469.08559999974386,
+   "top5": [
+    32231,
+    32238,
+    32146,
+    32147,
+    32232
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.07692307692307693,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-20113",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 467.7591999998185,
+   "top5": [
+    32524,
+    32531,
+    32528,
+    32527,
+    34678
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.5,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "prettier-20172",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 345.664499999657,
+   "top5": [
+    34726,
+    32960,
+    34288,
+    33258,
+    32857
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.043478260869565216,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-20173",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 446.29950000035024,
+   "top5": [
+    33783,
+    46890,
+    33353,
+    33258,
+    46769
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0
+  },
+  {
+   "id": "prettier-3806",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 242.14029999984632,
+   "top5": [
+    46789,
+    46788,
+    31794,
+    46769,
+    34567
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-5183",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 317.12729999981093,
+   "top5": [
+    46755,
+    46726,
+    32231,
+    32237,
+    32238
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.05555555555555555,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-5738",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 465.3167000005851,
+   "top5": [
+    32654,
+    34649,
+    32331,
+    46940,
+    46800
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.02702702702702703,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-6793",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 113.04050000035204,
+   "top5": [
+    32622,
+    34746,
+    33018,
+    35173,
+    32623
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  },
+  {
+   "id": "prettier-7419",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 461.86349999970844,
+   "top5": [
+    46800,
+    46769,
+    46710,
+    32679,
+    46715
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0
+  }
+ ]
+}
