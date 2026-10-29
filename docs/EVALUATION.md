@@ -46,6 +46,8 @@ Measured 29 October 2026 on the development laptop (Windows 11, Python 3.12, Pos
 | Express (`0dee2c5`) | 141 | 3,113 | 1.6 s | 0.07 s | 76 MB |
 | Prettier (`519ce94`) | 5,804 | 9,363 | 33 s | 1.5 s | 93 MB |
 
+Meaning vectors (`cartograph embed`, CodeRankEmbed on CPU): Prettier's 2,999 searchable functions took 557 s with 1.4 GB peak memory, most of it the model. Express's 275 took 243 s inside Docker, including the first model download. Embedding only runs for functions that don't have a vector yet.
+
 Before this measurement, re-resolving every call one database row at a time made the Prettier index take 225 s, and 132 s even when nothing had changed. Two fixes: skip re-resolving when no file changed, and apply all links with one bulk update. The resolution counts were identical before and after.
 
 ## Known gaps
