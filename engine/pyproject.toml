@@ -19,14 +19,14 @@ classifiers = [
 ]
 
 dependencies = [
-    "bm25s>=0.3.14",
-    "fastapi>=0.153.0",
+    "bm25s>=0.3.16",
+    "fastapi>=0.162.0",
     "mcp>=2.3.0",
-    "openai>=3.35.1",
+    "openai>=3.42.0",
     "pgvector>=0.5.1",
     "psycopg[binary]>=3.3.6",
-    "torch>=2.14.1",
-    "transformers>=5.20.2",
+    "torch>=2.15.0",
+    "transformers>=5.22.1",
     "tree-sitter>=0.26.0",
     "tree-sitter-javascript>=0.25.0",
     "tree-sitter-typescript>=0.23.2",
@@ -43,15 +43,15 @@ Changelog = "https://github.com/bhavyammisra/cartograph/blob/main/CHANGELOG.md"
 cartograph = "cartograph:main"
 
 [build-system]
-requires = ["uv_build>=0.13.2,<0.14.0"]
+requires = ["uv_build>=0.13.6,<0.14.0"]
 build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
     "httpx>=0.28.1",
-    "mypy>=2.4.0",
-    "pytest>=9.1.1",
-    "ruff>=0.17.1",
+    "mypy>=2.4.1",
+    "pytest>=9.2.0",
+    "ruff>=0.17.3",
 ]
 
 [tool.ruff]
