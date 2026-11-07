@@ -747,3 +747,19 @@ Claude Code (Sonnet), 20 bug reports: alone 13/20, told to use Cartograph 14/20,
 
 ### Interview line
 "On a 5,800-file repo, my MCP server gave Claude Code the same accuracy for 28% fewer tokens. On a 6-file repo it cost 10% more. I published both, plus the noise level, so the claim is the size of the evidence."
+
+## Phase 13, part 2: the demo site
+
+### What we built (plain words)
+A version of the website that needs no server, so anyone can open it from a link.
+- **`cartograph export`** saves everything the map needs as plain files: the map of Prettier (3,667 functions), every function's panel, and 5 recorded agent runs.
+- **Demo mode** (`VITE_DEMO=1`): the site reads those files instead of asking the engine. Search matches function names; the agent's runs replay at their real speed.
+- **Fair recording:** I wrote the 5 questions before running them and kept every result. The agent got 3 right, 1 close and gave up on 1, and the site shows exactly that.
+- **Phones:** the recorded questions sit in one row you scroll sideways, so the map keeps the screen.
+- **Bonus measurement:** mining Prettier's history for the "Often changed with" panel also scored impact on 501 commits: history plus call graph 0.23, same-file guess 0.13. On Express the same-file guess was nearly as good; on many small files it isn't.
+
+### Problems we hit
+| Problem | Fix |
+|---|---|
+| The history came out empty | the command defaults to Express's `lib/` folder; Prettier needs `--prefix src/` |
+| Five long questions took a third of a phone screen | one sideways-scrolling row on narrow screens |

@@ -41,6 +41,8 @@ The main benchmark: [Prettier](https://github.com/prettier/prettier), with quest
 
 Same accuracy, 28% fewer input tokens. Without the one-line hint, Claude Code used Cartograph in only 3 of 20 runs.
 
+**Predicting what changes together** (501 commits, top 5): git history plus call graph 0.23, git history 0.20, same-file baseline 0.13, call graph 0.09.
+
 ### Express (141 files)
 
 A small library ([Express](https://github.com/expressjs/express), six source files that matter), where the methods were developed.

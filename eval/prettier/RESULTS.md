@@ -56,6 +56,21 @@ uv run --project engine python scripts/claude_eval.py --repo targets/prettier --
 ### Verdict
 On a large repository, pointing Claude Code at Cartograph cut its token use by about a quarter at the same accuracy. It did not make it more accurate in this sample. Left unprompted, Claude Code rarely uses the tools.
 
+## Impact: what changes together, 501 commits
+Same rolling method as [Express](../express/IMPACT.md): each commit that changed 2 or more functions under `src/` is predicted from older commits only (first 20% used as warm-up). Reproduce: `cartograph impact-eval targets/prettier --prefix src/ --out eval/prettier/impact.json`.
+
+| Method | Recall@5 | Recall@10 | Precision |
+|---|---|---|---|
+| Call graph (3 hops) | 0.089 | 0.101 | 0.177 |
+| Co-change history | 0.197 | 0.247 | 0.148 |
+| **Both** | **0.227** | **0.285** | 0.142 |
+| Same file, nearest first | 0.130 | 0.174 | 0.112 |
+
+On Express the same-file guess came close (0.266 vs 0.313), because six files hold most of the code. On Prettier's many small files it falls well behind history (0.130 vs 0.197), as expected. History plus the call graph is best on both repositories.
+
+## Demo questions
+The demo site replays 5 questions written before recording (`demo-questions.txt`), each recorded once and kept as it came out. The agent gave up on the parentheses question ("not found"; the code is in `needs-parentheses.js`), and for "which function finds the project's config file" it chose `findProjectRoot`, which finds the project folder rather than the file: close, not right. The other three point at the right code.
+
 ## Limits
 - 60 agent questions and 20 Claude Code questions from one repository. Differences of a few questions are noise; the token difference is the clearest signal, and it is also from only 20 runs per condition.
 - Gold answers are the functions a fix commit changed, checked against today's code (not the code at the time of each fix).

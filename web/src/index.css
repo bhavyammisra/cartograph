@@ -300,6 +300,9 @@ code { font-family: var(--mono); font-size: 0.92em; }
     box-shadow: 0 -8px 24px rgb(0 0 0 / 0.12);
   }
   .with-panel .key { display: none; }
+  /* Recorded questions: one row that scrolls sideways, so the map keeps the screen. */
+  .demo-bar { flex-wrap: nowrap; overflow-x: auto; white-space: nowrap; }
+  .demo-bar > * { flex-shrink: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

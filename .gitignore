@@ -36,3 +36,6 @@ eval/**/run.log
 # Design review screenshots (regenerate with scripts/capture.py)
 .impeccable/review/
 eval/**/*.mcp.json
+
+# Demo export (regenerate with cartograph export)
+web/public/demo/

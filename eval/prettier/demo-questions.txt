@@ -1,0 +1,5 @@
+Where does Prettier decide whether to keep or remove parentheses around an expression?
+Which function finds the project's config file?
+Where are comments attached to the nodes they belong to?
+How does Prettier print a template literal?
+Where are binary operators like && and + split across lines?

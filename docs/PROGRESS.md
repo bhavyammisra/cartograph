@@ -6,7 +6,7 @@ Read this first when starting a new session. It says where the project stands ri
 
 ## Current state
 - **Phase:** 13 in progress. The Prettier evaluation is done (`eval/prettier/RESULTS.md`): 561 mined questions, search on all, agents on 60, Claude Code on 20.
-- **Next step:** publishing. Record about 5 demo questions on Prettier with `cartograph export`, build the demo site (`VITE_DEMO=1`), check it at desktop and phone width, deploy to Vercel. Then PyPI (name to choose: `cartograph` is taken), v0.1.0 tag and GitHub Release (ask Bhavyam first), video, write-up. Still open: re-run the Express agent eval (the text-recovery rule postdates the Phase 4 numbers); optional Groq comparison.
+- **Next step:** deploy the demo. It is built and checked locally: `cartograph export targets/prettier --out web/public/demo --questions eval/prettier/demo-questions.txt`, then `VITE_DEMO=1 npm run build` in `web/` (output `web/dist`, about 13 MB, 3,667 function files). Deploying is public, so it waits for Bhavyam's go-ahead and Vercel sign-in. Then PyPI (name to choose: `cartograph` is taken), v0.1.0 tag and GitHub Release (ask first), video, write-up. Still open: re-run the Express agent eval; optional Groq comparison.
 - **Blocked on:** Bhavyam: review `eval/express/handwritten.jsonl` and `eval/express/order.jsonl`, and set `"reviewed": true`.
 
 ## Phases
