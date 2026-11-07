@@ -1,0 +1,7943 @@
+{
+ "summary": {
+  "all": {
+   "n": 60,
+   "acc@1": 0.117,
+   "acc@5": 0.233,
+   "acc@10": 0.283,
+   "recall@10": 0.254,
+   "mrr": 0.185,
+   "file_acc@5": 0.417,
+   "acc@answer": 0.15,
+   "steps": 6.4,
+   "tokens": 13126.933,
+   "p50_ms": 48346.5,
+   "p95_ms": 213952.1
+  },
+  "source=issue": {
+   "n": 60,
+   "acc@1": 0.117,
+   "acc@5": 0.233,
+   "acc@10": 0.283,
+   "recall@10": 0.254,
+   "mrr": 0.185,
+   "file_acc@5": 0.417,
+   "acc@answer": 0.15,
+   "steps": 6.4,
+   "tokens": 13126.933,
+   "p50_ms": 48346.5,
+   "p95_ms": 213952.1
+  },
+  "type=mined": {
+   "n": 60,
+   "acc@1": 0.117,
+   "acc@5": 0.233,
+   "acc@10": 0.283,
+   "recall@10": 0.254,
+   "mrr": 0.185,
+   "file_acc@5": 0.417,
+   "acc@answer": 0.15,
+   "steps": 6.4,
+   "tokens": 13126.933,
+   "p50_ms": 48346.5,
+   "p95_ms": 213952.1
+  },
+  "answer not named": {
+   "n": 60,
+   "acc@1": 0.117,
+   "acc@5": 0.233,
+   "acc@10": 0.283,
+   "recall@10": 0.254,
+   "mrr": 0.185,
+   "file_acc@5": 0.417,
+   "acc@answer": 0.15,
+   "steps": 6.4,
+   "tokens": 13126.933,
+   "p50_ms": 48346.5,
+   "p95_ms": 213952.1
+  }
+ },
+ "questions": [
+  {
+   "id": "prettier-10291",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 49268.3576999998,
+   "top5": [
+    32706,
+    32676,
+    32833,
+    32664,
+    32791
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 7,
+   "tokens": 10597,
+   "answer": [
+    32706
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "scss mixin name selector"
+     },
+     "ids": [
+      32676,
+      32833,
+      32706,
+      32664,
+      32791,
+      32665,
+      32803,
+      32971,
+      32835,
+      32969
+     ],
+     "ms": 15538
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "scss mixin with default value loses last character"
+     },
+     "ids": [
+      32654,
+      34587,
+      32690,
+      34432,
+      34737,
+      32702,
+      32653,
+      32385,
+      34462,
+      33076
+     ],
+     "ms": 15686
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F32706",
+      "direction": "callees"
+     },
+     "ids": [
+      32715
+     ],
+     "ms": 3912
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F32706",
+      "direction": "callers"
+     },
+     "ids": [
+      32676,
+      32710
+     ],
+     "ms": 2814
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32706"
+     },
+     "ids": [
+      32706
+     ],
+     "ms": 2500
+    },
+    {
+     "step": 4,
+     "type": "text",
+     "text": "The issue occurs in the `parseSelector` function (F32706), which processes SCSS selectors. When a mixin is named \"selector\" (a keyword), the function attempts to parse the selector content using `PostcssSelectorParser`. However, if the selector contains a default value with a string (e.g., `'value'`), the function replaces all quoted strings with empty strings using `replaceAll(/\"[^\"]+\"|'[^']+'/g, \"\")`, which strips the quotes and potentially alters the content. This leads to the loss of the las"
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "from_text": true,
+     "text": "{\"functions\": [\"F32706\"], \"not_found\": false}",
+     "ids": [
+      32706
+     ],
+     "ms": 3416
+    }
+   ]
+  },
+  {
+   "id": "prettier-10879",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 48737.218100000064,
+   "top5": [
+    34760,
+    34651,
+    34654,
+    34762,
+    34736
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 6,
+   "tokens": 11270,
+   "answer": [
+    34760
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "prose-wrap yaml"
+     },
+     "ids": [
+      34651,
+      34654,
+      34762,
+      34736,
+      34652,
+      34551,
+      32256,
+      33662,
+      32530,
+      33904
+     ],
+     "ms": 4411
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does prettier handle yaml prose wrap"
+     },
+     "ids": [
+      32529,
+      32008,
+      32530,
+      34726,
+      34112,
+      34693,
+      34694,
+      32269,
+      34727,
+      34709
+     ],
+     "ms": 4485
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "yaml mapping item print"
+     },
+     "ids": [
+      34756,
+      34761,
+      34763,
+      34699,
+      34760,
+      34706,
+      34754,
+      34764,
+      34768,
+      34758
+     ],
+     "ms": 2385
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34762"
+     },
+     "ids": [
+      34762
+     ],
+     "ms": 2371
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34760"
+     },
+     "ids": [
+      34760
+     ],
+     "ms": 2615
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "from_text": true,
+     "text": "The function `F34760 printMappingItem` is responsible for formatting YAML mapping items, including handling the prose wrap behavior. It checks conditions for whether keys and values should be on a single line or split across multiple lines, based on the `proseWrap` option and the content of the node",
+     "ids": [
+      34760
+     ],
+     "ms": 36882
+    }
+   ]
+  },
+  {
+   "id": "prettier-11400",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 28882.87550000041,
+   "top5": [
+    33411,
+    32777,
+    32966,
+    34350,
+    34083
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 5,
+   "tokens": 9583,
+   "answer": [
+    33411
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "Prettier CSS pseudo-class template literal"
+     },
+     "ids": [
+      32777,
+      32966,
+      34350,
+      34083,
+      34072,
+      32806,
+      32805,
+      34308,
+      33456,
+      33493
+     ],
+     "ms": 3074
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "Prettier breaks CSS pseudo-class in template literal"
+     },
+     "ids": [
+      33411,
+      32806,
+      32805,
+      32008,
+      32269,
+      46788,
+      46923,
+      31823,
+      46791,
+      46789
+     ],
+     "ms": 2735
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F33411",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 3121
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33411"
+     },
+     "ids": [
+      33411
+     ],
+     "ms": 2191
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "from_text": true,
+     "text": "The function `F33411` in `src/language-js/embed/css.js` is responsible for processing CSS template literals. It handles cases where there are placeholders in the template literal, such as in pseudo-class expressions. The function splits the document at placeholder markers and processes each part, en",
+     "ids": [
+      33411
+     ],
+     "ms": 17762
+    }
+   ]
+  },
+  {
+   "id": "prettier-1197",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 29317.76930000069,
+   "top5": [
+    33400,
+    33401,
+    33362,
+    33375,
+    34365
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 6,
+   "tokens": 11186,
+   "answer": [
+    33400,
+    33401
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "unstable comment flow union"
+     },
+     "ids": [
+      33401,
+      33400,
+      33362,
+      33375,
+      34365,
+      33385,
+      34168,
+      33727,
+      34362,
+      34163
+     ],
+     "ms": 2526
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "attach comment to union type first element"
+     },
+     "ids": [
+      33400,
+      33401,
+      33385,
+      34164,
+      33406,
+      34362,
+      33362,
+      34365,
+      33375,
+      34165
+     ],
+     "ms": 2418
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33400"
+     },
+     "ids": [
+      33400
+     ],
+     "ms": 2310
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33401"
+     },
+     "ids": [
+      33401
+     ],
+     "ms": 2332
+    },
+    {
+     "step": 4,
+     "type": "text",
+     "text": "The functions responsible for handling unstable comments in flow union types are:\n\n1. **F33400 shouldAttachToUnionTypeFirstElement** - Determines whether a comment should be attached to the first element of a union type based on the text between the comment and the node.\n2. **F33401 addLeadingCommentToPossibleUnionType** - Adds a leading comment to the first element of a possible union type if the condition in F33400 is met.\n\nThese functions work together to manage the placement of comments in u"
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F33400",
+       "F33401"
+      ]
+     },
+     "ids": [
+      33400,
+      33401
+     ],
+     "ms": 5040
+    }
+   ]
+  },
+  {
+   "id": "prettier-12080",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 43938.88320000042,
+   "top5": [
+    31886,
+    35085,
+    32518,
+    32299,
+    32298
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 8,
+   "tokens": 14372,
+   "answer": [
+    31886
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "handle symlink in directory traversal"
+     },
+     "ids": [
+      35085,
+      31886,
+      32518,
+      32299,
+      32298,
+      46867,
+      32516,
+      32265,
+      32300,
+      32028
+     ],
+     "ms": 4510
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "prevent endless recursion when directory has symlink to parent"
+     },
+     "ids": [
+      34815,
+      34627,
+      34667,
+      34623,
+      34440,
+      34537,
+      34101,
+      34116,
+      33225,
+      34608
+     ],
+     "ms": 4582
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "directory traversal symlink parent"
+     },
+     "ids": [
+      31886,
+      35085,
+      32518,
+      32299,
+      32298,
+      46867,
+      32516,
+      32265,
+      32300,
+      32028
+     ],
+     "ms": 3031
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does prettier handle directory traversal with symlinks to parent directory"
+     },
+     "ids": [
+      32961,
+      34445,
+      34727,
+      31822,
+      32518,
+      32495,
+      32857,
+      33257,
+      34441,
+      32486
+     ],
+     "ms": 3249
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F31886",
+      "direction": "callees"
+     },
+     "ids": [
+      31886
+     ],
+     "ms": 3143
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F31886"
+     },
+     "ids": [
+      31886
+     ],
+     "ms": 2633
+    },
+    {
+     "step": 5,
+     "type": "text",
+     "text": "The function `checkDirectory` (F31886) is responsible for traversing directories and checking their contents. It recursively yields directory information and processes subdirectories. However, when a directory contains a symlink pointing to its parent directory, the recursive call `path.join(dirent.parentPath, dirent.name)` can lead to endless recursion because the symlink resolves to the parent directory, which is then re-entered in the traversal.\n\nThis behavior is not explicitly handled to pre"
+    },
+    {
+     "step": 6,
+     "type": "answer",
+     "from_text": true,
+     "text": "{\"functions\": [\"F31886\"], \"not_found\": false}",
+     "ids": [
+      31886
+     ],
+     "ms": 3763
+    }
+   ]
+  },
+  {
+   "id": "prettier-12516",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 32282.26519999953,
+   "top5": [
+    35102,
+    35100,
+    35093,
+    31999,
+    33587
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 8,
+   "tokens": 12954,
+   "answer": [
+    35102,
+    35100,
+    35093
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "parse filename as number"
+     },
+     "ids": [
+      31999,
+      33587,
+      32328,
+      32336,
+      33581,
+      31819,
+      32152,
+      31966,
+      34685,
+      34375
+     ],
+     "ms": 2233
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "parse filename as number"
+     },
+     "ids": [
+      31819,
+      35009,
+      32695,
+      34937,
+      34462,
+      31976,
+      35046,
+      35089,
+      35012,
+      32328
+     ],
+     "ms": 1962
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "infer-parser"
+     },
+     "ids": [
+      33285,
+      32280,
+      33282,
+      33283,
+      33284,
+      35093,
+      35102,
+      35100,
+      35096,
+      35091
+     ],
+     "ms": 1755
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F35093"
+     },
+     "ids": [
+      35093
+     ],
+     "ms": 2167
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F35102"
+     },
+     "ids": [
+      35102
+     ],
+     "ms": 2098
+    },
+    {
+     "step": 5,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F35100"
+     },
+     "ids": [
+      35100
+     ],
+     "ms": 2156
+    },
+    {
+     "step": 6,
+     "type": "text",
+     "text": "The function responsible for parsing filenames and handling cases where filenames might be interpreted as numbers is `inferParser` in `src/utilities/infer-parser.js`. This function determines the appropriate parser based on the file extension and checks if the file path is valid, including handling cases where a filename might be incorrectly parsed as a number.\n\nThe key logic in `inferParser` involves:\n- Checking if the file extension matches a known parser.\n- Validating the file path to ensure "
+    },
+    {
+     "step": 7,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F35102",
+       "F35100",
+       "F35093"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      35102,
+      35100,
+      35093
+     ],
+     "ms": 5469
+    }
+   ]
+  },
+  {
+   "id": "prettier-12787",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 49320.100199999615,
+   "top5": [
+    33229,
+    34185,
+    33302,
+    33089,
+    33915
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 5,
+   "tokens": 8285,
+   "answer": [
+    33229
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "singleAttributePerLine Vue"
+     },
+     "ids": [
+      33229,
+      34185,
+      33302,
+      33089,
+      33915,
+      33067,
+      33096,
+      33099,
+      33303,
+      33101
+     ],
+     "ms": 4485
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "Vue SFC attributes formatting"
+     },
+     "ids": [
+      33089,
+      33096,
+      33310,
+      33097,
+      33300,
+      33303,
+      33095,
+      33299,
+      33304,
+      33283
+     ],
+     "ms": 5108
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "singleAttributePerLine avoid tags Vue SFC"
+     },
+     "ids": [
+      33303,
+      33089,
+      33229,
+      33096,
+      33099,
+      33283,
+      32977,
+      33101,
+      33097,
+      33310
+     ],
+     "ms": 5738
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33229"
+     },
+     "ids": [
+      33229
+     ],
+     "ms": 11865
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "from_text": true,
+     "text": "The code for `printAttributes` (F33229) shows that it handles attribute formatting in Vue SFCs, including the `singleAttributePerLine` option. The function specifically checks if `options.singleAttributePerLine` is enabled and if there are multiple attributes, and if it's not a Vue SFC block, it wil",
+     "ids": [
+      33229
+     ],
+     "ms": 22123
+    }
+   ]
+  },
+  {
+   "id": "prettier-12888",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 52423.533099999986,
+   "top5": [
+    32681,
+    32676,
+    32835,
+    32833,
+    32654
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 8,
+   "tokens": 16855,
+   "answer": [
+    32681
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "Prettier SCSS string mixin parentheses mangle"
+     },
+     "ids": [
+      32676,
+      32835,
+      32681,
+      32833,
+      32654,
+      32803,
+      32665,
+      32769,
+      31794,
+      32088
+     ],
+     "ms": 2703
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "Prettier SCSS parser handles string arguments with parentheses"
+     },
+     "ids": [
+      31982,
+      46791,
+      32269,
+      32892,
+      32681,
+      46789,
+      32677,
+      46788,
+      32654,
+      32088
+     ],
+     "ms": 2609
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "SCSS parser string interpolation parentheses handling"
+     },
+     "ids": [
+      32769,
+      32681,
+      32835,
+      32803,
+      32833,
+      32676,
+      33045,
+      32977,
+      32718,
+      32791
+     ],
+     "ms": 2239
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how SCSS parser handles string content with parentheses inside"
+     },
+     "ids": [
+      32709,
+      32654,
+      32699,
+      32088,
+      32759,
+      32745,
+      32747,
+      32769,
+      32092,
+      32090
+     ],
+     "ms": 2791
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32769"
+     },
+     "ids": [
+      32769
+     ],
+     "ms": 2492
+    },
+    {
+     "step": 5,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32709"
+     },
+     "ids": [
+      32709
+     ],
+     "ms": 2557
+    },
+    {
+     "step": 6,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32681"
+     },
+     "ids": [
+      32681
+     ],
+     "ms": 2429
+    },
+    {
+     "step": 7,
+     "type": "answer",
+     "from_text": true,
+     "text": "The issue involves Prettier's SCSS parser modifying string content, specifically mangling parentheses inside string arguments. The key functions involved are:\n\n- **F32769 hasSCSSInterpolation**: Checks for SCSS interpolation (e.g., `#{}`) within a group list, which is unrelated to parentheses in str",
+     "ids": [
+      32681
+     ],
+     "ms": 34605
+    }
+   ]
+  },
+  {
+   "id": "prettier-13202",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 35518.59449999938,
+   "top5": [
+    32743,
+    32739,
+    34340,
+    32790,
+    34010
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 5,
+   "tokens": 9497,
+   "answer": [
+    32743
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "Prettier CSS var function trailing comma"
+     },
+     "ids": [
+      32743,
+      32739,
+      34340,
+      32790,
+      34010,
+      32741,
+      32725,
+      33695,
+      32807,
+      33877
+     ],
+     "ms": 3003
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "Prettier CSS var function trailing comma behavior"
+     },
+     "ids": [
+      32743,
+      32739,
+      34010,
+      32741,
+      34340,
+      32719,
+      32722,
+      32724,
+      32828,
+      32723
+     ],
+     "ms": 2736
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F32743",
+      "direction": "callees"
+     },
+     "ids": [
+      32790,
+      32811,
+      32741,
+      32739,
+      32557
+     ],
+     "ms": 3032
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32743"
+     },
+     "ids": [
+      32743
+     ],
+     "ms": 2344
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F32743"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      32743
+     ],
+     "ms": 24403
+    }
+   ]
+  },
+  {
+   "id": "prettier-13620",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 34538.60690000056,
+   "top5": [
+    34086,
+    34090,
+    34089,
+    34350,
+    34083
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.16666666666666666,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 5,
+   "tokens": 8857,
+   "answer": [
+    34086
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "template literal indentation"
+     },
+     "ids": [
+      34090,
+      34089,
+      34350,
+      34083,
+      34072,
+      34308,
+      33456,
+      34087,
+      34086,
+      33447
+     ],
+     "ms": 4348
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "format template literal with consistent indentation"
+     },
+     "ids": [
+      34077,
+      34084,
+      34083,
+      34085,
+      34082,
+      34081,
+      34090,
+      34072,
+      34092,
+      34073
+     ],
+     "ms": 4414
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "printTemplateExpression indentation"
+     },
+     "ids": [
+      34090,
+      34089,
+      34086,
+      33447,
+      34087,
+      34072,
+      34088,
+      34264,
+      34073,
+      33913
+     ],
+     "ms": 2426
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34086"
+     },
+     "ids": [
+      34086
+     ],
+     "ms": 2369
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "from_text": true,
+     "text": "The function `printTemplateExpression` is responsible for formatting template literal expressions, including handling indentation. It ensures consistent indentation by checking whether an interpolation has a newline and adjusting the indentation accordingly. When there is no newline in the interpola",
+     "ids": [
+      34086
+     ],
+     "ms": 25330
+    }
+   ]
+  },
+  {
+   "id": "prettier-14811",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 56350.86819999924,
+   "top5": [
+    34810,
+    34786,
+    34789,
+    46767,
+    46766
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 8,
+   "tokens": 16201,
+   "answer": [
+    34810
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "cursorOffset multi-line comment"
+     },
+     "ids": [
+      34786,
+      34789,
+      46767,
+      46766,
+      34811,
+      46771,
+      34785,
+      34788,
+      34810,
+      46759
+     ],
+     "ms": 4624
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does prettier handle cursor offset in multi-line comments"
+     },
+     "ids": [
+      32333,
+      32858,
+      34726,
+      46763,
+      32232,
+      34288,
+      32857,
+      34793,
+      33227,
+      33258
+     ],
+     "ms": 4693
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F34793",
+      "direction": "callees"
+     },
+     "ids": [
+      34822,
+      34789,
+      34791,
+      34792,
+      34786,
+      34785,
+      35026
+     ],
+     "ms": 3392
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F34822",
+      "direction": "callees"
+     },
+     "ids": [
+      35103,
+      34878,
+      34846,
+      34851,
+      34848,
+      34852,
+      34827
+     ],
+     "ms": 2930
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F34827",
+      "direction": "callees"
+     },
+     "ids": [
+      34831
+     ],
+     "ms": 3038
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34827"
+     },
+     "ids": [
+      34827
+     ],
+     "ms": 2284
+    },
+    {
+     "step": 5,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34822"
+     },
+     "ids": [
+      34822
+     ],
+     "ms": 3050
+    },
+    {
+     "step": 6,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F34810"
+      ]
+     },
+     "ids": [
+      34810
+     ],
+     "ms": 36964
+    }
+   ]
+  },
+  {
+   "id": "prettier-15193",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 27510.508699999264,
+   "top5": [
+    32741,
+    32743,
+    34340,
+    32739,
+    34010
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 5,
+   "tokens": 9035,
+   "answer": [
+    32741
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "trailing comma scss"
+     },
+     "ids": [
+      32743,
+      34340,
+      32739,
+      34010,
+      33877,
+      32710,
+      33695,
+      34146,
+      33673,
+      32741
+     ],
+     "ms": 6998
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "handle trailing comma in scss comments"
+     },
+     "ids": [
+      32743,
+      32741,
+      32739,
+      34010,
+      32724,
+      34340,
+      33370,
+      32720,
+      34912,
+      35148
+     ],
+     "ms": 7063
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F32743",
+      "direction": "callees"
+     },
+     "ids": [
+      32790,
+      32811,
+      32741,
+      32739,
+      32557
+     ],
+     "ms": 5869
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32741"
+     },
+     "ids": [
+      32741
+     ],
+     "ms": 3318
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "from_text": true,
+     "text": "The function `hasTrailingComma` in `src/language-css/print/parenthesized-value-group.js` determines whether a trailing comma exists in a parenthesized value group in SCSS. It checks the last non-comment node in the group and verifies if the next character after it is a comma. This behavior explains ",
+     "ids": [
+      32741
+     ],
+     "ms": 11261
+    }
+   ]
+  },
+  {
+   "id": "prettier-15698",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 82691.90880000041,
+   "top5": [
+    33664,
+    46771,
+    33169,
+    33668,
+    33841
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 7,
+   "tokens": 16403,
+   "answer": [
+    33664
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "track parameter @for block"
+     },
+     "ids": [
+      46771,
+      33169,
+      33668,
+      33841,
+      46759,
+      32192,
+      33850,
+      32190,
+      32165,
+      34120
+     ],
+     "ms": 13091
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "handle track parameter in @for block"
+     },
+     "ids": [
+      33668,
+      46771,
+      32947,
+      32164,
+      46772,
+      32166,
+      33850,
+      33391,
+      46759,
+      32950
+     ],
+     "ms": 14692
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "angular @for track parameter"
+     },
+     "ids": [
+      33668,
+      33169,
+      46771,
+      33664,
+      33105,
+      33841,
+      46759,
+      32192,
+      33850,
+      32190
+     ],
+     "ms": 5050
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33668"
+     },
+     "ids": [
+      33668
+     ],
+     "ms": 3559
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33169"
+     },
+     "ids": [
+      33169
+     ],
+     "ms": 13570
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33664"
+     },
+     "ids": [
+      33664
+     ],
+     "ms": 2713
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "from_text": true,
+     "text": "The function `F33664 printAngular` is responsible for handling the printing of Angular microsyntax expressions, including the `track` parameter. Specifically, in the `case \"NGMicrosyntaxKeyedExpression\"` block, it checks whether to print a colon based on conditions such as `isNgForOfTrack(path)` or ",
+     "ids": [
+      33664
+     ],
+     "ms": 43108
+    }
+   ]
+  },
+  {
+   "id": "prettier-15707",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 33492.42099999992,
+   "top5": [
+    33705,
+    32162,
+    32164,
+    33841,
+    32166
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 6,
+   "tokens": 11120,
+   "answer": [
+    33705
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "object destructuring parameter typescript prettier"
+     },
+     "ids": [
+      32162,
+      33705,
+      32164,
+      33841,
+      32166,
+      32165,
+      32192,
+      31937,
+      32182,
+      32190
+     ],
+     "ms": 5361
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "handle object destructuring in class constructor parameters prettier"
+     },
+     "ids": [
+      31819,
+      34726,
+      46789,
+      32269,
+      46788,
+      46790,
+      46787,
+      33258,
+      31823,
+      46785
+     ],
+     "ms": 5441
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "isComplexDestructuring typescript class constructor"
+     },
+     "ids": [
+      33705,
+      32446,
+      32291,
+      32431,
+      32639,
+      33700,
+      33709,
+      35155,
+      31937,
+      32297
+     ],
+     "ms": 3042
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F33705",
+      "direction": "callees"
+     },
+     "ids": [
+      33708
+     ],
+     "ms": 3242
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33705"
+     },
+     "ids": [
+      33705
+     ],
+     "ms": 2340
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F33705"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      33705
+     ],
+     "ms": 19428
+    }
+   ]
+  },
+  {
+   "id": "prettier-15897",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 46622.57369999952,
+   "top5": [
+    34340,
+    34010,
+    33455,
+    33459,
+    34391
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 7,
+   "tokens": 13265,
+   "answer": [
+    34340,
+    34010
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "angular template object literal trailing comma"
+     },
+     "ids": [
+      33455,
+      33459,
+      34391,
+      34094,
+      34340,
+      32739,
+      34010,
+      34350,
+      34083,
+      34072
+     ],
+     "ms": 5666
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "handle trailing commas in Angular templates object literals"
+     },
+     "ids": [
+      32739,
+      32743,
+      34092,
+      34010,
+      34340,
+      34146,
+      32741,
+      33666,
+      32978,
+      34035
+     ],
+     "ms": 5756
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F34340",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 3532
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F34010",
+      "direction": "callees"
+     },
+     "ids": [
+      34340,
+      32557
+     ],
+     "ms": 3737
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34340"
+     },
+     "ids": [
+      34340
+     ],
+     "ms": 2559
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34010"
+     },
+     "ids": [
+      34010
+     ],
+     "ms": 2703
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F34340",
+       "F34010"
+      ]
+     },
+     "ids": [
+      34340,
+      34010
+     ],
+     "ms": 28335
+    }
+   ]
+  },
+  {
+   "id": "prettier-16074",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 47191.441200000554,
+   "top5": [
+    34709,
+    34711,
+    32769,
+    34728,
+    33673
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 7,
+   "tokens": 14943,
+   "answer": [
+    34709,
+    34711
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "yaml empty list dict comment formatting"
+     },
+     "ids": [
+      32769,
+      34728,
+      33673,
+      34709,
+      34539,
+      34009,
+      34733,
+      34732,
+      34691,
+      34726
+     ],
+     "ms": 5439
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "insert new line before empty list dict when followed by comment"
+     },
+     "ids": [
+      33973,
+      33677,
+      34766,
+      33692,
+      34566,
+      34238,
+      33900,
+      33803,
+      34559,
+      34561
+     ],
+     "ms": 5563
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "what happens when printing yaml with empty list dict and trailing comment"
+     },
+     "ids": [
+      34711,
+      34709,
+      34712,
+      34717,
+      34706,
+      34710,
+      34912,
+      34713,
+      34707,
+      34917
+     ],
+     "ms": 4104
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34711"
+     },
+     "ids": [
+      34711
+     ],
+     "ms": 2572
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34709"
+     },
+     "ids": [
+      34709
+     ],
+     "ms": 2699
+    },
+    {
+     "step": 4,
+     "type": "text",
+     "text": "The issue involves the formatting of YAML when an empty list or dictionary is followed by a comment. The key functions involved are:\n\n- **F34709**: Handles printing a node in YAML, checking if the previous line is empty before inserting a newline. This is relevant because it determines whether a new line is inserted before the content.\n- **F34711**: Manages the printing of a document body, including handling trailing comments. It checks if a trailing comment exists and prints it appropriately.\n\n"
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F34709",
+       "F34711"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      34709,
+      34711
+     ],
+     "ms": 6440
+    }
+   ]
+  },
+  {
+   "id": "prettier-16146",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 33330.81459999994,
+   "top5": [
+    32330,
+    32336,
+    34497,
+    31883,
+    34515
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.5,
+   "mrr": 0.5,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 10,
+   "tokens": 25914,
+   "answer": [],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "check:formatting prettier exit code"
+     },
+     "ids": [
+      32330,
+      32336,
+      34497,
+      31883,
+      34515,
+      34513,
+      34510,
+      32093,
+      34498,
+      34517
+     ],
+     "ms": 6277
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "Prettier CLI check:formatting no parser could be inferred exit code"
+     },
+     "ids": [
+      32330,
+      32331,
+      32008,
+      31822,
+      32333,
+      31823,
+      31824,
+      46940,
+      31797,
+      31821
+     ],
+     "ms": 6366
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "check:formatting exit code 0 no parser inferred"
+     },
+     "ids": [
+      31883,
+      32483,
+      32336,
+      34510,
+      34514,
+      34497,
+      32330,
+      34507,
+      34515,
+      34513
+     ],
+     "ms": 3084
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F32336",
+      "direction": "callees"
+     },
+     "ids": [
+      32334,
+      32313,
+      32393,
+      32350,
+      32349,
+      32302,
+      32421,
+      32329,
+      32331,
+      32328,
+      32351
+     ],
+     "ms": 3242
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F32331",
+      "direction": "callees"
+     },
+     "ids": [
+      32276,
+      32327,
+      32332
+     ],
+     "ms": 3538
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F32276",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 3487
+    },
+    {
+     "step": 5,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "prettier formatWithCursor exit code"
+     },
+     "ids": [
+      46940,
+      32333,
+      32331,
+      46939,
+      32336,
+      32284,
+      32276,
+      32330,
+      46815,
+      46788
+     ],
+     "ms": 3795
+    },
+    {
+     "step": 6,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32276"
+     },
+     "ids": [
+      32276
+     ],
+     "ms": 2933
+    },
+    {
+     "step": 7,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32331"
+     },
+     "ids": [
+      32331
+     ],
+     "ms": 2817
+    },
+    {
+     "step": 8,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32330"
+     },
+     "ids": [],
+     "ms": 4069
+    }
+   ]
+  },
+  {
+   "id": "prettier-16165",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 28705.349800000477,
+   "top5": [
+    32700,
+    32706,
+    32784,
+    34772,
+    32971
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 7,
+   "tokens": 12992,
+   "answer": [],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": ":where :is :not selector"
+     },
+     "ids": [
+      32700,
+      32706,
+      32784,
+      34772,
+      32971,
+      32665,
+      32664,
+      32783,
+      32791,
+      32966
+     ],
+     "ms": 4969
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "remove extra indent for multiline css selectors"
+     },
+     "ids": [
+      31811,
+      31813,
+      31812,
+      33411,
+      34616,
+      32701,
+      32699,
+      32702,
+      34741,
+      32207
+     ],
+     "ms": 5045
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "massage-ast css selector indent"
+     },
+     "ids": [
+      32701,
+      32700,
+      32702,
+      32698,
+      32699,
+      32696,
+      32695,
+      32784,
+      32697,
+      32861
+     ],
+     "ms": 3041
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32700"
+     },
+     "ids": [
+      32700
+     ],
+     "ms": 2390
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32701"
+     },
+     "ids": [
+      32701
+     ],
+     "ms": 2378
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32702"
+     },
+     "ids": [
+      32702
+     ],
+     "ms": 2383
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "from_text": true,
+     "text": "The functions related to handling CSS selectors and indentation in Prettier do not include any that specifically address removing extra indentation for multiline `:where`, `:is`, and `:not` selectors. The functions identified, such as `hasLessExtendSelector` and the anonymous functions in `massage-a",
+     "ids": [],
+     "ms": 13468
+    }
+   ]
+  },
+  {
+   "id": "prettier-16340",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 23073.024799999985,
+   "top5": [
+    34397,
+    46873,
+    34394,
+    46876,
+    46872
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 4,
+   "tokens": 8380,
+   "answer": [
+    34397
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "assert { type: \"json\" }"
+     },
+     "ids": [
+      34397,
+      46873,
+      34394,
+      46876,
+      46872,
+      46874,
+      32544,
+      31961,
+      33642,
+      32557
+     ],
+     "ms": 3063
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "handle assert { type: \"json\" } in import statement"
+     },
+     "ids": [
+      34411,
+      34397,
+      34409,
+      34029,
+      34401,
+      34452,
+      34028,
+      34002,
+      32602,
+      34454
+     ],
+     "ms": 3181
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34397"
+     },
+     "ids": [
+      34397
+     ],
+     "ms": 3392
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F34397"
+      ]
+     },
+     "ids": [
+      34397
+     ],
+     "ms": 13437
+    }
+   ]
+  },
+  {
+   "id": "prettier-16889",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 75573.75040000079,
+   "top5": [
+    33844,
+    33846,
+    33548,
+    33813,
+    33645
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 8,
+   "tokens": 16891,
+   "answer": [
+    33844
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "async decorator jsdoc"
+     },
+     "ids": [
+      33846,
+      33548,
+      33813,
+      33645,
+      33549,
+      33484,
+      33812,
+      33802,
+      33844,
+      33454
+     ],
+     "ms": 7498
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does prettier handle async keyword in decorators with jsdoc"
+     },
+     "ids": [
+      32269,
+      31823,
+      32331,
+      31796,
+      31797,
+      46917,
+      33881,
+      46923,
+      32008,
+      46880
+     ],
+     "ms": 8208
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "what happens when async keyword is in a decorated method with jsdoc in prettier"
+     },
+     "ids": [
+      32269,
+      31796,
+      31797,
+      32236,
+      32331,
+      31823,
+      46917,
+      46918,
+      32270,
+      32008
+     ],
+     "ms": 8671
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F33846",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 4673
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F33844",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 5646
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33846"
+     },
+     "ids": [
+      33846
+     ],
+     "ms": 4650
+    },
+    {
+     "step": 5,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33844"
+     },
+     "ids": [
+      33844
+     ],
+     "ms": 5301
+    },
+    {
+     "step": 6,
+     "type": "answer",
+     "from_text": true,
+     "text": "The issue involves how Prettier handles the placement of the `async` keyword in decorated methods with JSDoc comments. The `async` keyword is being hoisted above the JSDoc comment, which is incorrect and breaks syntax.\n\nFrom the analysis:\n- The function `isDecoratedFunction` (F33844) determines if a",
+     "ids": [
+      33844
+     ],
+     "ms": 38423
+    }
+   ]
+  },
+  {
+   "id": "prettier-16895",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 99714.38399999987,
+   "top5": [
+    31813,
+    31811,
+    31812,
+    33411,
+    34616
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 6,
+   "tokens": 14565,
+   "answer": [],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": ":has()"
+     },
+     "ids": [],
+     "ms": 13023
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "remove extra indent for multiline css selector"
+     },
+     "ids": [
+      31813,
+      31811,
+      31812,
+      33411,
+      34616,
+      32150,
+      32702,
+      34741,
+      32701,
+      32149
+     ],
+     "ms": 44451
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F32702",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 17641
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F32701",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 5120
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32701"
+     },
+     "ids": [
+      32701
+     ],
+     "ms": 5663
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "args": {
+      "functions": [],
+      "not_found": true
+     },
+     "ids": [],
+     "ms": 13816
+    }
+   ]
+  },
+  {
+   "id": "prettier-17407",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 61471.02470000027,
+   "top5": [
+    33364,
+    34706,
+    33344,
+    34033,
+    46710
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 6,
+   "tokens": 11970,
+   "answer": [
+    33364
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "line comments property accessors idempotent"
+     },
+     "ids": [
+      34706,
+      33344,
+      33364,
+      34033,
+      46710,
+      34042,
+      34347,
+      33229,
+      33354,
+      33920
+     ],
+     "ms": 15219
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does prettier handle line comments in property accessors"
+     },
+     "ids": [
+      32232,
+      33364,
+      34726,
+      33227,
+      32122,
+      32858,
+      33258,
+      34288,
+      46788,
+      33342
+     ],
+     "ms": 13318
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F33364",
+      "direction": "callees"
+     },
+     "ids": [
+      34286,
+      34922
+     ],
+     "ms": 6950
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F33364",
+      "direction": "callers"
+     },
+     "ids": [],
+     "ms": 5497
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33364"
+     },
+     "ids": [
+      33364
+     ],
+     "ms": 3929
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F33364"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      33364
+     ],
+     "ms": 16557
+    }
+   ]
+  },
+  {
+   "id": "prettier-17467",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 67344.14920000017,
+   "top5": [
+    33995,
+    33999,
+    31953,
+    33549,
+    33501
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 7,
+   "tokens": 13665,
+   "answer": [
+    33995,
+    33999
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "computed object method key OptionalMemberExpression"
+     },
+     "ids": [
+      33999,
+      31953,
+      33549,
+      33501,
+      32120,
+      33497,
+      46911,
+      33995,
+      32168,
+      33856
+     ],
+     "ms": 13562
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does Prettier handle computed object method keys with OptionalMemberExpression"
+     },
+     "ids": [
+      32090,
+      33934,
+      33999,
+      33549,
+      32091,
+      31791,
+      31790,
+      33932,
+      33992,
+      33995
+     ],
+     "ms": 11574
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33999"
+     },
+     "ids": [
+      33999
+     ],
+     "ms": 3540
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33995"
+     },
+     "ids": [
+      33995
+     ],
+     "ms": 3940
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F33995",
+      "direction": "callees"
+     },
+     "ids": [
+      33999,
+      34324,
+      32554
+     ],
+     "ms": 5687
+    },
+    {
+     "step": 5,
+     "type": "text",
+     "text": "The function `printMemberLookup` (F33995) is responsible for printing a member lookup in JavaScript, including computed property keys. It handles optional member expressions by calling `printOptionalToken` (F33999), which determines when to print the `?.` operator. \n\nIn the provided input, the computed object method key `y?.z` is incorrectly transformed to `[y?.z]?() {}` because `printOptionalToken` is applied to the computed key, resulting in an invalid syntax. This happens because the logic in"
+    },
+    {
+     "step": 6,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F33995",
+       "F33999"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      33995,
+      33999
+     ],
+     "ms": 9117
+    }
+   ]
+  },
+  {
+   "id": "prettier-17479",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 331824.1087999777,
+   "top5": [
+    33263,
+    35184,
+    31810,
+    32596,
+    33449
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 9,
+   "tokens": 25511,
+   "answer": [],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "css formatter indentation"
+     },
+     "ids": [
+      33263,
+      35184,
+      31810,
+      32596,
+      33449,
+      33447,
+      31813,
+      31811,
+      31812,
+      46903
+     ],
+     "ms": 137755
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "css property formatting"
+     },
+     "ids": [
+      32833,
+      33673,
+      33419,
+      32968,
+      33700,
+      33108,
+      33286,
+      33291,
+      33107,
+      33706
+     ],
+     "ms": 18590
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "css property formatting with comments"
+     },
+     "ids": [
+      33364,
+      33673,
+      34347,
+      34918,
+      33344,
+      34780,
+      32833,
+      34706,
+      32680,
+      33944
+     ],
+     "ms": 21067
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F33364",
+      "direction": "callers"
+     },
+     "ids": [],
+     "ms": 25233
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "css property formatting indentation"
+     },
+     "ids": [
+      33263,
+      35184,
+      31810,
+      32596,
+      32833,
+      33449,
+      33673,
+      33447,
+      33419,
+      31813
+     ],
+     "ms": 18556
+    },
+    {
+     "step": 5,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "css property printing"
+     },
+     "ids": [
+      34807,
+      34063,
+      34042,
+      33783,
+      32833,
+      34806,
+      33419,
+      32968,
+      34033,
+      33108
+     ],
+     "ms": 22459
+    },
+    {
+     "step": 6,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "css property value formatting"
+     },
+     "ids": [
+      33108,
+      34034,
+      33762,
+      31847,
+      32968,
+      46912,
+      34299,
+      32699,
+      33706,
+      32754
+     ],
+     "ms": 19487
+    },
+    {
+     "step": 7,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32754"
+     },
+     "ids": [
+      32754
+     ],
+     "ms": 30517
+    },
+    {
+     "step": 8,
+     "type": "answer",
+     "args": {
+      "functions": [],
+      "not_found": true
+     },
+     "ids": [],
+     "ms": 38155
+    }
+   ]
+  },
+  {
+   "id": "prettier-17699",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 76284.2827999848,
+   "top5": [
+    34367,
+    34185,
+    34368,
+    33869,
+    33826
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 6,
+   "tokens": 8530,
+   "answer": [],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "discard binding"
+     },
+     "ids": [
+      34367,
+      34185,
+      34368,
+      33869,
+      33826,
+      34409,
+      33085,
+      32978,
+      34408,
+      33095
+     ],
+     "ms": 8018
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "discard binding in JavaScript or TypeScript"
+     },
+     "ids": [
+      46886,
+      31978,
+      34367,
+      35075,
+      33256,
+      33317,
+      32140,
+      34552,
+      35082,
+      33573
+     ],
+     "ms": 35720
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "proposal-discard-binding"
+     },
+     "ids": [
+      34367,
+      34185,
+      34368,
+      33869,
+      33826,
+      34409,
+      33085,
+      32978,
+      34408,
+      33095
+     ],
+     "ms": 10325
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "what is discard binding in JavaScript or TypeScript"
+     },
+     "ids": [
+      31978,
+      46886,
+      34552,
+      46763,
+      33732,
+      34141,
+      33573,
+      34409,
+      35119,
+      34207
+     ],
+     "ms": 9693
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34367"
+     },
+     "ids": [
+      34367
+     ],
+     "ms": 9204
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "from_text": true,
+     "text": "not_found",
+     "ids": [],
+     "ms": 3323
+    }
+   ]
+  },
+  {
+   "id": "prettier-17784",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 243178.10159997316,
+   "top5": [
+    33884,
+    35029,
+    35028,
+    32182,
+    35155
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 6,
+   "tokens": 13917,
+   "answer": [
+    33884
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "TypeError can't access property startsWith n.type is undefined"
+     },
+     "ids": [
+      35029,
+      33884,
+      35028,
+      32182,
+      35155,
+      32186,
+      32188,
+      34256,
+      46912,
+      34397
+     ],
+     "ms": 33765
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "what does printIndexedAccessType function do in Prettier"
+     },
+     "ids": [
+      33884,
+      33877,
+      34005,
+      33671,
+      33863,
+      33891,
+      34050,
+      33888,
+      34044,
+      46918
+     ],
+     "ms": 14680
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "printIndexedAccessType function in Prettier source code"
+     },
+     "ids": [
+      33884,
+      33999,
+      32232,
+      32186,
+      32188,
+      32198,
+      32196,
+      32158,
+      32206,
+      32130
+     ],
+     "ms": 10755
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33884"
+     },
+     "ids": [
+      33884
+     ],
+     "ms": 32184
+    },
+    {
+     "step": 4,
+     "type": "text",
+     "text": "The function `printIndexedAccessType` is responsible for printing an indexed access type in TypeScript syntax. It constructs the string representation of an indexed access type (e.g., `objectType[indexType]`) by combining the print of the object type, an optional token, and the index type enclosed in square brackets.\n\nThe error \"TypeError: can't access property 'startsWith', n.type is undefined\" occurs because the code attempts to access a property (`startsWith`) on a value (`n.type`) that is un"
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "from_text": true,
+     "text": "{\"name\": \"submit_answer\", \"arguments\": {\"functions\": [\"F33884\"], \"not_found\": false}}",
+     "ids": [
+      33884
+     ],
+     "ms": 53663
+    }
+   ]
+  },
+  {
+   "id": "prettier-17910",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 130862.35800001305,
+   "top5": [
+    33004,
+    33146,
+    33039,
+    33032,
+    33038
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 3,
+   "tokens": 4695,
+   "answer": [
+    33004
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "angular parser"
+     },
+     "ids": [
+      33146,
+      33039,
+      33032,
+      33038,
+      33140,
+      33143,
+      33004,
+      33317,
+      33144,
+      34406
+     ],
+     "ms": 54658
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33004"
+     },
+     "ids": [
+      33004
+     ],
+     "ms": 18890
+    },
+    {
+     "step": 2,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F33004"
+      ]
+     },
+     "ids": [
+      33004
+     ],
+     "ms": 57314
+    }
+   ]
+  },
+  {
+   "id": "prettier-18143",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 213952.11200002814,
+   "top5": [
+    33758,
+    33719,
+    34268,
+    33760,
+    33990
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.08333333333333333,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 6,
+   "tokens": 14852,
+   "answer": [],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "grouping arguments ArrayExpression"
+     },
+     "ids": [
+      33758,
+      33719,
+      34268,
+      33760,
+      33990,
+      32187,
+      32863,
+      33769,
+      34260,
+      33755
+     ],
+     "ms": 31830
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "grouping arguments ArrayExpression NumericLiteral"
+     },
+     "ids": [
+      34294,
+      33675,
+      34324,
+      33676,
+      34391,
+      34357,
+      33719,
+      34397,
+      33769,
+      34266
+     ],
+     "ms": 22610
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "argument grouping array expression numeric literal"
+     },
+     "ids": [
+      34294,
+      33675,
+      33676,
+      34397,
+      34266,
+      34324,
+      34391,
+      34296,
+      33914,
+      33758
+     ],
+     "ms": 30502
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "call arguments array expression numeric literal grouping"
+     },
+     "ids": [
+      34294,
+      33675,
+      34357,
+      33758,
+      33769,
+      33719,
+      34324,
+      33764,
+      33676,
+      34268
+     ],
+     "ms": 30238
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33758"
+     },
+     "ids": [
+      33758
+     ],
+     "ms": 32165
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "args": {
+      "functions": [],
+      "not_found": true
+     },
+     "ids": [],
+     "ms": 66606
+    }
+   ]
+  },
+  {
+   "id": "prettier-18160",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 177649.1931999917,
+   "top5": [
+    34911,
+    35146,
+    46729,
+    33641,
+    33357
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 8,
+   "tokens": 15735,
+   "answer": [
+    34911
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "as const comment parsing"
+     },
+     "ids": [
+      35146,
+      46729,
+      33641,
+      34911,
+      33357,
+      32338,
+      33802,
+      33922,
+      31940,
+      34895
+     ],
+     "ms": 23396
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how prettier handles as const with comments"
+     },
+     "ids": [
+      32858,
+      33258,
+      34726,
+      34288,
+      32857,
+      32232,
+      32331,
+      32269,
+      46788,
+      46789
+     ],
+     "ms": 25600
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "printTrailingComments function"
+     },
+     "ids": [
+      34911,
+      34916,
+      34915,
+      34914,
+      33695,
+      34913,
+      33920,
+      33882,
+      34912,
+      34917
+     ],
+     "ms": 18714
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34911"
+     },
+     "ids": [
+      34911
+     ],
+     "ms": 12785
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F34911",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 18875
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F34911",
+      "direction": "callers"
+     },
+     "ids": [
+      34915,
+      34916
+     ],
+     "ms": 8732
+    },
+    {
+     "step": 5,
+     "type": "text",
+     "text": "The function `F34911 printTrailingComments` is responsible for handling trailing comments in the code, and it is called by `printCommentsSeparately` and `printComments`. This function ensures that comments are printed correctly after tokens like `as const`, especially when there are syntax constraints that prevent breaking before the `as` keyword. Since the `as` keyword cannot be broken before, the comment must be placed after it, which is handled by `printTrailingComments`.\n\nThus, the best func"
+    },
+    {
+     "step": 6,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F34911"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      34911
+     ],
+     "ms": 65930
+    }
+   ]
+  },
+  {
+   "id": "prettier-18246",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 142414.79150002124,
+   "top5": [
+    33791,
+    33419,
+    32700,
+    33420,
+    32702
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.045454545454545456,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 6,
+   "tokens": 12513,
+   "answer": [
+    33791
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "typescript class extend"
+     },
+     "ids": [
+      33419,
+      32700,
+      33420,
+      32702,
+      33555,
+      31937,
+      33310,
+      33324,
+      32701,
+      31936
+     ],
+     "ms": 22575
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "typescript class formatting"
+     },
+     "ids": [
+      31937,
+      33310,
+      33324,
+      31936,
+      33312,
+      33788,
+      33311,
+      33054,
+      33791,
+      33540
+     ],
+     "ms": 16501
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33791"
+     },
+     "ids": [
+      33791
+     ],
+     "ms": 19711
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "typescript class extend parser"
+     },
+     "ids": [
+      33555,
+      33936,
+      33419,
+      31978,
+      33054,
+      32700,
+      31936,
+      33938,
+      33281,
+      33097
+     ],
+     "ms": 18614
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "typescript class formatting print"
+     },
+     "ids": [
+      33788,
+      33791,
+      33782,
+      33789,
+      33792,
+      33777,
+      33055,
+      33809,
+      31937,
+      33877
+     ],
+     "ms": 23356
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F33791"
+      ]
+     },
+     "ids": [
+      33791
+     ],
+     "ms": 41656
+    }
+   ]
+  },
+  {
+   "id": "prettier-18278",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 165105.17180000897,
+   "top5": [
+    33997,
+    33780,
+    33340,
+    33497,
+    33776
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 7,
+   "tokens": 14933,
+   "answer": [
+    33997
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "class interface method signature format"
+     },
+     "ids": [
+      33780,
+      33340,
+      33497,
+      33997,
+      33776,
+      33856,
+      33779,
+      33792,
+      33783,
+      33877
+     ],
+     "ms": 22492
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how to handle method signature formatting in interfaces and classes in JavaScript"
+     },
+     "ids": [
+      33997,
+      33354,
+      33694,
+      33856,
+      33877,
+      33860,
+      33378,
+      33691,
+      32332,
+      34854
+     ],
+     "ms": 12869
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F33997",
+      "direction": "callees"
+     },
+     "ids": [
+      34005,
+      33944,
+      33999,
+      33838,
+      34128,
+      33843,
+      32554,
+      33777
+     ],
+     "ms": 13583
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F33997",
+      "direction": "callers"
+     },
+     "ids": [
+      34161
+     ],
+     "ms": 12467
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33997"
+     },
+     "ids": [
+      33997
+     ],
+     "ms": 7020
+    },
+    {
+     "step": 5,
+     "type": "text",
+     "text": "The function `F33997 printMethodSignature` is responsible for formatting method signatures in JavaScript, including those in interfaces and classes. It handles the structure of method signatures by constructing parts such as accessibility tokens, method names, parameters, and return types, and ensures proper formatting with semicolons. This function is called during the printing phase of the code, particularly in TypeScript contexts, and is directly involved in resolving the inconsistent formatt"
+    },
+    {
+     "step": 6,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F33997"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      33997
+     ],
+     "ms": 66155
+    }
+   ]
+  },
+  {
+   "id": "prettier-18357",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 79323.68489995133,
+   "top5": [
+    33364,
+    33376,
+    33346,
+    33344,
+    33342
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 5,
+   "tokens": 7017,
+   "answer": [
+    33364
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "handle comment in object literal"
+     },
+     "ids": [
+      33364,
+      33376,
+      33346,
+      33344,
+      33342,
+      33360,
+      33367,
+      33383,
+      33371,
+      33350
+     ],
+     "ms": 29777
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does prettier handle comments in object literals"
+     },
+     "ids": [
+      32858,
+      32232,
+      34726,
+      33258,
+      34288,
+      33364,
+      46790,
+      32857,
+      46788,
+      46789
+     ],
+     "ms": 29967
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F33364",
+      "direction": "callees"
+     },
+     "ids": [
+      34286,
+      34922
+     ],
+     "ms": 19963
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33364"
+     },
+     "ids": [
+      33364
+     ],
+     "ms": 7363
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "from_text": true,
+     "text": "The function `handlePropertyComments` is responsible for handling comments in object properties. It checks if the enclosing node is an object property using `isObjectProperty`, and if so, it adds the comment as a leading comment on the property. This explains why a comment inside braces in an object",
+     "ids": [
+      33364
+     ],
+     "ms": 22029
+    }
+   ]
+  },
+  {
+   "id": "prettier-18359",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 143386.669,
+   "top5": [
+    33306,
+    34089,
+    34817,
+    33067,
+    32877
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 4,
+   "tokens": 7511,
+   "answer": [
+    33306
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "embedded-language-formatting"
+     },
+     "ids": [
+      34089,
+      34817,
+      33306,
+      33067,
+      32877,
+      33434,
+      32013,
+      33673,
+      32975,
+      33084
+     ],
+     "ms": 106977
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "LWC"
+     },
+     "ids": [
+      32986,
+      33306,
+      46712,
+      31925,
+      46803,
+      46825,
+      46695,
+      31820,
+      46917,
+      31800
+     ],
+     "ms": 7925
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "shouldUnquoteAttributeValue function in Prettier"
+     },
+     "ids": [
+      33306,
+      33298,
+      33196,
+      32735,
+      34495,
+      33084,
+      33305,
+      33943,
+      33033,
+      33227
+     ],
+     "ms": 12683
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F33306"
+      ]
+     },
+     "ids": [
+      33306
+     ],
+     "ms": 15801
+    }
+   ]
+  },
+  {
+   "id": "prettier-18394",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 96675.39829999987,
+   "top5": [
+    33729,
+    33639,
+    33739,
+    33640,
+    33638
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.04,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 8,
+   "tokens": 22180,
+   "answer": [],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "LogicalExpression"
+     },
+     "ids": [
+      33729,
+      33639,
+      33739,
+      33640,
+      33638,
+      34007,
+      34006,
+      34284,
+      34318,
+      33703
+     ],
+     "ms": 4830
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "comments in LogicalExpression"
+     },
+     "ids": [
+      33729,
+      33639,
+      33739,
+      33640,
+      33638,
+      34007,
+      34006,
+      34284,
+      33662,
+      33635
+     ],
+     "ms": 5843
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "parenthesization comments"
+     },
+     "ids": [
+      34347,
+      33342,
+      33344,
+      34918,
+      33346,
+      34911,
+      34348,
+      34780,
+      34729,
+      34216
+     ],
+     "ms": 7929
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "LogicalExpression parenthesization comments"
+     },
+     "ids": [
+      33729,
+      33639,
+      33739,
+      33640,
+      33638,
+      34007,
+      34006,
+      34284,
+      33662,
+      33635
+     ],
+     "ms": 8230
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33662"
+     },
+     "ids": [
+      33662
+     ],
+     "ms": 7513
+    },
+    {
+     "step": 5,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "binaryish logical expression parenthesization"
+     },
+     "ids": [
+      33729,
+      33739,
+      33639,
+      33640,
+      33703,
+      33740,
+      33638,
+      33742,
+      33733,
+      34007
+     ],
+     "ms": 14186
+    },
+    {
+     "step": 6,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33739"
+     },
+     "ids": [
+      33739
+     ],
+     "ms": 20229
+    },
+    {
+     "step": 7,
+     "type": "answer",
+     "args": {
+      "functions": [],
+      "not_found": true
+     },
+     "ids": [],
+     "ms": 27915
+    }
+   ]
+  },
+  {
+   "id": "prettier-18465",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 37366.761000000224,
+   "top5": [
+    32741,
+    32743,
+    34010,
+    32208,
+    32710
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 6,
+   "tokens": 11986,
+   "answer": [
+    32741
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "prettier scss if syntax comma break"
+     },
+     "ids": [
+      32743,
+      34010,
+      32208,
+      32710,
+      31924,
+      46889,
+      32746,
+      34654,
+      31925,
+      46715
+     ],
+     "ms": 3166
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "prettier scss if statement comma insertion logic"
+     },
+     "ids": [
+      32743,
+      32722,
+      32209,
+      32769,
+      32685,
+      34696,
+      32208,
+      32851,
+      32719,
+      32720
+     ],
+     "ms": 2849
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F32743",
+      "direction": "callees"
+     },
+     "ids": [
+      32790,
+      32811,
+      32741,
+      32739,
+      32557
+     ],
+     "ms": 3132
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F32741",
+      "direction": "callees"
+     },
+     "ids": [
+      32673,
+      35056
+     ],
+     "ms": 3048
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32741"
+     },
+     "ids": [
+      32741
+     ],
+     "ms": 2313
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "from_text": true,
+     "text": "The function `hasTrailingComma` in `parenthesized-value-group.js` determines whether a trailing comma should be added in a parenthesized value group. It checks if the parent node is a \"value-paren_group\" and then evaluates the last non-comment node in the group. It looks at the next character after ",
+     "ids": [
+      32741
+     ],
+     "ms": 22858
+    }
+   ]
+  },
+  {
+   "id": "prettier-18539",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 40027.94099999983,
+   "top5": [
+    33882,
+    34264,
+    33389,
+    32159,
+    32158
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 4,
+   "tokens": 7315,
+   "answer": [
+    33882
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "IIFE comment"
+     },
+     "ids": [
+      33882,
+      34264,
+      33389,
+      32159,
+      32158,
+      34214,
+      33645,
+      33801,
+      34213,
+      32856
+     ],
+     "ms": 6213
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "printCommentsForFunction function comment placement"
+     },
+     "ids": [
+      33882,
+      33833,
+      33837,
+      33912,
+      33838,
+      33785,
+      34907,
+      32856,
+      34905,
+      34902
+     ],
+     "ms": 6651
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33882"
+     },
+     "ids": [
+      33882
+     ],
+     "ms": 5454
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F33882"
+      ]
+     },
+     "ids": [
+      33882
+     ],
+     "ms": 21709
+    }
+   ]
+  },
+  {
+   "id": "prettier-18563",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 46580.4533999999,
+   "top5": [
+    33186,
+    33188,
+    46825,
+    33459,
+    46712
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0625,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 5,
+   "tokens": 7413,
+   "answer": [],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "Angular template @switch @case"
+     },
+     "ids": [
+      33186,
+      33188,
+      46825,
+      33459,
+      46712,
+      31925,
+      33029,
+      33221,
+      33281,
+      33455
+     ],
+     "ms": 5032
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33186"
+     },
+     "ids": [
+      33186
+     ],
+     "ms": 7496
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "consecutive cases Angular switch"
+     },
+     "ids": [
+      33192,
+      34067,
+      33118,
+      33187,
+      33186,
+      33188,
+      33396,
+      33184,
+      33105,
+      33171
+     ],
+     "ms": 8576
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does Prettier handle consecutive cases in Angular switch blocks"
+     },
+     "ids": [
+      33186,
+      33187,
+      33188,
+      33184,
+      34069,
+      34441,
+      34445,
+      34726,
+      33181,
+      33374
+     ],
+     "ms": 10635
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [],
+      "not_found": true
+     },
+     "ids": [],
+     "ms": 14841
+    }
+   ]
+  },
+  {
+   "id": "prettier-18604",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 63629.71209999978,
+   "top5": [
+    34052,
+    34333,
+    34266,
+    33358,
+    33545
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 9,
+   "tokens": 24129,
+   "answer": [],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "type argument comment"
+     },
+     "ids": [
+      34052,
+      34333,
+      34266,
+      33358,
+      33545,
+      33357,
+      34334,
+      33914,
+      34159,
+      33676
+     ],
+     "ms": 4858
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "type argument formatting comment"
+     },
+     "ids": [
+      34052,
+      34333,
+      34266,
+      33358,
+      33545,
+      33673,
+      33357,
+      34334,
+      33914,
+      34159
+     ],
+     "ms": 4485
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "print type argument comment"
+     },
+     "ids": [
+      34052,
+      34266,
+      34159,
+      34333,
+      33358,
+      33545,
+      34053,
+      33676,
+      33914,
+      33913
+     ],
+     "ms": 5266
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "print type argument formatting"
+     },
+     "ids": [
+      34159,
+      34052,
+      34053,
+      33673,
+      34266,
+      33758,
+      33723,
+      34048,
+      33545,
+      33913
+     ],
+     "ms": 5931
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "type argument print comment"
+     },
+     "ids": [
+      34052,
+      34266,
+      34159,
+      34333,
+      33358,
+      33545,
+      34053,
+      33676,
+      33914,
+      33913
+     ],
+     "ms": 6544
+    },
+    {
+     "step": 5,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "print type argument JSX comment"
+     },
+     "ids": [
+      33925,
+      33914,
+      33913,
+      34052,
+      33922,
+      33921,
+      34266,
+      33389,
+      34159,
+      34333
+     ],
+     "ms": 7771
+    },
+    {
+     "step": 6,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "print type argument TypeScript comment"
+     },
+     "ids": [
+      34052,
+      33957,
+      34266,
+      34159,
+      33340,
+      34315,
+      34314,
+      33956,
+      33914,
+      34005
+     ],
+     "ms": 8696
+    },
+    {
+     "step": 7,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "print type argument TypeScript"
+     },
+     "ids": [
+      34159,
+      34052,
+      33956,
+      34005,
+      34266,
+      33758,
+      33957,
+      32877,
+      33723,
+      33914
+     ],
+     "ms": 9364
+    },
+    {
+     "step": 8,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "print type argument TypeScript print"
+     },
+     "ids": [],
+     "ms": 10714
+    }
+   ]
+  },
+  {
+   "id": "prettier-18778",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 42806.71099999972,
+   "top5": [
+    34365,
+    33375,
+    33368,
+    33719,
+    33401
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 5,
+   "tokens": 12012,
+   "answer": [
+    34365
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "typescript union intersection formatting"
+     },
+     "ids": [
+      34365,
+      33375,
+      33368,
+      33719,
+      33401,
+      33400,
+      31937,
+      33310,
+      33385,
+      33324
+     ],
+     "ms": 7005
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "comment placement union intersection"
+     },
+     "ids": [
+      33368,
+      34365,
+      33375,
+      34893,
+      33378,
+      33401,
+      33400,
+      33362,
+      34892,
+      33385
+     ],
+     "ms": 4770
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "union type comments formatting"
+     },
+     "ids": [
+      34365,
+      33385,
+      33375,
+      33362,
+      33401,
+      33400,
+      34163,
+      33389,
+      33342,
+      33368
+     ],
+     "ms": 5778
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34365"
+     },
+     "ids": [
+      34365
+     ],
+     "ms": 10152
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F34365"
+      ]
+     },
+     "ids": [
+      34365
+     ],
+     "ms": 15102
+    }
+   ]
+  },
+  {
+   "id": "prettier-18834",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 42437.11050000002,
+   "top5": [
+    34125,
+    34872,
+    33709,
+    34161,
+    33366
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 4,
+   "tokens": 8011,
+   "answer": [
+    34125
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "TSTypeAliasDeclaration comments"
+     },
+     "ids": [
+      34872,
+      34125,
+      33709,
+      34161,
+      33366,
+      34013,
+      33373,
+      33711,
+      32364,
+      33497
+     ],
+     "ms": 5917
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "what does printTypeAlias function do in Prettier for TypeScript type aliases"
+     },
+     "ids": [
+      34125,
+      33711,
+      34161,
+      34159,
+      34157,
+      34144,
+      34142,
+      34155,
+      34130,
+      34132
+     ],
+     "ms": 8336
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34125"
+     },
+     "ids": [
+      34125
+     ],
+     "ms": 9736
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F34125"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      34125
+     ],
+     "ms": 18449
+    }
+   ]
+  },
+  {
+   "id": "prettier-18858",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 44984.87969999996,
+   "top5": [
+    33780,
+    31930,
+    33380,
+    33776,
+    33381
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 4,
+   "tokens": 8440,
+   "answer": [
+    33780
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "typescript interface arrow function parsing"
+     },
+     "ids": [
+      31930,
+      33380,
+      33776,
+      33780,
+      33381,
+      33714,
+      33310,
+      34356,
+      35146,
+      33760
+     ],
+     "ms": 6050
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "shouldPrintSemicolonAfterInterfaceProperty function behavior"
+     },
+     "ids": [
+      33780,
+      33779,
+      34187,
+      33826,
+      33777,
+      34188,
+      34177,
+      34179,
+      34011,
+      34019
+     ],
+     "ms": 6566
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33780"
+     },
+     "ids": [
+      33780
+     ],
+     "ms": 6272
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F33780"
+      ]
+     },
+     "ids": [
+      33780
+     ],
+     "ms": 26097
+    }
+   ]
+  },
+  {
+   "id": "prettier-18872",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 41792.54899999978,
+   "top5": [
+    32490,
+    32507,
+    31950,
+    32027,
+    32491
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 7,
+   "tokens": 10869,
+   "answer": [
+    32490,
+    32507
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": ".git file project root detection"
+     },
+     "ids": [
+      31950,
+      32027,
+      32491,
+      32507,
+      32490,
+      32011,
+      32009,
+      31869,
+      32506,
+      31929
+     ],
+     "ms": 6618
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "find-project-root.js"
+     },
+     "ids": [
+      32491,
+      32490,
+      32506,
+      32507,
+      31950,
+      32027,
+      31929,
+      46906,
+      34867,
+      31842
+     ],
+     "ms": 6628
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how prettier detects project root using .git"
+     },
+     "ids": [
+      32490,
+      32491,
+      32013,
+      34727,
+      32518,
+      32011,
+      32857,
+      46800,
+      32008,
+      46923
+     ],
+     "ms": 6724
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how find-project-root.js detects project root in git worktrees"
+     },
+     "ids": [
+      32490,
+      32491,
+      32767,
+      31849,
+      32315,
+      34870,
+      31950,
+      31929,
+      32574,
+      32611
+     ],
+     "ms": 3479
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32490"
+     },
+     "ids": [
+      32490
+     ],
+     "ms": 2349
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32507"
+     },
+     "ids": [
+      32507
+     ],
+     "ms": 2340
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F32490",
+       "F32507"
+      ]
+     },
+     "ids": [
+      32490,
+      32507
+     ],
+     "ms": 26900
+    }
+   ]
+  },
+  {
+   "id": "prettier-18939",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 23952.482900000177,
+   "top5": [
+    33171,
+    33459,
+    33455,
+    34357,
+    34350
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 6,
+   "tokens": 11794,
+   "answer": [
+    33171
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "angular template translate"
+     },
+     "ids": [
+      33459,
+      33455,
+      34357,
+      33171,
+      34350,
+      34308,
+      34087,
+      34089,
+      33168,
+      33492
+     ],
+     "ms": 5720
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "add space between translation replacements in angular templates"
+     },
+     "ids": [
+      34769,
+      33045,
+      34568,
+      32978,
+      33665,
+      33040,
+      33014,
+      34696,
+      34763,
+      33253
+     ],
+     "ms": 5803
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "normalize angular template translation expression"
+     },
+     "ids": [
+      33171,
+      33563,
+      33170,
+      33169,
+      34092,
+      33193,
+      33005,
+      33004,
+      33194,
+      33167
+     ],
+     "ms": 2819
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33171"
+     },
+     "ids": [
+      33171
+     ],
+     "ms": 2499
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F33171",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 3195
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "from_text": true,
+     "text": "The function `F33171 normalizeAngularIcuExpression` is responsible for normalizing Angular ICU expressions, but it does not handle adding or removing spaces between translation replacements. The code provided does not show any logic for spacing in translation replacements. Therefore, no function in ",
+     "ids": [
+      33171
+     ],
+     "ms": 9635
+    }
+   ]
+  },
+  {
+   "id": "prettier-18974",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 39835.536699999924,
+   "top5": [
+    33168,
+    33294,
+    33300,
+    33921,
+    33400
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 4,
+   "tokens": 5470,
+   "answer": [
+    33168
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "comment block HTML element"
+     },
+     "ids": [
+      33168,
+      33294,
+      33300,
+      33921,
+      33400,
+      34247,
+      33285,
+      33676,
+      34245,
+      33405
+     ],
+     "ms": 3149
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "function that handles comment blocks in HTML elements"
+     },
+     "ids": [
+      33381,
+      33354,
+      33352,
+      33369,
+      33349,
+      33374,
+      33350,
+      33355,
+      33376,
+      33168
+     ],
+     "ms": 8529
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33168"
+     },
+     "ids": [
+      33168
+     ],
+     "ms": 9726
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F33168"
+      ]
+     },
+     "ids": [
+      33168
+     ],
+     "ms": 18431
+    }
+   ]
+  },
+  {
+   "id": "prettier-19339",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 48346.46769999972,
+   "top5": [
+    34434,
+    34557,
+    34564,
+    34435,
+    34555
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.5,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 8,
+   "tokens": 18851,
+   "answer": [
+    34434,
+    34557,
+    34564
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "ordered list marker markdown"
+     },
+     "ids": [
+      34435,
+      34557,
+      34564,
+      34555,
+      34556,
+      34562,
+      34434,
+      34625,
+      34629,
+      34563
+     ],
+     "ms": 2470
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does prettier handle ordered list markers in markdown"
+     },
+     "ids": [
+      34556,
+      34557,
+      34563,
+      34564,
+      34555,
+      34559,
+      34562,
+      34566,
+      34558,
+      34434
+     ],
+     "ms": 2566
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "ordered list marker increment overflow markdown"
+     },
+     "ids": [
+      34435,
+      34557,
+      34564,
+      34555,
+      34556,
+      34562,
+      34434,
+      34625,
+      34629,
+      34563
+     ],
+     "ms": 2222
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34434"
+     },
+     "ids": [
+      34434
+     ],
+     "ms": 2339
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34557"
+     },
+     "ids": [
+      34557
+     ],
+     "ms": 2465
+    },
+    {
+     "step": 5,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34564"
+     },
+     "ids": [
+      34564
+     ],
+     "ms": 2778
+    },
+    {
+     "step": 6,
+     "type": "text",
+     "text": "The function `getOrderedListItemInfo` in `src/language-markdown/utilities.js` is responsible for extracting the number and leading spaces from an ordered list item's text. It matches the text to find the number and leading spaces, then returns the number as an integer. This function is used to determine the correct number for an ordered list item, and it ensures that the number does not exceed a maximum value (`MAXIMUM_ORDERED_LIST_MARKER`) to prevent integer overflows.\n\nAdditionally, the `getPr"
+    },
+    {
+     "step": 7,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F34434",
+       "F34557",
+       "F34564"
+      ]
+     },
+     "ids": [
+      34434,
+      34557,
+      34564
+     ],
+     "ms": 7134
+    }
+   ]
+  },
+  {
+   "id": "prettier-19430",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 23221.864900000128,
+   "top5": [
+    33169,
+    33185,
+    33190,
+    33186,
+    33187
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.1,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 5,
+   "tokens": 10149,
+   "answer": [
+    33169
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "angularControlFlowBlock"
+     },
+     "ids": [
+      33185,
+      33190,
+      33169,
+      33186,
+      33187,
+      33189,
+      33042,
+      33181,
+      33182,
+      33184
+     ],
+     "ms": 4361
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "normalizeAngularControlFlowBlock"
+     },
+     "ids": [
+      33169,
+      33184,
+      33190,
+      33042,
+      33185,
+      33187,
+      33186,
+      33171,
+      33006,
+      33189
+     ],
+     "ms": 2259
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F33169",
+      "direction": "callees"
+     },
+     "ids": [
+      35108
+     ],
+     "ms": 3020
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33169"
+     },
+     "ids": [
+      33169
+     ],
+     "ms": 2232
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F33169"
+      ]
+     },
+     "ids": [
+      33169
+     ],
+     "ms": 11350
+    }
+   ]
+  },
+  {
+   "id": "prettier-19518",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 61371.97829999968,
+   "top5": [
+    34089,
+    34350,
+    34083,
+    34072,
+    34308
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.06666666666666667,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 5,
+   "tokens": 11271,
+   "answer": [
+    34089
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "template literal formatting"
+     },
+     "ids": [
+      34350,
+      34083,
+      34072,
+      34308,
+      33456,
+      34087,
+      34088,
+      33455,
+      33442,
+      34090
+     ],
+     "ms": 19249
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "map ternary template literal"
+     },
+     "ids": [
+      34087,
+      34072,
+      34083,
+      34089,
+      34350,
+      34084,
+      34091,
+      34308,
+      33456,
+      34103
+     ],
+     "ms": 3876
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "embedded template expressions map"
+     },
+     "ids": [
+      34089,
+      34087,
+      33409,
+      34072,
+      34075,
+      33430,
+      32121,
+      34091,
+      33424,
+      34083
+     ],
+     "ms": 11106
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34089"
+     },
+     "ids": [
+      34089
+     ],
+     "ms": 8229
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F34089"
+      ]
+     },
+     "ids": [
+      34089
+     ],
+     "ms": 18913
+    }
+   ]
+  },
+  {
+   "id": "prettier-19570",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 57673.115999999936,
+   "top5": [
+    33184,
+    33459,
+    33455,
+    33032,
+    33033
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 5,
+   "tokens": 8202,
+   "answer": [
+    33184
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "format template angular"
+     },
+     "ids": [
+      33459,
+      33455,
+      33032,
+      33033,
+      33042,
+      33045,
+      34357,
+      33171,
+      34350,
+      34308
+     ],
+     "ms": 4505
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33042"
+     },
+     "ids": [
+      33042
+     ],
+     "ms": 8770
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "handle @default never angular"
+     },
+     "ids": [
+      33187,
+      33184,
+      33186,
+      33344,
+      33374,
+      33342,
+      33346,
+      32399,
+      34762,
+      33171
+     ],
+     "ms": 9273
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33184"
+     },
+     "ids": [
+      33184
+     ],
+     "ms": 11714
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F33184"
+      ]
+     },
+     "ids": [
+      33184
+     ],
+     "ms": 23410
+    }
+   ]
+  },
+  {
+   "id": "prettier-19588",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 50741.08140000044,
+   "top5": [
+    34583,
+    34532,
+    34461,
+    34531,
+    34183
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 8,
+   "tokens": 16596,
+   "answer": [
+    34583,
+    34532
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "markdown link escaping semicolon idempotency"
+     },
+     "ids": [
+      34532,
+      34461,
+      34531,
+      34183,
+      46895,
+      34651,
+      34582,
+      34581,
+      34533,
+      34608
+     ],
+     "ms": 5390
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does prettier handle markdown link escaping in idempotent mode"
+     },
+     "ids": [
+      34661,
+      31791,
+      34664,
+      34658,
+      34502,
+      34608,
+      32269,
+      34461,
+      33448,
+      34441
+     ],
+     "ms": 5665
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "markdown link parser escape semicolon"
+     },
+     "ids": [
+      34183,
+      34531,
+      34532,
+      34586,
+      34461,
+      34185,
+      46895,
+      34583,
+      33447,
+      34651
+     ],
+     "ms": 2583
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does markdown link parser handle escaped semicolon in Prettier"
+     },
+     "ids": [
+      34183,
+      34461,
+      34661,
+      34458,
+      34177,
+      32892,
+      34176,
+      33826,
+      34528,
+      34423
+     ],
+     "ms": 3136
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34532"
+     },
+     "ids": [
+      34532
+     ],
+     "ms": 2528
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34583"
+     },
+     "ids": [
+      34583
+     ],
+     "ms": 2470
+    },
+    {
+     "step": 5,
+     "type": "text",
+     "text": "The issue involves Prettier's handling of escaped semicolons in Markdown links during formatting, specifically in idempotency. The key functions involved are:\n\n- **F34583 escapeCharacterReferences**: This function is responsible for escaping character references in Markdown output. It replaces occurrences of `&` with `\\&`, which is critical for handling escaped characters like `\\;` in links.\n- **F34532 tokenizer**: This function parses Markdown links and extracts link contents, which are then pr"
+    },
+    {
+     "step": 6,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F34583",
+       "F34532"
+      ]
+     },
+     "ids": [
+      34583,
+      34532
+     ],
+     "ms": 5730
+    }
+   ]
+  },
+  {
+   "id": "prettier-19735",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 67338.77080000003,
+   "top5": [
+    34461,
+    34587,
+    34661,
+    31873,
+    31872
+   ],
+   "acc@1": 1.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 1.0,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 10,
+   "tokens": 23739,
+   "answer": [
+    34461,
+    34587,
+    34661
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "markdown subscript tilde"
+     },
+     "ids": [
+      34461,
+      31873,
+      31872,
+      33450,
+      34463,
+      34415,
+      34462,
+      46896,
+      34464,
+      34183
+     ],
+     "ms": 11654
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "rewrite subscript to strike-through in markdown"
+     },
+     "ids": [
+      33448,
+      34587,
+      34455,
+      34410,
+      34665,
+      31872,
+      31873,
+      32049,
+      34632,
+      46896
+     ],
+     "ms": 11725
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "markdown parser subscript tilde"
+     },
+     "ids": [
+      34461,
+      34183,
+      34423,
+      46712,
+      34410,
+      34650,
+      33281,
+      34408,
+      34589,
+      33447
+     ],
+     "ms": 2609
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does prettier handle markdown subscript with tildes"
+     },
+     "ids": [
+      34441,
+      32269,
+      46715,
+      34502,
+      34445,
+      46788,
+      34587,
+      46940,
+      34573,
+      34577
+     ],
+     "ms": 2992
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "markdown parser subscript tilde prettier 3.9.0"
+     },
+     "ids": [
+      34461,
+      34183,
+      46913,
+      46914,
+      34423,
+      34445,
+      34551,
+      34406,
+      46712,
+      35126
+     ],
+     "ms": 3093
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "prettier markdown subscript tilde behavior 3.9.0"
+     },
+     "ids": [
+      34587,
+      34573,
+      46715,
+      34561,
+      34577,
+      34439,
+      34502,
+      34555,
+      34661,
+      46710
+     ],
+     "ms": 3577
+    },
+    {
+     "step": 5,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34461"
+     },
+     "ids": [
+      34461
+     ],
+     "ms": 2725
+    },
+    {
+     "step": 6,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34587"
+     },
+     "ids": [
+      34587
+     ],
+     "ms": 2884
+    },
+    {
+     "step": 7,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34661"
+     },
+     "ids": [
+      34661
+     ],
+     "ms": 2736
+    },
+    {
+     "step": 8,
+     "type": "answer",
+     "from_text": true,
+     "text": "The function `getMarkdownParseOptions` controls the markdown parsing behavior in Prettier, including the handling of subscript and superscript with tildes. It sets the `extensions` array, where `gfmSyntax({ singleTilde: false })` disables the use of single tildes for subscript and superscript. This ",
+     "ids": [
+      34461,
+      34587,
+      34661
+     ],
+     "ms": 34997
+    }
+   ]
+  },
+  {
+   "id": "prettier-19736",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 45147.536800000125,
+   "top5": [
+    32676,
+    33290,
+    33287,
+    33253,
+    32678
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 9,
+   "tokens": 21990,
+   "answer": [
+    32676
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "css parser preserve leading + in An+B"
+     },
+     "ids": [
+      33290,
+      33287,
+      33253,
+      32678,
+      33264,
+      33284,
+      33265,
+      35126,
+      32681,
+      32680
+     ],
+     "ms": 3157
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "css parser handles An+B notation with leading plus and no whitespace"
+     },
+     "ids": [
+      32677,
+      32676,
+      34939,
+      33411,
+      32681,
+      32713,
+      32707,
+      32737,
+      32678,
+      32680
+     ],
+     "ms": 2774
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F32678",
+      "direction": "callees"
+     },
+     "ids": [
+      32677
+     ],
+     "ms": 2942
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32678"
+     },
+     "ids": [
+      32678
+     ],
+     "ms": 2177
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F32677",
+      "direction": "callees"
+     },
+     "ids": [
+      32488,
+      32715,
+      32676,
+      32659
+     ],
+     "ms": 2908
+    },
+    {
+     "step": 5,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32677"
+     },
+     "ids": [
+      32677
+     ],
+     "ms": 2273
+    },
+    {
+     "step": 6,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F32676",
+      "direction": "callees"
+     },
+     "ids": [
+      35110,
+      32676,
+      35139,
+      32713,
+      32833,
+      32706,
+      32831,
+      32704
+     ],
+     "ms": 3498
+    },
+    {
+     "step": 7,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32676"
+     },
+     "ids": [
+      32676
+     ],
+     "ms": 3275
+    },
+    {
+     "step": 8,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F32676"
+      ]
+     },
+     "ids": [
+      32676
+     ],
+     "ms": 22143
+    }
+   ]
+  },
+  {
+   "id": "prettier-20029",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 39544.4107000003,
+   "top5": [
+    34213,
+    34216,
+    33645,
+    34215,
+    34600
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 8,
+   "tokens": 14227,
+   "answer": [
+    34213,
+    34216
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "test callback comments reverse merge"
+     },
+     "ids": [
+      33645,
+      34216,
+      34215,
+      34600,
+      32030,
+      34223,
+      32159,
+      32158,
+      34108,
+      34720
+     ],
+     "ms": 7072
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "format test function comments order"
+     },
+     "ids": [
+      34216,
+      32146,
+      34215,
+      46779,
+      32245,
+      32147,
+      32244,
+      31887,
+      32331,
+      31888
+     ],
+     "ms": 7083
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "reverses comments in test function callback when formatting"
+     },
+     "ids": [
+      32147,
+      33837,
+      34213,
+      31887,
+      33641,
+      32232,
+      34348,
+      32146,
+      32149,
+      34336
+     ],
+     "ms": 7157
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "test function callback comments order preservation"
+     },
+     "ids": [
+      34216,
+      34215,
+      46779,
+      34223,
+      32245,
+      32159,
+      32244,
+      32158,
+      34720,
+      34108
+     ],
+     "ms": 2893
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34216"
+     },
+     "ids": [
+      34216
+     ],
+     "ms": 2467
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34213"
+     },
+     "ids": [
+      34213
+     ],
+     "ms": 2394
+    },
+    {
+     "step": 4,
+     "type": "text",
+     "text": "The functions involved in handling comments for test function calls are `F34216 getComments` and `F34213 getCommentTestFunction`. \n\n- `F34216 getComments` filters comments based on flags and a function, determining which comments to include in the output.\n- `F34213 getCommentTestFunction` defines the logic for filtering comments based on flags like leading, trailing, dangling, block, line, first, last, and Prettier ignore.\n\nThese functions are responsible for processing and filtering comments in"
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F34213",
+       "F34216"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      34213,
+      34216
+     ],
+     "ms": 6235
+    }
+   ]
+  },
+  {
+   "id": "prettier-20113",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 32017.745999999534,
+   "top5": [
+    35025,
+    35024,
+    32524,
+    35026,
+    34678
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.25,
+   "mrr": 0.3333333333333333,
+   "file_acc@5": 1.0,
+   "acc@answer": 0.0,
+   "steps": 8,
+   "tokens": 12035,
+   "answer": [
+    35025,
+    35024
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": ".prettierrc.json parse BOM"
+     },
+     "ids": [
+      32524,
+      35024,
+      35026,
+      35025,
+      34678,
+      34393,
+      32032,
+      34380,
+      34394,
+      34385
+     ],
+     "ms": 7040
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "handle leading UTF-8 BOM configuration file"
+     },
+     "ids": [
+      35026,
+      35024,
+      35025,
+      32531,
+      32524,
+      33346,
+      33383,
+      33385,
+      33342,
+      33364
+     ],
+     "ms": 7049
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does prettier handle configuration files with leading BOM"
+     },
+     "ids": [
+      32527,
+      32529,
+      32528,
+      32531,
+      32524,
+      32008,
+      34727,
+      32495,
+      32511,
+      32518
+     ],
+     "ms": 7117
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F35025",
+      "direction": "callees"
+     },
+     "ids": [
+      35024
+     ],
+     "ms": 3337
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F35024",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 2948
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F35025"
+     },
+     "ids": [
+      35025
+     ],
+     "ms": 2839
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F35024"
+     },
+     "ids": [
+      35024
+     ],
+     "ms": 2347
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "from_text": true,
+     "text": "The functions responsible for handling leading UTF-8 BOM in configuration files are:\n\n- F35024 hasBom: Checks if a string starts with a UTF-8 BOM by comparing the first character to the BOM value.\n- F35025 stripBom: Removes the leading UTF-8 BOM from a string by slicing off the first character if a ",
+     "ids": [
+      35025,
+      35024
+     ],
+     "ms": 13431
+    }
+   ]
+  },
+  {
+   "id": "prettier-20172",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 179371.3853999998,
+   "top5": [
+    34180,
+    34177,
+    34179,
+    34181,
+    34178
+   ],
+   "acc@1": 0.0,
+   "acc@5": 1.0,
+   "acc@10": 1.0,
+   "recall@10": 0.5,
+   "mrr": 0.5,
+   "file_acc@5": 1.0,
+   "acc@answer": 1.0,
+   "steps": 8,
+   "tokens": 21825,
+   "answer": [
+    34180,
+    34177,
+    34179
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "ASI-protected statement"
+     },
+     "ids": [
+      34177,
+      34179,
+      34181,
+      34178,
+      34180,
+      34270,
+      33835,
+      34258,
+      34064,
+      34187
+     ],
+     "ms": 6387
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "semi: false"
+     },
+     "ids": [
+      33780,
+      34011,
+      33777,
+      34176,
+      33826,
+      33779,
+      33873,
+      34891,
+      34338,
+      33257
+     ],
+     "ms": 8306
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "// prettier-ignore"
+     },
+     "ids": [
+      34288,
+      34726,
+      34445,
+      33258,
+      32961,
+      33257,
+      32857,
+      34240,
+      32960,
+      34727
+     ],
+     "ms": 9664
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does Prettier handle ASI-protected statements when semi: false is set?"
+     },
+     "ids": [
+      34181,
+      34178,
+      34177,
+      34180,
+      34179,
+      34188,
+      34187,
+      32755,
+      34176,
+      34551
+     ],
+     "ms": 12853
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34180"
+     },
+     "ids": [
+      34180
+     ],
+     "ms": 27834
+    },
+    {
+     "step": 5,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34177"
+     },
+     "ids": [
+      34177
+     ],
+     "ms": 31732
+    },
+    {
+     "step": 6,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34179"
+     },
+     "ids": [
+      34179
+     ],
+     "ms": 32380
+    },
+    {
+     "step": 7,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F34180",
+       "F34177",
+       "F34179"
+      ]
+     },
+     "ids": [
+      34180,
+      34177,
+      34179
+     ],
+     "ms": 50216
+    }
+   ]
+  },
+  {
+   "id": "prettier-20173",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 48808.35999999999,
+   "top5": [
+    33353,
+    33922,
+    34235,
+    33921,
+    33924
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 6,
+   "tokens": 10777,
+   "answer": [
+    33353
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "comment duplication JSX superclass"
+     },
+     "ids": [
+      33922,
+      34235,
+      33921,
+      33924,
+      33929,
+      34237,
+      34262,
+      33920,
+      34523,
+      33925
+     ],
+     "ms": 5626
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "handle comment in JSX superclass extension"
+     },
+     "ids": [
+      33345,
+      33347,
+      33343,
+      33353,
+      33364,
+      33342,
+      34525,
+      33912,
+      33896,
+      33366
+     ],
+     "ms": 5702
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F33353",
+      "direction": "callees"
+     },
+     "ids": [
+      33406,
+      35108,
+      34924,
+      34347,
+      34923
+     ],
+     "ms": 3186
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33353"
+     },
+     "ids": [
+      33353
+     ],
+     "ms": 2233
+    },
+    {
+     "step": 3,
+     "type": "text",
+     "text": "The function `handleClassComments` in `src/language-js/comments/handle-comments.js` is responsible for managing comments in class declarations, including handling comments in JSX superclass extensions. Specifically, in the section dealing with `extends` clauses, it checks if a comment is present before the `extends` keyword and whether it is directly adjacent to the first heritage clause. If so, it adds the comment as a trailing comment to the preceding node (the `extends` keyword), which result"
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F33353"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      33353
+     ],
+     "ms": 5758
+    }
+   ]
+  },
+  {
+   "id": "prettier-3806",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 39544.17749999993,
+   "top5": [
+    46940,
+    34338,
+    34227,
+    32895,
+    32936
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 8,
+   "tokens": 15475,
+   "answer": [
+    46940
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "place operators at beginning of lines"
+     },
+     "ids": [
+      34338,
+      34227,
+      32895,
+      32936,
+      32935,
+      34251,
+      32620,
+      33424,
+      34350,
+      46673
+     ],
+     "ms": 5771
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "format code to place operators at beginning of lines"
+     },
+     "ids": [
+      46940,
+      46788,
+      34616,
+      34566,
+      34559,
+      46786,
+      46675,
+      34796,
+      34618,
+      34498
+     ],
+     "ms": 5930
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "format code operator placement"
+     },
+     "ids": [
+      32094,
+      34893,
+      46815,
+      32089,
+      32093,
+      46939,
+      46786,
+      46788,
+      46710,
+      32090
+     ],
+     "ms": 2407
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "how does prettier format code to place operators at the beginning of lines"
+     },
+     "ids": [
+      46940,
+      46788,
+      32008,
+      46786,
+      32333,
+      32094,
+      32331,
+      32504,
+      46784,
+      46789
+     ],
+     "ms": 3259
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F46940",
+      "direction": "callees"
+     },
+     "ids": [
+      46923,
+      46941
+     ],
+     "ms": 3236
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F46940",
+      "direction": "callers"
+     },
+     "ids": [
+      46939
+     ],
+     "ms": 3038
+    },
+    {
+     "step": 5,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F46940"
+     },
+     "ids": [
+      46940
+     ],
+     "ms": 2362
+    },
+    {
+     "step": 6,
+     "type": "answer",
+     "from_text": true,
+     "text": "The function `F46940 formatCode` is responsible for formatting code in Prettier. It calls `prettier.formatWithCursor` to perform the actual formatting, which includes decisions about operator placement, such as placing operators at the beginning of lines. However, the specific logic for operator pla",
+     "ids": [
+      46940
+     ],
+     "ms": 19312
+    }
+   ]
+  },
+  {
+   "id": "prettier-5183",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 31505.455799999254,
+   "top5": [
+    34111,
+    34098,
+    34391,
+    33502,
+    34099
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 6,
+   "tokens": 10913,
+   "answer": [
+    34111
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "extra indent for ?? and arrays"
+     },
+     "ids": [
+      34111,
+      34098,
+      34391,
+      33502,
+      34099,
+      34388,
+      34231,
+      33948,
+      32583,
+      32582
+     ],
+     "ms": 2556
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "determine when to add extra indent for ?? and arrays in JSX"
+     },
+     "ids": [
+      33914,
+      33926,
+      32209,
+      33905,
+      33277,
+      33693,
+      33416,
+      33904,
+      33417,
+      33083
+     ],
+     "ms": 2729
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F34111",
+      "direction": "callees"
+     },
+     "ids": [],
+     "ms": 2876
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F34111"
+     },
+     "ids": [
+      34111
+     ],
+     "ms": 2120
+    },
+    {
+     "step": 4,
+     "type": "text",
+     "text": "The function `F34111 shouldExtraIndentForConditionalExpression` in `src/language-js/print/ternary.js` is responsible for determining when to add extra indentation for conditional expressions (like `??`) in JSX. It checks the parent and child nodes of a conditional expression to determine if an extra indent should be applied. Since the input involves a conditional expression (`??`) with arrays, this function is directly relevant to the behavior observed in the output.\n\nThe function does not add e"
+    },
+    {
+     "step": 5,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F34111"
+      ],
+      "not_found": false
+     },
+     "ids": [
+      34111
+     ],
+     "ms": 4442
+    }
+   ]
+  },
+  {
+   "id": "prettier-5738",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 51654.8058999997,
+   "top5": [
+    32835,
+    33697,
+    34251,
+    33700,
+    33735
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 1.0,
+   "recall@10": 1.0,
+   "mrr": 0.14285714285714285,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 8,
+   "tokens": 22160,
+   "answer": [],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "scss formatter boolean operator line break"
+     },
+     "ids": [
+      32835,
+      33697,
+      34251,
+      33700,
+      33735,
+      34653,
+      32718,
+      33274,
+      32813,
+      33702
+     ],
+     "ms": 5511
+    },
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "scss formatter breaks after == in if conditions with booleans"
+     },
+     "ids": [
+      32209,
+      32208,
+      46792,
+      32207,
+      32206,
+      33702,
+      32654,
+      32769,
+      33703,
+      34654
+     ],
+     "ms": 5584
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "scss print binary operator break"
+     },
+     "ids": [
+      33740,
+      33735,
+      33697,
+      32121,
+      32124,
+      33702,
+      32183,
+      33730,
+      32743,
+      33377
+     ],
+     "ms": 2666
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F33735",
+      "direction": "callees"
+     },
+     "ids": [
+      32554,
+      34338,
+      33739,
+      33741,
+      34237,
+      34215,
+      32564,
+      33730,
+      32606,
+      34916,
+      32626
+     ],
+     "ms": 3238
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33735"
+     },
+     "ids": [
+      33735
+     ],
+     "ms": 2701
+    },
+    {
+     "step": 4,
+     "type": "tool",
+     "tool": "graph_neighbors",
+     "args": {
+      "function": "F33735",
+      "direction": "callers"
+     },
+     "ids": [
+      33733,
+      33736,
+      33738
+     ],
+     "ms": 4545
+    },
+    {
+     "step": 5,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F33733"
+     },
+     "ids": [
+      33733
+     ],
+     "ms": 3062
+    },
+    {
+     "step": 6,
+     "type": "answer",
+     "from_text": true,
+     "text": "The function `F33733 printBinaryishExpression` is responsible for handling binary expressions in JavaScript, including conditions with booleans. It calls `printBinaryishExpressions` to manage the formatting of binary operators like `==`, and it includes logic to determine when to break lines between",
+     "ids": [],
+     "ms": 29859
+    }
+   ]
+  },
+  {
+   "id": "prettier-6793",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 36429.588500000136,
+   "top5": [
+    32623,
+    33018,
+    32622,
+    34916,
+    32601
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.0,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 4,
+   "tokens": 5052,
+   "answer": [],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "Prettier trailing whitespaces JSDoc"
+     },
+     "ids": [
+      32623,
+      33018,
+      32622,
+      34916,
+      32601,
+      46926,
+      33082,
+      34407,
+      34917,
+      32621
+     ],
+     "ms": 5791
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32623"
+     },
+     "ids": [
+      32623
+     ],
+     "ms": 6831
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_meaning",
+     "args": {
+      "query": "Prettier configuration ignore trailing whitespaces in JSDoc"
+     },
+     "ids": [
+      34726,
+      33258,
+      34727,
+      32504,
+      32272,
+      32517,
+      32960,
+      46917,
+      31797,
+      34441
+     ],
+     "ms": 11807
+    },
+    {
+     "step": 3,
+     "type": "answer",
+     "args": {
+      "functions": [],
+      "not_found": true
+     },
+     "ids": [],
+     "ms": 12000
+    }
+   ]
+  },
+  {
+   "id": "prettier-7419",
+   "source": "issue",
+   "type": "mined",
+   "names_answer": false,
+   "ms": 44104.68949999995,
+   "top5": [
+    32743,
+    34340,
+    32739,
+    34010,
+    33877
+   ],
+   "acc@1": 0.0,
+   "acc@5": 0.0,
+   "acc@10": 0.0,
+   "recall@10": 0.0,
+   "mrr": 0.05,
+   "file_acc@5": 0.0,
+   "acc@answer": 0.0,
+   "steps": 5,
+   "tokens": 10721,
+   "answer": [
+    32743
+   ],
+   "events": [
+    {
+     "step": 0,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "scss trailing-comma"
+     },
+     "ids": [
+      32743,
+      34340,
+      32739,
+      34010,
+      33877,
+      32710,
+      33695,
+      34146,
+      33673,
+      32741
+     ],
+     "ms": 6417
+    },
+    {
+     "step": 1,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "scss parse"
+     },
+     "ids": [
+      32681,
+      32706,
+      32676,
+      32835,
+      32833,
+      32654,
+      32803,
+      32769,
+      32745,
+      32813
+     ],
+     "ms": 4724
+    },
+    {
+     "step": 2,
+     "type": "tool",
+     "tool": "search_keyword",
+     "args": {
+      "query": "scss print value trailing comma"
+     },
+     "ids": [
+      32743,
+      32739,
+      34340,
+      34010,
+      32741,
+      32746,
+      32710,
+      33877,
+      33695,
+      33673
+     ],
+     "ms": 5029
+    },
+    {
+     "step": 3,
+     "type": "tool",
+     "tool": "read_code",
+     "args": {
+      "function": "F32743"
+     },
+     "ids": [
+      32743
+     ],
+     "ms": 9184
+    },
+    {
+     "step": 4,
+     "type": "answer",
+     "args": {
+      "functions": [
+       "F32743"
+      ]
+     },
+     "ids": [
+      32743
+     ],
+     "ms": 18750
+    }
+   ]
+  }
+ ]
+}

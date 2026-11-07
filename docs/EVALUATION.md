@@ -12,6 +12,15 @@ Every number in the README comes from a run whose questions, answers and results
 
 Noise check: a hand sample of mined questions is in `NOISE_CHECK.md`.
 
+## Question sets (`eval/prettier/`)
+
+| File | Questions | How they were made |
+|---|---|---|
+| `mined.jsonl` | 561 (232 from issues, 329 from pull requests) | Mined the same way from Prettier's history, gold under `src/`. |
+| `issues-sample60.jsonl` | 60 | Issue questions drawn at random, for the agents and Claude Code (too slow for all 561). |
+
+Noise check: 12 of 12 hand-checked gold sets are right (`eval/prettier/NOISE_CHECK.md`). Results: `eval/prettier/RESULTS.md`.
+
 ## Metrics
 
 - **Acc@k:** a gold function is among the top k results.
@@ -52,7 +61,7 @@ Before this measurement, re-resolving every call one database row at a time made
 
 ## Known gaps
 
-- Express is small; results are development numbers until repeated on Prettier.
+- Prettier's agent and Claude Code numbers come from 60 and 20 questions; differences of a few questions are noise.
 - Gold answers are checked against today's code, not the code at the time of each fix.
 - The Phase 4 agent numbers were measured before the agent learned to recover answers it wrote as text; they need a re-run.
 - The hand-written and ordering questions were written by the author of the tool and are not yet independently reviewed.

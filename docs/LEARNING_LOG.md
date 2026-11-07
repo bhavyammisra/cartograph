@@ -716,3 +716,34 @@ The slow part was re-linking every call to its function (about 28,000 calls) one
 ### Interview lines
 - "CI doesn't just run tests: it re-runs my benchmarks on a pinned repository and fails if accuracy drops."
 - "Measuring on a 5,800-file repo exposed row-by-row database updates; switching to one bulk update took indexing from 225 s to 33 s, and a no-change re-index from 132 s to 1.5 s, with identical results."
+
+## Phase 13, part 1: the Prettier evaluation
+
+### What we did (plain words)
+Everything until now was measured on Express, a small library. This step repeats the measurements on Prettier, a real codebase about 40 times bigger (5,804 files), so the results mean something.
+- **Questions from real bug reports.** The miner read Prettier's history and made 561 questions: the text of an issue or pull request, and as the answer, the functions its fix changed. I hand-checked 12 and all 12 answers point at the right code.
+- **They are hard.** Prettier's bug reports describe wrong formatting with code samples. 503 of the 561 never name the function involved.
+- **Search on all 561, agents on 60, Claude Code on 20.** The agents and Claude Code are slow (up to a few minutes per question), so they ran on a fixed random sample.
+
+### Results
+| Finding code from 60 bug reports | Right function in top 5 | Right file in top 5 |
+|---|---|---|
+| Keyword search | 0.13 | 0.18 |
+| Grep-only agent (same local model) | 0.15 | 0.20 |
+| Cartograph agent | 0.23 | 0.42 |
+
+Claude Code (Sonnet), 20 bug reports: alone 13/20, told to use Cartograph 14/20, with 28% fewer input tokens and 26% lower cost. On Express the same thing cost 10% more tokens. Left alone it used Cartograph in only 3 of 20 runs.
+
+### What it means
+- **The index pays off on big repos, and the payoff is mostly cost.** Grep on Prettier returns too many files to read; a ranked list of functions replaces part of that reading.
+- **Run-to-run noise is large.** Two Claude Code runs with the same tools disagreed on 4 of 17 questions. So 13 vs 17 is not a result; 69k vs 49k tokens is a clearer one.
+- **Meaning search wins on maintainer text, loses on user text.** On pull-request descriptions (written in code words) meaning search got 0.30; on user issues 0.10.
+
+### Problems we hit
+| Problem | Fix |
+|---|---|
+| Docker and the eval runs stopped when the session ended or overnight | runs save after every question and resume; they now run in their own terminal tab |
+| The 561-question set is too slow for agents (about 10 hours each) | a fixed 60-question sample, same for every method |
+
+### Interview line
+"On a 5,800-file repo, my MCP server gave Claude Code the same accuracy for 28% fewer tokens. On a 6-file repo it cost 10% more. I published both, plus the noise level, so the claim is the size of the evidence."

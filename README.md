@@ -17,9 +17,35 @@ Everything runs on your machine: the index, the search, and a free local AI mode
 
 ## Results
 
-All measured on [Express](https://github.com/expressjs/express) (a small codebase: about 50 source files). Numbers will move to a larger repository (Prettier) before they are treated as headline results. Methods and caveats: [docs/EVALUATION.md](docs/EVALUATION.md).
+Methods and caveats: [docs/EVALUATION.md](docs/EVALUATION.md).
 
-**Finding code from a bug report** (74 questions from real GitHub issues; the answer is the function the fix changed; Acc@k = a correct function is in the top k):
+### Prettier (5,804 files)
+
+The main benchmark: [Prettier](https://github.com/prettier/prettier), with questions mined from its real bug reports. The answer is the function the fix changed; Acc@5 = a correct function is in the top 5. These are hard questions: 503 of 561 reports never name the function involved. Full report: [eval/prettier/RESULTS.md](eval/prettier/RESULTS.md).
+
+**Finding code from a bug report** (60 issues):
+
+| Method | Acc@5 | Right file in top 5 |
+|---|---|---|
+| BM25 keyword search | 0.13 | 0.18 |
+| Hybrid search (BM25 + CodeRankEmbed) | 0.15 | 0.28 |
+| Grep-only agent (Qwen3 4B, local) | 0.15 | 0.20 |
+| **Cartograph agent (Qwen3 4B, local)** | **0.23** | **0.42** |
+
+**Claude Code (Sonnet) with Cartograph's MCP tools** (20 issues, Read/Grep/Glob only):
+
+| | Top-5 right | Input tokens (mean) | Cost |
+|---|---|---|---|
+| Claude Code alone | 13/20 | 68,761 | $1.17 |
+| + Cartograph, told to use it | 14/20 | **49,315** | **$0.87** |
+
+Same accuracy, 28% fewer input tokens. Without the one-line hint, Claude Code used Cartograph in only 3 of 20 runs.
+
+### Express (141 files)
+
+A small library ([Express](https://github.com/expressjs/express), six source files that matter), where the methods were developed.
+
+**Finding code from a bug report** (74 questions from real GitHub issues):
 
 | Method | Acc@1 | Acc@5 |
 |---|---|---|
@@ -40,7 +66,7 @@ Both agents use the same free model on a laptop GPU (RTX 2050, 4 GB) and the sam
 | Claude Code with Cartograph's MCP tools, 20 issues | no gain on Express: same top-5 accuracy, about 10% more input tokens | [MCP.md](eval/express/MCP.md) |
 | Indexing (laptop, CPU) | Express, 141 files: 1.6 s, 0.07 s when nothing changed. Prettier, 5,804 files: 33 s, 1.5 s when nothing changed, 93 MB peak memory | [EVALUATION.md](docs/EVALUATION.md#performance) |
 
-The last two rows are honest negatives and limits: on a six-file library, grep is already good enough. Whether an index pays off on a large repository is the next thing to measure.
+On a six-file library grep is already good enough, so Claude Code gained nothing there. On Prettier the same setup used about a quarter fewer tokens.
 
 ## Quick start (Docker)
 

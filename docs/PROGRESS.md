@@ -2,11 +2,11 @@
 
 Read this first when starting a new session. It says where the project stands right now. Rules for working live in `CLAUDE.md`; the full plan is `docs/PROJECT_GUIDE.md`; per-phase lessons are `docs/LEARNING_LOG.md`; background research is in `reports/`.
 
-**Last updated:** 27 October 2026
+**Last updated:** 8 November 2026
 
 ## Current state
-- **Phase:** 12 done (industry polish: mypy, regression eval in CI, Dependabot, Docker for database + API + map, README and docs, indexing 7x faster on Prettier). Phase 11: MCP server measured inside Claude Code, see `eval/express/MCP.md`.
-- **Next step:** Phase 13 (publish). First the Prettier evaluation: Prettier is cloned in `targets/prettier` and indexed; embed it (`cartograph embed targets/prettier`), mine its questions, re-run search, agent and Claude Code evals there. Then: PyPI package, demo site (launch checklist), video, write-up, v0.1.0 tag and release. Re-run the Express agent eval (the text-recovery rule postdates the Phase 4 numbers). Optional: Groq strong-model comparison.
+- **Phase:** 13 in progress. The Prettier evaluation is done (`eval/prettier/RESULTS.md`): 561 mined questions, search on all, agents on 60, Claude Code on 20.
+- **Next step:** publishing. Record about 5 demo questions on Prettier with `cartograph export`, build the demo site (`VITE_DEMO=1`), check it at desktop and phone width, deploy to Vercel. Then PyPI (name to choose: `cartograph` is taken), v0.1.0 tag and GitHub Release (ask Bhavyam first), video, write-up. Still open: re-run the Express agent eval (the text-recovery rule postdates the Phase 4 numbers); optional Groq comparison.
 - **Blocked on:** Bhavyam: review `eval/express/handwritten.jsonl` and `eval/express/order.jsonl`, and set `"reviewed": true`.
 
 ## Phases
@@ -26,7 +26,7 @@ Read this first when starting a new session. It says where the project stands ri
 | 10 | "X before Y" ordering queries + mini benchmark | Done (35 questions on Express: engine 33/35 = 0.943, naive line-order baseline 12/35 = 0.343; counterexample paths with file:line) |
 | 11 | MCP server, measured with Claude Code | Done (Express, 20 issues, Sonnet: alone top-1 15 / top-5 18; + Cartograph unprompted 16 / 18, used 0 times; nudged 12 / 19, used 20 of 20; ~10% more input tokens) |
 | 12 | Industry polish: tests, CI, packaging, Docker, docs | Done (mypy + regression eval in CI, Dependabot, `docker compose up` checked end to end, README/ARCHITECTURE/EVALUATION/CONTRIBUTING/CHANGELOG; Prettier index 225 s to 33 s, no-change 132 s to 1.5 s, 93 MB) |
-| 13 | Publish: PyPI, demo site (launch checklist), video, write-up | Not started |
+| 13 | Publish: PyPI, demo site (launch checklist), video, write-up | In progress. Prettier eval done (60 issues: Cartograph agent Acc@5 0.233 vs grep agent 0.150; Claude Code nudged 14/20 vs alone 13/20 with 28% fewer input tokens). Publishing next |
 
 ## Decisions
 
@@ -66,6 +66,7 @@ Read this first when starting a new session. It says where the project stands ri
 | 2026-10-27 | Claude Code eval: Sonnet, Read/Grep/Glob only (no shell, no web), 20 issue questions, with vs without Cartograph | Saves Bhavyam's allowance; no shell stops `git log` from revealing the fix commit. |
 | 2026-10-28 | Report the Claude Code result as measured: no gain on Express | A negative result with tool-call logs is more credible than a cherry-picked win; Prettier is the real test. |
 | 2026-10-29 | Docker binds the database and API to 127.0.0.1 only; default DB URL uses 127.0.0.1 | They serve source code; `localhost` hung on Windows (IPv6 first). |
+| 2026-11-08 | Prettier agent and Claude Code runs use a fixed 60-issue sample | All 561 would take about 10 hours per agent; search runs on all 561. |
 | 2026-10-29 | Version tag and GitHub Release wait for Phase 13 | Publishing is public; it goes with the PyPI release. |
 | 2026-10-20 | Sigma.js 3.0.3 (not 4) | Sigma 4's new styling API was too new to verify. |
 | 2026-10-20 | Screenshots via scripts/capture.py (DevTools protocol) | Headless Edge can't emulate phones (min 496 px) and doesn't wait for data. |
