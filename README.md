@@ -4,6 +4,8 @@ Ask questions about a JavaScript or TypeScript codebase in plain English and get
 
 ![An agent's search drawn as a yellow route on the code map: numbered stops, the destination, and why it was chosen](docs/images/agent-route.png)
 
+**Live demo:** [cartograph-teal.vercel.app](https://cartograph-teal.vercel.app), the map of Prettier with recorded agent runs (no server; search matches names only).
+
 Everything runs on your machine: the index, the search, and a free local AI model. Your source code never leaves it.
 
 ## What it does

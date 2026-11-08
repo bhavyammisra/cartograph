@@ -763,3 +763,4 @@ A version of the website that needs no server, so anyone can open it from a link
 |---|---|
 | The history came out empty | the command defaults to Express's `lib/` folder; Prettier needs `--prefix src/` |
 | Five long questions took a third of a phone screen | one sideways-scrolling row on narrow screens |
+- **Live:** deployed to https://cartograph-teal.vercel.app as plain static files (Vercel serves them; nothing runs on a server). Checked on the real address at desktop and phone width; the launch checklist (favicon, privacy, terms, no builder tag, free .vercel.app address) is met.
