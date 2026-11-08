@@ -7,7 +7,7 @@ Read this first when starting a new session. It says where the project stands ri
 ## Current state
 - **Phase:** 13 in progress. The Prettier evaluation is done (`eval/prettier/RESULTS.md`): 561 mined questions, search on all, agents on 60, Claude Code on 20.
 - **Demo live:** https://cartograph-teal.vercel.app (Vercel project `cartograph`, account bhavyammisra). Redeploy: `cartograph export targets/prettier --out web/public/demo --questions eval/prettier/demo-questions.txt`, `VITE_DEMO=1 npm run build` in `web/`, copy `web/dist` to a folder named `cartograph`, then `npx vercel deploy --prod --yes` there.
-- **Next step:** PyPI (name to choose: `cartograph` is taken), v0.1.0 tag and GitHub Release (ask first), video, write-up. Still open: re-run the Express agent eval; optional Groq comparison.
+- **Next step:** upload to PyPI as `cartograph-js` (package built and checked: `cd engine && uv build`, twine check passed, clean install indexed Express; needs Bhavyam's PyPI token: `uv publish`), v0.1.0 tag and GitHub Release (ask first), video, write-up. Still open: re-run the Express agent eval; optional Groq comparison.
 - **Blocked on:** Bhavyam: review `eval/express/handwritten.jsonl` and `eval/express/order.jsonl`, and set `"reviewed": true`.
 
 ## Phases
@@ -68,6 +68,7 @@ Read this first when starting a new session. It says where the project stands ri
 | 2026-10-28 | Report the Claude Code result as measured: no gain on Express | A negative result with tool-call logs is more credible than a cherry-picked win; Prettier is the real test. |
 | 2026-10-29 | Docker binds the database and API to 127.0.0.1 only; default DB URL uses 127.0.0.1 | They serve source code; `localhost` hung on Windows (IPv6 first). |
 | 2026-11-08 | Prettier agent and Claude Code runs use a fixed 60-issue sample | All 561 would take about 10 hours per agent; search runs on all 561. |
+| 2026-11-09 | PyPI name `cartograph-js` | `cartograph` and `cartograph-code` are taken; the command and import name stay `cartograph`. |
 | 2026-10-29 | Version tag and GitHub Release wait for Phase 13 | Publishing is public; it goes with the PyPI release. |
 | 2026-10-20 | Sigma.js 3.0.3 (not 4) | Sigma 4's new styling API was too new to verify. |
 | 2026-10-20 | Screenshots via scripts/capture.py (DevTools protocol) | Headless Edge can't emulate phones (min 496 px) and doesn't wait for data. |

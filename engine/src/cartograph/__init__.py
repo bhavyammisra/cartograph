@@ -17,7 +17,7 @@ def load_dotenv(path: Path = Path(__file__).parents[3] / ".env") -> None:
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(prog="cartograph", description="Map and search a JS codebase.")
-    parser.add_argument("--version", action="version", version=f"cartograph {version('cartograph')}")
+    parser.add_argument("--version", action="version", version=f"cartograph {version('cartograph-js')}")
     sub = parser.add_subparsers(dest="command")
     idx = sub.add_parser("index", help="parse a repository into the database")
     idx.add_argument("path", type=Path)

@@ -124,7 +124,7 @@ wheels = [
 ]
 
 [[package]]
-name = "cartograph"
+name = "cartograph-js"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

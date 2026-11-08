@@ -1,5 +1,5 @@
 [project]
-name = "cartograph"
+name = "cartograph-js"
 version = "0.1.0"
 description = "Ask questions about a JavaScript codebase in plain English and get exact file and line answers."
 license = "MIT"
@@ -45,6 +45,9 @@ cartograph = "cartograph:main"
 [build-system]
 requires = ["uv_build>=0.13.2,<0.14.0"]
 build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "cartograph"  # import name stays cartograph; only the PyPI name differs
 
 [dependency-groups]
 dev = [
